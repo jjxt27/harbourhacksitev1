@@ -1,11 +1,12 @@
 "use client";
 
-import { Children, type ReactNode } from "react";
+import { Children, useMemo, type ReactNode } from "react";
 import { motion, useTransform } from "framer-motion";
 import { zones } from "@/content/canvas";
 import { useCanvasPan } from "@/hooks/useCanvasPan";
 import { Minimap } from "@/components/canvas/Minimap";
 import { ZoneNav } from "@/components/canvas/ZoneNav";
+import { CanvasProvider } from "@/components/canvas/CanvasContext";
 
 /**
  * The pannable harbour.
@@ -22,9 +23,10 @@ export function Canvas({ children }: { children: ReactNode }) {
   // The ground drifts at a fraction of the canvas speed, so the chart reads as
   // being further away than the content sitting on it.
   const topoX = useTransform(progress, [0, 1], [0, -220]);
+  const nav = useMemo(() => ({ goToZone, activeZone }), [goToZone, activeZone]);
 
   return (
-    <>
+    <CanvasProvider value={nav}>
       <div className="ground" aria-hidden="true">
         <motion.div className="ground-topo" style={{ x: topoX }} />
       </div>
@@ -53,6 +55,6 @@ export function Canvas({ children }: { children: ReactNode }) {
       </div>
 
       <Minimap progress={progress} activeZone={activeZone} goToZone={goToZone} />
-    </>
+    </CanvasProvider>
   );
 }

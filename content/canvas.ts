@@ -41,12 +41,33 @@ export const dryDock = {
   headline: ["Don't just", "build.", "Ship."],
   subtext: `HarbourHack ${site.year}. ${site.city}'s premier GTM hackathon for university students.`,
   scrollCue: "Scroll to pan the harbour",
-  criteriaLabel: "You are judged on three things. That's it.",
+  criteriaLabel: "Judged on three things. That's it.",
+  /** `rotate` scatters the notes; keep it under ~4° or it reads as broken. */
   criteria: [
-    { n: "01", title: "Live Demo", note: "It has to actually run. In front of people." },
-    { n: "02", title: "Pitch Deck", note: "Who it's for, and why they'd switch." },
-    { n: "03", title: "Real User Signups", note: "Actual humans. Not your group chat." },
+    {
+      n: "01",
+      title: "Live Demo",
+      note: "It has to actually run. In front of people.",
+      tone: "yellow" as const,
+      rotate: -2.5,
+    },
+    {
+      n: "02",
+      title: "Pitch Deck",
+      note: "Who it's for, and why they'd switch.",
+      tone: "paper" as const,
+      rotate: 1.8,
+    },
+    {
+      n: "03",
+      title: "Real User Signups",
+      note: "Actual humans. Not your group chat.",
+      tone: "ferry" as const,
+      rotate: -1.2,
+    },
   ],
+  cta: { label: "Get your manifest", zone: "setting-sail" },
+  secondary: { label: "See the weekend", zone: "shipyard" },
 } as const;
 
 export const shipyard = {

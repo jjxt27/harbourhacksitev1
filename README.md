@@ -20,8 +20,8 @@ npm run dev
 |---|---|
 | 1. Dependencies, Tailwind, fonts, tokens | Done |
 | 2. Layout, grid + topographic ground, pan logic, mobile fallback, minimap | Done |
-| 3. Industrial Brutalism component kit | Not started |
-| 4. Zone 1 and Zone 2 content | Placeholder shells only |
+| 3. Industrial Brutalism component kit | Done |
+| 4. Zone 1 and Zone 2 content | Done |
 | 5. Shipping Manifest card generator | Not started |
 | 6. Liveblocks multiplayer cursors | Not started |
 
@@ -45,6 +45,14 @@ Below 768px the layout switch is **pure CSS**: the track becomes a normal block 
 ### The ground
 
 A fixed grid with a seamless topographic tile over it (`public/topo.svg`, generated so its contours meet at the tile edges). It drifts at a fraction of the canvas speed for parallax, and holds still under reduced motion.
+
+## The component kit
+
+`components/ui/` holds the Industrial Brutalism primitives: `Button`, `StickyNote`, `Panel` (a shipping-container placard), `Stamp`, `Tbc`, and `Sharpie`.
+
+**`Sharpie`** is the marker circle that appears around a button on hover or focus. Rough.js generates it from **fixed seeds**, so the same button always gets the same scribble — regenerating on every mouse-over reads as noise rather than as a drawing. It is decorative and `aria-hidden`; the child keeps its own focus ring.
+
+`components/art/` holds the two drawn pieces. `HandArrow` is a static path, so it server-renders and never shifts. `PixelBridge` is generated: the arch is a sine, the hangers hang off wherever it lands, and the whole thing is emitted as one path rather than 400 rects. Changing `COLS` or `ARCH_RISE` re-draws a coherent bridge.
 
 ## Colour, and one constraint
 
