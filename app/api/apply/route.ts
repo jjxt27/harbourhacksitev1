@@ -20,17 +20,17 @@ function renderEmail(data: Record<string, string>) {
   const rows = [
     ["Name", data.name],
     ["Email", data.email],
-    ["Idea", data.idea],
-    ["Problem", data.problem],
-    ["Audience", data.audience],
-    ["How they would reach them", data.reach],
-    ["Optional link", data.link || "Not provided"],
     ["Solo or team", data.team],
+    ["What they want to build", data.idea],
+    ["The problem", data.problem],
+    ["First person they would give it to", data.audience],
+    ["How they would reach them", data.reach],
+    ["Link", data.link || "Not provided"],
   ];
 
   const html = rows.map(([key, value]) =>
-    `<tr><td style="padding:6px 16px 6px 0;vertical-align:top;color:#5b636d;white-space:nowrap">${key}</td>` +
-    `<td style="padding:6px 0;vertical-align:top;color:#0b1016">${escapeHtml(value ?? "")}</td></tr>`,
+    `<tr><td style="padding:6px 16px 6px 0;vertical-align:top;color:#868c99;white-space:nowrap">${key}</td>` +
+    `<td style="padding:6px 0;vertical-align:top;color:#14171d">${escapeHtml(value ?? "")}</td></tr>`,
   ).join("");
   const text = rows.map(([key, value]) => `${key}: ${value}`).join("\n");
 
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
       from,
       to: [to],
       reply_to: data.email,
-      subject: `${site.shortName} application - ${data.name}`,
+      subject: `${site.name} reply — ${data.name}`,
       html,
       text,
     }),

@@ -1,92 +1,87 @@
+/**
+ * The reply.
+ *
+ * /apply is the reader's side of the thread, so every label is written as a
+ * question someone actually asked out loud, not as a form field name. "Name"
+ * becomes "What should we call you?". Keep that voice — the moment a label
+ * reads like a database column, the page becomes a form again.
+ */
+
 export type ApplicationField =
   | "name"
   | "email"
+  | "team"
   | "idea"
   | "problem"
   | "audience"
   | "reach"
   | "link"
-  | "team"
   | "commitment";
 
-export type ApplicationPayload = Record<
-  Exclude<ApplicationField, "commitment">,
-  string
-> & { commitment: boolean };
-
 export const apply = {
-  title: "Apply to HarbourHack",
-  lede:
-    "Tell us what you want to build and, more importantly, how you would get it in front of the people it is for. An idea is enough to start.",
-  requiredNote: "Required unless marked optional.",
-  deadlineNote: "Applications close",
-  estimate: "About 6 minutes",
-  workflow: {
-    steps: ["About you", "The idea"],
-    saved: "Your answers save on this device.",
-    next: "Continue",
-    back: "Back",
-    backToProgram: "Back to the program",
-  },
-  /** Publish only after the program's data handling and contact details are confirmed. */
-  dataUseNote: null as string | null,
+  title: "Your reply",
+  lede: "Nine questions, one of them optional. Answer them the way you would answer a person.",
+  /** Sits in the rail and counts up as questions are answered. */
+  progressLabel: "Answered",
+  savedNote: "Saved on this device as you type",
+  optionalNote: "Optional",
 
-  fields: {
-    name: { label: "Name" },
-    email: { label: "Email" },
+  questions: {
+    name: { label: "What should we call you?" },
+    email: { label: "Where do we reply?" },
+    team: {
+      label: "Are you coming on your own, or with people?",
+      hint: "Names if you have them. Solo is completely fine.",
+    },
     idea: {
       label: "What do you want to build?",
-      hint: "A few clear sentences. Plain words beat a pitch.",
+      hint: "Plain words beat a pitch. A few sentences is plenty.",
     },
     problem: {
-      label: "What problem are you going after?",
-      hint: "What is slow, expensive, frustrating or missing today?",
+      label: "What is annoying enough that someone would switch?",
+      hint: "The thing that is slow, expensive, manual or missing today.",
     },
     audience: {
-      label: "Who is it for, specifically?",
-      hint: "Name the group. \"Students who tutor on the side\" beats \"students\".",
+      label: "Who is the one person you would give it to first?",
+      hint: "Name them if you can. \"My flatmate who tutors on weekends\" is a better answer than \"students\".",
     },
     reach: {
       label: "How would you get it in front of them?",
-      hint: "Where do these people already are? A rough plan is fine — we want to see you have thought past the build.",
+      hint: "Where are these people already? A rough plan is fine — we want to see you have thought past the build.",
     },
     link: {
-      label: "Anything we should look at? (Optional)",
-      hint: "A prototype, sketch, repository or something you shipped before.",
+      label: "Anything we should look at?",
+      hint: "A prototype, a sketch, a repo, something you shipped before.",
       placeholder: "https://",
     },
-    team: {
-      label: "Are you applying solo or with a team?",
-      hint: "Add names if you already have people.",
-    },
     commitment: {
-      label:
-        "I can be in Sydney in person for the full program, its checkpoints and Demo Day.",
+      label: "I can be in Sydney in person for the whole programme, including Demo Day.",
     },
   },
 
   errors: {
-    name: "Tell us what to call you.",
-    email: "That does not look like an email address.",
-    idea: "Give us a clear sense of what you want to build.",
-    problem: "Tell us what problem you are going after.",
-    audience: "Tell us who it is for. Be specific.",
+    name: "We need something to call you.",
+    email: "That address will not reach you.",
+    idea: "Tell us what you want to build.",
+    problem: "Tell us what is annoying enough to fix.",
+    audience: "Tell us who gets it first. Be specific.",
     reach: "Tell us how you would reach them.",
-    link: "That is not a URL we can open. Include https://",
-    team: "Tell us whether you are applying solo or with a team.",
-    commitment: "We need you there for the full program and Demo Day.",
-    submit: "Something broke on our end. Try again, or email us.",
+    link: "We cannot open that. Include https://",
+    team: "Tell us whether you are solo or with people.",
+    commitment: "We need you there in person for the whole programme.",
+    submit: "That did not send. Try again, or email us.",
+    summary: "Some answers are missing",
   },
 
-  submit: { idle: "Send application", pending: "Sending..." },
+  send: { idle: "Send reply", pending: "Sending" },
 
-  success: {
-    title: "You are on the list.",
+  sent: {
+    title: "Sent.",
+    receipt: "Seen by us",
     body: [
-      "Thanks for putting your idea forward.",
-      "We read every application and will send the outcome by email after applications close.",
-      "Until then, go and find one person who has the problem you described. Ask them how they handle it today.",
+      "We read every reply, and we will answer by email once applications close.",
+      "In the meantime, go and find the person you named. Ask them how they handle it today. That conversation is the actual work.",
     ],
-    nextLabel: "What happens next",
+    back: "Back to the thread",
   },
 } as const;
