@@ -4,15 +4,17 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# HarbourHack
+# HarbourHack — `canvas` branch
 
-A go-to-market hackathon site built as one live chat. Read `BRAND_GUIDELINES.md` before changing anything visual, and `README.md` for how the live delivery works.
+A pannable "multiplayer whiteboard meets maritime chart" for a Sydney GTM hackathon. **This branch is a separate design from `main`**, which holds the chat-thread site. Do not mix conventions between them — `main` has no Tailwind, this branch does.
 
-Six rules that are easy to break by accident:
+Read `BRAND_GUIDELINES.md` for the Industrial Brutalism rules and `README.md` for how the canvas works.
 
-- **Copy lives in `content/`.** Components hold no user-facing strings. Message pacing is authored there too.
-- **Every message must render server-side.** Undelivered ones are hidden with CSS, never omitted — that is what stops readers scrolling ahead, keeps the page indexable, and makes it work without scripting.
-- **The sequence must stay skippable**, and reduced motion must deliver everything at once. Timed content is a WCAG 2.2.1 failure otherwise.
-- **Receipt green marks the sender and the reply.** It is not a decoration colour.
-- **Unconfirmed facts stay visibly `TBC`.** Never invent dates, costs, prizes, mentors, venues or numbers.
-- **There is no Tailwind.** `app/globals.css` is hand-written and meant to stay readable start to finish.
+Rules that are easy to break by accident:
+
+- **Zone widths live in `content/canvas.ts`.** The track, the minimap and the zone navigation all derive from that one list. Never hard-code a width in a component.
+- **The canvas must stay navigable without a mouse.** Arrow keys, Home/End, the minimap buttons and Tab-follow are not optional extras — without them the registration form in zone three is unreachable. Wheel-hijacking alone is a WCAG failure.
+- **Mobile is a CSS switch, not a JS branch.** Below 768px the track becomes a normal column via media query; the pan hook simply detaches. Do not introduce a server/client layout fork.
+- **Unconfirmed facts stay visibly `TBC`.** Never invent dates, times, mentors, venues or prizes.
+- **International Orange fails AA for body text** (3.3:1 on white). Use it for large display type, borders and fills with ink on top — never for paragraphs.
+- **Hard shadows only.** `box-shadow: 4px 4px 0` and friends. No blur, no soft shadows, no border-radius.

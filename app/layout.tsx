@@ -1,59 +1,59 @@
-import type { Metadata } from "next";
-import { DM_Mono, Schibsted_Grotesk } from "next/font/google";
-import { site } from "@/content/site";
+import type { Metadata, Viewport } from "next";
+import { Geist, JetBrains_Mono, Kalam } from "next/font/google";
+import { site } from "@/content/canvas";
 import "./globals.css";
 
-const schibsted = Schibsted_Grotesk({
-  variable: "--font-schibsted",
+const geist = Geist({ variable: "--font-geist", subsets: ["latin"], display: "swap" });
+
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
   display: "swap",
 });
 
-const dmMono = DM_Mono({
-  variable: "--font-dm-mono",
+const kalam = Kalam({
+  variable: "--font-kalam",
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.name} — ${site.tagline}`, template: `%s — ${site.name}` },
+  title: { default: `${site.name} ${site.year} — ${site.tagline}`, template: `%s — ${site.name}` },
   description: site.description,
   applicationName: site.name,
-  keywords: ["go-to-market", "hackathon", "distribution", "students", site.city],
+  keywords: ["hackathon", "go-to-market", "students", "startup", site.city],
   openGraph: {
     type: "website",
     locale: "en_AU",
     url: site.url,
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
+    title: `${site.name} ${site.year} — ${site.tagline}`,
     description: site.description,
   },
-  twitter: { card: "summary_large_image", title: `${site.name} — ${site.tagline}`, description: site.description },
+  twitter: { card: "summary_large_image", title: `${site.name} ${site.year}`, description: site.description },
   robots: { index: true, follow: true },
 };
 
-/**
- * Runs before first paint. `.js` hides messages that have not been delivered
- * yet — which must never be the server-rendered state, or a reader without
- * scripting gets an empty page instead of the whole conversation.
- */
-const PRE_PAINT = `document.documentElement.classList.add('js')`;
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
+  // The canvas owns horizontal movement; pinch-zoom stays available.
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    // The pre-paint script adds `js` here, so the class list is expected to
-    // differ from the server's.
-    <html
-      lang="en-AU"
-      className={`${schibsted.variable} ${dmMono.variable}`}
-      suppressHydrationWarning
-    >
-      <head><script dangerouslySetInnerHTML={{ __html: PRE_PAINT }} /></head>
+    <html lang="en-AU" className={`${geist.variable} ${jetbrains.variable} ${kalam.variable}`}>
       <body>
-        <a href="#main" className="skip-link">Skip to the conversation</a>
-        <main id="main">{children}</main>
+        <a
+          href="#setting-sail"
+          className="press sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-highlighter focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase"
+        >
+          Skip to registration
+        </a>
+        {children}
       </body>
     </html>
   );

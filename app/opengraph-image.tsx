@@ -1,12 +1,10 @@
 import { ImageResponse } from "next/og";
-import { site, dates } from "@/content/site";
-import { chat } from "@/content/thread";
+import { site } from "@/content/canvas";
 
-export const alt = `${site.name} — ${site.tagline}`;
+export const alt = `${site.name} ${site.year} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-/** The card is the first message: same rail, same receipt dot, same line. */
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -17,28 +15,24 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#1c1f26",
-          color: "#f2efe9",
-          padding: "62px 72px",
+          background: "#ffffff",
+          color: "#0a0a0a",
+          padding: 64,
+          border: "16px solid #0a0a0a",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 21, letterSpacing: 1 }}>
-          <div style={{ width: 11, height: 11, borderRadius: 6, background: "#38e08c" }} />
-          {site.name}
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, letterSpacing: 3, textTransform: "uppercase" }}>
+          <span>{site.name} {site.year}</span>
+          <span>{site.city}</span>
         </div>
-
-        <div style={{ display: "flex", alignItems: "flex-start", gap: 44 }}>
-          <div style={{ display: "flex", color: "#868c99", fontSize: 20, paddingTop: 22 }}>
-            {chat.messages[0].time}
-          </div>
-          <div style={{ display: "flex", maxWidth: 780, fontSize: 82, fontWeight: 500, lineHeight: 1.03, letterSpacing: -3.4 }}>
-            {site.tagline}
-          </div>
+        <div style={{ display: "flex", flexDirection: "column", fontSize: 104, fontWeight: 800, lineHeight: 0.88, letterSpacing: -5, textTransform: "uppercase" }}>
+          <span>Don&apos;t just build.</span>
+          <span style={{ display: "flex" }}>
+            <span style={{ background: "#e2ff31", padding: "0 14px" }}>Ship.</span>
+          </span>
         </div>
-
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 21, color: "#868c99", letterSpacing: 0.4 }}>
-          <span>A go-to-market hackathon · {site.city}</span>
-          <span>Applications {dates.applicationsClose.label}</span>
+        <div style={{ display: "flex", fontSize: 26, color: "#0a0a0a", borderTop: "4px solid #0a0a0a", paddingTop: 22 }}>
+          Sydney&apos;s GTM hackathon for university students
         </div>
       </div>
     ),

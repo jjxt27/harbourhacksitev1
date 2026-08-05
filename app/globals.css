@@ -1,648 +1,188 @@
+@import "tailwindcss";
+
 /*
-  HarbourHack — The Conversation
-  ==============================
-  The homepage is a one-to-one chat that plays out live. Everything else on the
-  site is the same conversation continued: /faq is what people wrote back,
-  /apply is your reply.
-
-  Two rules hold it together:
-
-  1. Receipt green belongs to the sender's presence and the reply — the avatar,
-     the typing indicator, the send button. It is never used to decorate.
-  2. Undelivered messages are hidden, not absent. They render server-side and
-     are hidden behind `.js`, so there is nothing to scroll ahead to, and a
-     reader without scripting gets the whole conversation at once.
+  HarbourHack — Industrial Brutalism
+  ==================================
+  Stark white ground, jet black structure, three loud accents. Everything is
+  hard-edged: 2px black borders, offset solid shadows, zero border-radius.
+  Nothing on this site blurs, fades to grey, or rounds a corner.
 */
 
-/* ------------------------------------------------------------------ reset */
+@theme {
+  --color-paper: #ffffff;
+  --color-paper-off: #f9f9f9;
+  --color-grid: #e5e5e5;
+  --color-ink: #0a0a0a;
 
-*, *::before, *::after { box-sizing: border-box; }
-html, body, h1, h2, h3, p, ul, ol, li, dl, dt, dd, figure, blockquote {
-  margin: 0;
-  padding: 0;
-}
-ul, ol { list-style: none; }
-img, svg { display: block; max-width: 100%; }
-button, input, textarea, select { font: inherit; color: inherit; }
-button { background: none; border: 0; cursor: pointer; }
-a { color: inherit; text-decoration: none; }
+  /* Shipping-container orange. Large text, fills and borders only — see below. */
+  --color-orange: #ff4f00;
+  --color-ferry: #008542;
+  --color-highlighter: #e2ff31;
 
-/* ----------------------------------------------------------------- tokens */
+  --font-display: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+  --font-hand: var(--font-kalam), "Comic Sans MS", cursive;
 
-:root {
-  --c-ground: #1c1f26;
-  --c-ground-deep: #14171d;
-  --c-ground-raised: #262b35;
+  /* Hard shadows. There are no soft ones. */
+  --shadow-hard-sm: 2px 2px 0 var(--color-ink);
+  --shadow-hard: 4px 4px 0 var(--color-ink);
+  --shadow-hard-lg: 6px 6px 0 var(--color-ink);
 
-  --c-bone: #f2efe9;
-  /* Light enough to clear AA on the raised bubble surface, which is the
-     tightest pairing on the site — bubble timestamps sit at 0.6rem. */
-  --c-dim: #9199a6;
-  --c-rule: #333944;
-
-  --c-receipt: #38e08c;
-  --c-alert: #ff6b5a;
-
-  --font-sans: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
-  --font-mono: var(--font-dm-mono), ui-monospace, "SF Mono", monospace;
-
-  --t-msg: 1.02rem;
-  --t-meta: 0.7rem;
-
-  --gutter: clamp(1rem, 3vw, 2rem);
-  --log: 46rem;
-
-  --ease: cubic-bezier(0.22, 0.68, 0, 1);
-
-  color-scheme: dark;
+  --ease-canvas: cubic-bezier(0.22, 0.68, 0, 1);
 }
 
-/* ------------------------------------------------------------------- base */
+/*
+  Contrast, measured against white:
+    ink        19.6:1  — anything
+    ferry       4.7:1  — passes AA for body text
+    orange      3.3:1  — FAILS AA for body text. Only ever use it for text at
+                         24px+/19px-bold, for borders, or as a fill with ink on
+                         top. Never for paragraphs.
+    highlighter 17.5:1 with ink on top — sticky notes are always ink-on-yellow.
+*/
 
-html { -webkit-text-size-adjust: 100%; }
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-ink);
+  }
 
-body {
-  min-height: 100svh;
-  background: var(--c-ground);
-  color: var(--c-bone);
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* The canvas manages its own panning; the document never scrolls sideways. */
+    overflow-x: hidden;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  button { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; }
+
+  ::selection { background: var(--color-highlighter); color: var(--color-ink); }
+
+  :focus-visible {
+    outline: 3px solid var(--color-orange);
+    outline-offset: 2px;
+  }
 }
 
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  background-image: url("/grain.svg");
-  background-size: 200px;
-  opacity: 0.03;
-}
-
-::selection { background: var(--c-receipt); color: var(--c-ground); }
-
-:focus-visible { outline: 2px solid var(--c-receipt); outline-offset: 3px; border-radius: 2px; }
-
-.sr-only {
+@utility sr-only {
   position: absolute;
-  width: 1px; height: 1px;
-  margin: -1px; padding: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
 }
 
-.skip-link {
+/* A button that physically depresses. Shadow shrinks as it moves. */
+@utility press {
+  box-shadow: var(--shadow-hard);
+  transition: transform 90ms var(--ease-canvas), box-shadow 90ms var(--ease-canvas);
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-hard-sm);
+  }
+}
+
+/* ------------------------------------------------------------- the canvas --
+   Desktop: a fixed viewport window with a wide track panned along X.
+   Mobile:  the same markup, unhooked — the track becomes a normal column and
+            the document scrolls vertically. The switch is pure CSS, so there
+            is no hydration branch and no layout flash.                       */
+
+.canvas-window {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  height: 100svh;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+}
+
+.canvas-track {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+
+.canvas-zone {
+  position: relative;
+  flex: none;
+  height: 100%;
+  border-right: 2px solid var(--color-ink);
+}
+
+.canvas-window[data-grabbing="true"] { cursor: grabbing; }
+.canvas-window[data-pannable="true"] { cursor: grab; }
+
+@media (max-width: 767px) {
+  .canvas-window {
+    height: auto;
+    overflow: visible;
+    touch-action: auto;
+    cursor: auto !important;
+  }
+  .canvas-track {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* The pan transform must not survive into the stacked layout. */
+    transform: none !important;
+  }
+  .canvas-zone {
+    width: 100% !important;
+    height: auto;
+    border-right: 0;
+    border-bottom: 2px solid var(--color-ink);
+  }
+}
+
+/* ------------------------------------------------------------- background --
+   A fixed grid with topographic contours over it. Fixed rather than parented
+   to the track, so the ground stays put while the content moves across it —
+   the contours get their own slower parallax instead.                        */
+
+.ground {
   position: fixed;
-  top: 0.75rem; left: 0.75rem;
-  z-index: 90;
-  padding: 0.7rem 1rem;
-  background: var(--c-bone);
-  color: var(--c-ground);
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  transform: translateY(-200%);
-  transition: transform 200ms var(--ease);
-}
-.skip-link:focus-visible { transform: none; }
-
-/* ------------------------------------------------------------------- chat */
-
-.chat {
-  position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  height: 100dvh;
-  overflow: hidden;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--color-paper-off);
+  background-image:
+    linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-.chat-head {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  /* Content lines up with the message column instead of the window edge. */
-  padding: 0.7rem max(var(--gutter), calc((100% - var(--log)) / 2));
-  border-bottom: 1px solid var(--c-rule);
-  background: var(--c-ground-deep);
-}
-.chat-avatar {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 50%;
-  background: var(--c-receipt);
-  color: var(--c-ground);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.chat-who { min-width: 0; }
-.chat-who b { display: block; font-size: 0.95rem; font-weight: 600; letter-spacing: -0.01em; }
-.chat-who i {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-style: normal;
-  letter-spacing: 0.06em;
-  color: var(--c-dim);
-  transition: color 200ms var(--ease);
-}
-.chat-who i[data-typing="true"] { color: var(--c-receipt); }
-
-.chat-skip {
-  margin-left: auto;
-  flex: none;
-  padding: 0.45rem 0.85rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-  transition: color 200ms var(--ease), border-color 200ms var(--ease);
-}
-.chat-skip:hover { color: var(--c-bone); border-color: var(--c-bone); }
-
-.chat-scroll {
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  /* A column with the log pushed down keeps a short conversation sitting on
-     the composer, the way a real client does, without breaking scrolling once
-     it grows past the viewport. */
-  display: flex;
-  flex-direction: column;
-}
-.chat-log {
-  width: 100%;
-  max-width: var(--log);
-  margin: auto auto 0;
-  padding: 1.25rem var(--gutter) 1.5rem;
-}
-.chat-end { height: 1px; }
-
-.chat-day {
-  width: fit-content;
-  margin: 0 auto 1.25rem;
-  padding: 0.3rem 0.8rem;
-  border-radius: 0.5rem;
-  background: var(--c-ground-raised);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-
-/* --------------------------------------------------------------- bubbles */
-
-.bubble-row { display: flex; margin-top: 0.16rem; }
-.bubble-row[data-start="true"] { margin-top: 0.85rem; }
-
-/* Undelivered messages exist in the DOM but are hidden once scripting runs. */
-.js .bubble-row[data-shown="false"] { display: none; }
-.js .bubble-row[data-shown="true"] { animation: land 280ms var(--ease) both; }
-@keyframes land {
-  from { opacity: 0; transform: translateY(0.55rem) scale(0.985); }
-}
-
-.bubble {
-  position: relative;
-  max-width: min(30rem, 82%);
-  padding: 0.55rem 0.85rem 0.5rem;
-  border-radius: 0.95rem;
-  background: var(--c-ground-raised);
-  font-size: var(--t-msg);
-  line-height: 1.42;
-  letter-spacing: -0.005em;
-  text-wrap: pretty;
-}
-/* The tail marks the start of a burst, the way a real client groups them. */
-.bubble-row[data-start="true"] .bubble { border-top-left-radius: 0.28rem; }
-.bubble-row[data-start="true"] .bubble::before {
-  content: "";
+.ground-topo {
   position: absolute;
-  left: -0.42rem;
-  top: 0;
-  width: 0.45rem;
-  height: 0.7rem;
-  background: var(--c-ground-raised);
-  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  inset: -10% -20%;
+  background-image: url("/topo.svg");
+  background-size: 1400px auto;
+  background-repeat: repeat;
+  opacity: 0.5;
+  will-change: transform;
 }
 
-/* Floated so it settles onto the last line, as it does in a real client. */
-.bubble time {
-  float: right;
-  margin: 0.5rem 0 -0.15rem 0.7rem;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.04em;
-  color: var(--c-dim);
+@media (max-width: 767px) {
+  .ground { position: fixed; }
 }
-
-.bubble-link {
-  display: block;
-  text-decoration: underline;
-  text-decoration-color: var(--c-rule);
-  text-underline-offset: 0.25em;
-  transition: text-decoration-color 200ms var(--ease);
-}
-.bubble-link:hover { text-decoration-color: var(--c-bone); }
-.bubble-link svg { display: inline; width: 0.8rem; height: 0.8rem; margin-left: 0.3rem; vertical-align: -0.05em; }
-
-.bubble-facts { max-width: min(22rem, 86%); }
-.bubble-facts dl { display: grid; gap: 0.55rem; }
-.bubble-facts div { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; }
-.bubble-facts dt {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-.bubble-facts dd { font-size: 0.95rem; font-weight: 500; }
-
-.bubble-card { max-width: min(24rem, 88%); padding: 0.3rem 0.3rem 0.45rem; }
-.card {
-  display: block;
-  padding: 0.9rem 1rem 1rem;
-  border-radius: 0.7rem;
-  background: var(--c-ground-deep);
-  transition: background 200ms var(--ease);
-}
-.card:hover { background: #10131a; }
-.card b { display: block; font-size: 1.05rem; font-weight: 600; letter-spacing: -0.015em; }
-.card span { display: block; margin-top: 0.35rem; font-size: 0.9rem; line-height: 1.45; color: var(--c-dim); }
-.card em {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.85rem;
-  font-size: 0.8rem;
-  font-style: normal;
-  font-weight: 600;
-  color: var(--c-receipt);
-}
-.card em svg { width: 0.85rem; height: 0.85rem; }
-.bubble-card > time { float: none; display: block; margin: 0.35rem 0.55rem 0 0; text-align: right; }
-
-.bubble-typing {
-  display: inline-flex;
-  gap: 0.3rem;
-  width: fit-content;
-  margin-top: 0.85rem;
-  padding: 0.85rem 0.9rem;
-  border-top-left-radius: 0.28rem;
-}
-.bubble-typing i {
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: var(--c-dim);
-  animation: blink 1.25s ease-in-out infinite;
-}
-.bubble-typing i:nth-child(2) { animation-delay: 0.16s; }
-.bubble-typing i:nth-child(3) { animation-delay: 0.32s; }
-@keyframes blink {
-  0%, 65%, 100% { opacity: 0.35; transform: translateY(0); }
-  32% { opacity: 1; transform: translateY(-0.2rem); }
-}
-
-.chat-jump {
-  position: absolute;
-  left: 50%;
-  bottom: 5.25rem;
-  z-index: 20;
-  translate: -50% 0;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 999px;
-  background: var(--c-ground-raised);
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--c-bone);
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.35);
-}
-
-/* -------------------------------------------------------------- composer */
-
-.chat-composer {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem max(var(--gutter), calc((100% - var(--log)) / 2));
-  border-top: 1px solid var(--c-rule);
-  background: var(--c-ground-deep);
-}
-.chat-input {
-  flex: 1;
-  min-width: 0;
-  padding: 0.8rem 1.1rem;
-  border-radius: 999px;
-  background: var(--c-ground-raised);
-  color: var(--c-dim);
-  font-size: 0.95rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 200ms var(--ease);
-}
-.chat-input:hover { color: var(--c-bone); }
-.chat-send {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 1.15rem;
-  border-radius: 999px;
-  background: var(--c-ground-raised);
-  color: var(--c-dim);
-  font-size: 0.88rem;
-  font-weight: 600;
-  transition: background 260ms var(--ease), color 260ms var(--ease), transform 200ms var(--ease);
-}
-.chat-send svg { width: 0.9rem; height: 0.9rem; }
-/* Lights up once the conversation has finished, but works the whole time. */
-.chat-send[data-ready="true"] { background: var(--c-receipt); color: var(--c-ground); }
-.chat-send:hover { transform: translateY(-1px); }
-
-/* --------------------------------------------------------- inner pages -- */
-
-.bar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.7rem var(--gutter);
-  border-bottom: 1px solid var(--c-rule);
-  background: var(--c-ground-deep);
-}
-.bar-sender { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; font-weight: 600; }
-.bar-sender::before {
-  content: "";
-  width: 0.45rem; height: 0.45rem;
-  border-radius: 50%;
-  background: var(--c-receipt);
-}
-.bar-reply {
-  flex: none;
-  padding: 0.45rem 0.9rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: border-color 200ms var(--ease);
-}
-.bar-reply:hover { border-color: var(--c-bone); }
-
-.shell {
-  width: 100%;
-  max-width: 58rem;
-  margin: 0 auto;
-  padding: 0 var(--gutter);
-}
-
-.page-head { padding: clamp(3rem, 9vh, 5.5rem) 0 clamp(2rem, 5vh, 3rem); }
-.page-head-rail {
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-.page-head h1 {
-  margin-top: 1rem;
-  max-width: 16ch;
-  font-size: clamp(2.4rem, 6vw, 4.5rem);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.035em;
-}
-.page-head p { max-width: 44ch; margin-top: 1.35rem; font-size: 1.05rem; color: var(--c-dim); }
-
-/* ------------------------------------------------------------------- faq */
-
-.exchange { padding-bottom: clamp(2.25rem, 5vh, 3.25rem); }
-.exchange-rail {
-  display: block;
-  margin-bottom: 0.6rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.08em;
-  color: var(--c-dim);
-}
-.exchange-q {
-  width: fit-content;
-  max-width: min(30rem, 88%);
-  padding: 0.55rem 0.9rem;
-  border-radius: 0.95rem;
-  border-top-right-radius: 0.28rem;
-  margin-left: auto;
-  background: #2f3a35;
-  font-size: var(--t-msg);
-  font-weight: 400;
-  line-height: 1.42;
-}
-.exchange-a { display: flex; flex-direction: column; align-items: flex-start; gap: 0.16rem; margin-top: 0.85rem; }
-.exchange-a p {
-  max-width: min(30rem, 88%);
-  padding: 0.55rem 0.9rem;
-  border-radius: 0.95rem;
-  background: var(--c-ground-raised);
-  font-size: var(--t-msg);
-  line-height: 1.42;
-}
-.exchange-a p:first-of-type { border-top-left-radius: 0.28rem; }
-.exchange-pending {
-  padding: 0.2rem 0.55rem !important;
-  border: 1px solid var(--c-alert);
-  border-radius: 0.3rem !important;
-  background: none !important;
-  color: var(--c-alert);
-  font-family: var(--font-mono);
-  font-size: var(--t-meta) !important;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* ------------------------------------------------------------------ form */
-
-.reply { display: block; }
-.reply-rail {
-  position: sticky;
-  top: 3.5rem;
-  z-index: 10;
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.7rem 0;
-  background: var(--c-ground);
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-.reply-rail b { font-weight: 400; color: var(--c-receipt); }
-.reply-body { display: flex; flex-direction: column; gap: clamp(2.25rem, 5vh, 3rem); padding-bottom: 4rem; }
-
-.field label, .field legend {
-  display: block;
-  max-width: 30ch;
-  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
-  font-weight: 500;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-}
-.field-hint { max-width: 46ch; margin-top: 0.6rem; font-size: 0.92rem; line-height: 1.5; color: var(--c-dim); }
-.field-optional {
-  margin-left: 0.6rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-
-.control {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 0.8rem 0;
-  border: 0;
-  border-bottom: 1px solid var(--c-rule);
-  background: transparent;
-  color: var(--c-bone);
-  font-size: 1.1rem;
-  line-height: 1.5;
-  transition: border-color 200ms var(--ease);
-}
-.control::placeholder { color: var(--c-dim); }
-.control:focus { outline: none; border-bottom-color: var(--c-receipt); }
-.control:focus-visible { outline: none; }
-textarea.control { resize: vertical; min-height: 3.25rem; }
-.control[aria-invalid="true"] { border-bottom-color: var(--c-alert); }
-
-.field-error { margin-top: 0.55rem; font-size: 0.92rem; color: var(--c-alert); }
-
-.consent { display: flex; align-items: flex-start; gap: 0.9rem; cursor: pointer; }
-.consent input { flex: none; width: 1.2rem; height: 1.2rem; margin-top: 0.15rem; accent-color: var(--c-receipt); }
-.consent span { max-width: 42ch; font-size: 1.02rem; line-height: 1.45; }
-
-.summary { padding: 1.1rem 1.3rem; border: 1px solid var(--c-alert); border-radius: 0.5rem; }
-.summary p {
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-alert);
-}
-.summary ul { display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.85rem; }
-.summary a { text-decoration: underline; text-underline-offset: 0.3em; }
-
-.action {
-  display: inline-flex;
-  align-self: flex-start;
-  width: fit-content;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.95rem 1.4rem;
-  border-radius: 999px;
-  background: var(--c-receipt);
-  color: var(--c-ground);
-  font-size: 0.98rem;
-  font-weight: 600;
-  transition: transform 200ms var(--ease), filter 200ms var(--ease);
-}
-.action:hover { transform: translateY(-2px); filter: brightness(1.08); }
-.action svg { width: 0.95rem; height: 0.95rem; }
-.action[disabled] { opacity: 0.55; pointer-events: none; }
-
-.action-quiet {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-  border-bottom: 1px solid var(--c-rule);
-  padding-bottom: 0.3rem;
-  transition: color 200ms var(--ease), border-color 200ms var(--ease);
-}
-.action-quiet:hover { color: var(--c-bone); border-color: var(--c-bone); }
-
-.sent-receipt {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--c-receipt);
-}
-.sent-receipt::before {
-  content: "";
-  width: 0.4rem; height: 0.4rem;
-  border-radius: 50%;
-  background: var(--c-receipt);
-}
-
-/* ----------------------------------------------------------------- footer */
-
-.foot {
-  margin-top: clamp(3rem, 8vh, 6rem);
-  border-top: 1px solid var(--c-rule);
-  background: var(--c-ground-deep);
-  padding: 1.85rem 0;
-}
-.foot-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem 2rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-.foot-inner nav { display: flex; flex-wrap: wrap; gap: 1.35rem; }
-.foot-inner a:hover { color: var(--c-bone); }
-
-/* ------------------------------------------------------------ responsive */
-
-@media (max-width: 34rem) {
-  .chat-skip { padding: 0.4rem 0.65rem; letter-spacing: 0.06em; }
-  .chat-send span { display: none; }
-  .chat-send { padding: 0.8rem 0.95rem; }
-  .bubble { max-width: 88%; }
-  .page-head h1 { max-width: none; }
-}
-
-/* --------------------------------------------------------- reduced motion */
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+  .ground-topo { transform: none !important; }
 }

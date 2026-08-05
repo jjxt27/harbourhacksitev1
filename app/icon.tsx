@@ -3,13 +3,7 @@ import { ImageResponse } from "next/og";
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-/**
- * The sender's initials with the delivered dot.
- *
- * Colours mirror --c-ground, --c-bone and --c-receipt in globals.css. This
- * renders in a worker with no DOM, so it cannot read the tokens — change both
- * places together.
- */
+/** Container-stencil HH on jet black. Mirrors --color-ink / --color-orange. */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -21,15 +15,15 @@ export default function Icon() {
           position: "relative",
           alignItems: "center",
           justifyContent: "center",
-          background: "#1c1f26",
-          color: "#f2efe9",
-          fontSize: 27,
-          fontWeight: 600,
-          letterSpacing: -1.5,
+          background: "#0a0a0a",
+          color: "#ffffff",
+          fontSize: 28,
+          fontWeight: 800,
+          letterSpacing: -2,
         }}
       >
         HH
-        <div style={{ position: "absolute", top: 13, right: 13, width: 8, height: 8, borderRadius: 4, background: "#38e08c" }} />
+        <div style={{ position: "absolute", left: 0, bottom: 0, width: 64, height: 7, background: "#ff4f00" }} />
       </div>
     ),
     size,

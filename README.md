@@ -1,8 +1,8 @@
-# HarbourHack
+# HarbourHack — canvas branch
 
-Site for **HarbourHack**, a go-to-market hackathon in Sydney for students, grads and other early-stage builders.
+A boundless, pannable canvas for **HarbourHack 2026**, Sydney's go-to-market hackathon for university students. Part multiplayer whiteboard, part digital maritime chart, styled as Industrial Brutalism: stark white, 2px black borders, hard offset shadows, zero radius.
 
-The homepage is a one-to-one chat that plays out live in front of the visitor — typing indicator, bubbles landing one at a time, timestamps, the lot. `/faq` is what people wrote back and `/apply` is your reply, so the whole site is one conversation. Read [`BRAND_GUIDELINES.md`](BRAND_GUIDELINES.md) before changing anything visual.
+> This branch is a **separate design** from `main`, which holds the chat-thread site. They share nothing but the repo.
 
 ## Run it
 
@@ -14,53 +14,52 @@ npm install
 npm run dev
 ```
 
-## Structure
+## Progress
 
-| Path | What |
+| Step | State |
 |---|---|
-| `content/thread.ts` | The conversation and its pacing. The most important file here. |
-| `content/site.ts` | Programme facts and dates. |
-| `content/apply.ts` | The reply form's questions, in the voice of someone asking them. |
-| `content/faq.ts` | Inbound questions and answers. |
-| `app/globals.css` | The entire design system, hand-written. No Tailwind. |
-| `components/Chat.tsx` | Delivery, scroll behaviour, skip. |
-| `lib/validateApplication.ts` | Validation shared by the form and the API route. |
+| 1. Dependencies, Tailwind, fonts, tokens | Done |
+| 2. Layout, grid + topographic ground, pan logic, mobile fallback, minimap | Done |
+| 3. Industrial Brutalism component kit | Not started |
+| 4. Zone 1 and Zone 2 content | Placeholder shells only |
+| 5. Shipping Manifest card generator | Not started |
+| 6. Liveblocks multiplayer cursors | Not started |
 
-## How the live delivery works
+## The canvas
 
-Every message renders server-side. Once scripting runs, `.js` hides the ones that have not been delivered yet, and the delivery chain reveals them one at a time behind a typing indicator.
+`components/canvas/Canvas.tsx` renders one child per zone, matched in order against `zones` in `content/canvas.ts`. That list is the single source of truth — the track width, the minimap proportions and the zone navigation all derive from it, so changing a width there moves everything together. The track is currently 4× viewport width.
 
-That single decision does four jobs at once, and they are all easy to break:
+`hooks/useCanvasPan.ts` does the movement:
 
-- **Nothing to scroll ahead to.** The reader cannot skip the sequence by scrolling, because undelivered bubbles are not in the layout. No scroll hijacking is involved — scrolling *up* to re-read stays completely free.
-- **No layout shift.** Bubbles do not push the page around as they arrive.
-- **Works without scripting.** The whole conversation is in the HTML, which also means it is indexable.
-- **Skippable on purpose.** Gating content behind a timer fails WCAG 2.2.1, so the header carries a skip control until the end, and the composer links to the form from the first second. Anyone who has asked for reduced motion gets the entire conversation immediately.
+- **Wheel → horizontal**, non-passive so the page cannot scroll underneath
+- **Click-and-drag** panning via `@use-gesture/react`
+- **Spring-smoothed** through Framer Motion, with the raw value used under `prefers-reduced-motion`
+- **Keyboard**: arrows and PageUp/PageDown step between zones, Home/End jump to the ends, and typing in a field is never hijacked
+- **Tab-follow**: focusing an off-screen control pans it into view — without this the registration form is unreachable without a mouse
+- **Clamped** to the track, re-measured on resize via `ResizeObserver`
 
-Pacing is authored per message in `content/thread.ts` (`pause` before typing starts, `typing` to override the length-derived duration). Tune the rhythm there, not in the component. It currently runs about 18 seconds.
+### Mobile
 
-Two smaller details that matter: a short conversation sits on the composer and grows upward, and auto-follow only applies when the reader is already near the bottom — otherwise they get a "jump to latest" control instead of being yanked mid-sentence.
+Below 768px the layout switch is **pure CSS**: the track becomes a normal block column and the pan transform is overridden to `none`. The hook detaches because `pannable` requires the desktop media query. There is no server/client layout branch, so no hydration fork and no flash.
 
-## Application delivery
+### The ground
 
-`/apply` posts to `app/api/apply/route.ts`, which sends through Resend. Configure:
+A fixed grid with a seamless topographic tile over it (`public/topo.svg`, generated so its contours meet at the tile edges). It drifts at a fraction of the canvas speed for parallax, and holds still under reduced motion.
 
-```text
-RESEND_API_KEY
-APPLY_FROM_EMAIL
-APPLY_TO_EMAIL
-```
+## Colour, and one constraint
 
-Development and preview deployments log valid submissions when mail is not configured. Production returns an error rather than silently dropping a reply.
+| Token | Value | Contrast on white |
+|---|---|---|
+| `ink` | `#0A0A0A` | 19.6:1 |
+| `ferry` | `#008542` | 4.7:1 — fine for body text |
+| `orange` | `#FF4F00` | **3.3:1 — fails AA for body text** |
+| `highlighter` | `#E2FF31` | 17.5:1 with ink on top |
+
+International Orange is for large display type, borders and fills with ink over them. Never paragraphs.
 
 ## Before launch
 
-These stay visibly `TBC` until confirmed — do not invent them:
-
-- Application open and close dates, in `content/site.ts`
-- Exact programme and Demo Day dates
-- Cost, equity, and what happens after Demo Day, in `content/faq.ts`
-- Contact and sponsor email addresses
+Dates, times, mentors, venue and prizes are all `TBC` in `content/canvas.ts` and render as visible TBC chips. Do not replace them with plausible-looking placeholders — fill them in when they are real.
 
 ## Checks
 
