@@ -22,7 +22,7 @@ npm run dev
 | 2. Layout, grid + topographic ground, pan logic, mobile fallback, minimap | Done |
 | 3. Industrial Brutalism component kit | Done |
 | 4. Zone 1 and Zone 2 content | Done |
-| 5. Shipping Manifest card generator | Not started |
+| 5. Shipping Manifest card generator | Done |
 | 6. Liveblocks multiplayer cursors | Not started |
 
 ## The canvas

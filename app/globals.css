@@ -13,6 +13,9 @@
   --color-paper-off: #f9f9f9;
   --color-grid: #e5e5e5;
   --color-ink: #0a0a0a;
+  /* Solid mid-grey for metadata. Solid rather than an opacity modifier so it
+     survives the manifest card's PNG export unchanged. 5.3:1 on white. */
+  --color-slate: #6b6b6b;
 
   /* Shipping-container orange. Large text, fills and borders only — see below. */
   --color-orange: #ff4f00;

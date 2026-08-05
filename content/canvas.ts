@@ -127,5 +127,60 @@ export const settingSail = {
 export const roles = ["Tech", "Biz", "Design"] as const;
 export type Role = (typeof roles)[number];
 
+export const lookingFor = ["A Dev", "A Marketer", "A Designer", "Full Team"] as const;
+export type LookingFor = (typeof lookingFor)[number];
+
+/** Grouped so the picker reads as a board rather than one long list. */
+export const skills = [
+  "React",
+  "Next.js",
+  "Python",
+  "Swift",
+  "Figma",
+  "Design systems",
+  "Motion",
+  "Cold outreach",
+  "Sales",
+  "SEO",
+  "Paid ads",
+  "Copywriting",
+  "Video",
+  "Data",
+] as const;
+export type Skill = (typeof skills)[number];
+
+/** How many skills a manifest can carry. The card is laid out for exactly two. */
+export const MAX_SKILLS = 2;
+
+export const manifest = {
+  formLabel: "Manifest details",
+  cardLabel: "Live preview",
+  fields: {
+    name: { label: "Name", placeholder: "Who's boarding?" },
+    role: { label: "Role", hint: "Pick the hat you'll wear most of the weekend." },
+    skills: { label: "Top 2 skills", hint: `Choose up to ${MAX_SKILLS}.` },
+    lookingFor: { label: "Looking for", hint: "Goes on the banner. Make it easy for people to find you." },
+  },
+  errors: {
+    name: "Add a name before you board.",
+    skills: "Pick at least one skill.",
+  },
+  action: "Generate & board",
+  actionPending: "Stamping…",
+  actionDone: "Downloaded",
+  reset: "Start again",
+  shareHint: "Downloads a PNG. Post it in the Discord or on LinkedIn to find a team.",
+  card: {
+    issuer: "HarbourHack",
+    port: "Port of Sydney",
+    stamp: "Cleared for boarding",
+    manifestLabel: "Manifest no.",
+    skillsLabel: "Cargo",
+    roleLabel: "Class",
+    bannerLabel: "Looking for",
+    footnote: "Non-transferable. Present at the dock.",
+  },
+} as const;
+
 export const cursorRoles = ["Tech", "Biz"] as const;
 export type CursorRole = (typeof cursorRoles)[number];
