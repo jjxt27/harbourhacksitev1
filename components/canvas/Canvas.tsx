@@ -8,6 +8,7 @@ import { Minimap } from "@/components/canvas/Minimap";
 import { ZoneNav } from "@/components/canvas/ZoneNav";
 import { CanvasProvider } from "@/components/canvas/CanvasContext";
 import { CursorLayer } from "@/components/live/CursorLayer";
+import { BinChicken } from "@/components/art/BinChicken";
 
 /**
  * The pannable harbour.
@@ -53,7 +54,8 @@ export function Canvas({ children }: { children: ReactNode }) {
             </section>
           ))}
 
-          {/* Inside the track, so cursors pan with the content they point at. */}
+          {/* Both live inside the track, so they pan with the content. */}
+          <BinChicken />
           <CursorLayer />
         </motion.div>
       </div>
