@@ -1,0 +1,542 @@
+@import "tailwindcss";
+
+@theme {
+  /* Harbour Black — a near-black with a blue cast, like deep water at night. */
+  --color-paper: #05080d;
+  --color-paper-raised: #0c1119;
+  --color-ink: #e7ebf0;
+  --color-ink-70: #b0b9c4;
+  --color-ink-muted: #7d8894;
+
+  /* Tide is the primary accent: actions, progress, the signature full stop. */
+  --color-accent: #2fe3bd;
+  --color-accent-contrast: #05080d;
+  --color-tide: #2fe3bd;
+  /* Beacon is the warm counterweight. Second voice only, never the action. */
+  --color-beacon: #ffc15e;
+  --color-danger: #ff5f57;
+
+  --color-hairline: rgba(231, 235, 240, 0.2);
+  --color-hairline-soft: rgba(231, 235, 240, 0.1);
+
+  --font-display: var(--font-inter), Arial, sans-serif;
+  --font-sans: var(--font-inter), Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-editorial: var(--font-newsreader), Georgia, serif;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.4;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.55;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-lead: clamp(1.1rem, 1.6vw, 1.35rem);
+  --text-lead--line-height: 1.5;
+  --text-label: 0.6875rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.16em;
+  --text-display-3: clamp(1.35rem, 2vw, 1.75rem);
+  --text-display-3--line-height: 1.1;
+  --text-display-2: clamp(2rem, 4.2vw, 4.2rem);
+  --text-display-2--line-height: 0.98;
+  --text-display-2--letter-spacing: -0.04em;
+  --text-display-1: clamp(2.7rem, 6.4vw, 6.8rem);
+  --text-display-1--line-height: 0.94;
+  --text-display-1--letter-spacing: -0.055em;
+  --text-hero: clamp(3rem, 8vw, 7.2rem);
+  --text-hero--line-height: 0.9;
+  --text-hero--letter-spacing: -0.065em;
+
+  --ease-fluid: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+:root { color-scheme: dark; }
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 6rem; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; overflow-x: clip; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); }
+  a, button, summary { -webkit-tap-highlight-color: transparent; }
+  button, input, textarea, select { font: inherit; }
+  ::selection { background: var(--color-accent); color: var(--color-accent-contrast); }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+}
+
+/* Sea Fog: the light ground used for /apply, /faq and explanatory sections. */
+@utility ground-light {
+  --color-paper: #eef1f3;
+  --color-paper-raised: #ffffff;
+  --color-ink: #0b1016;
+  --color-ink-70: #3f4750;
+  --color-ink-muted: #5b636d;
+  --color-hairline: rgba(11, 16, 22, 0.25);
+  --color-hairline-soft: rgba(11, 16, 22, 0.12);
+  color-scheme: light;
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+@utility skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  transform: translateY(-180%);
+  transition: transform 0.25s ease;
+  &:focus-visible { transform: none; }
+}
+
+/* ---------------------------------------------------------------- chrome -- */
+
+.hh-header {
+  pointer-events: none;
+  padding-bottom: 1.35rem;
+  background: linear-gradient(to bottom, rgba(5,8,13,0.98) 0%, rgba(5,8,13,0.82) 58%, rgba(5,8,13,0) 100%);
+}
+.hh-header nav,
+.hh-header a,
+.hh-header button { pointer-events: auto; }
+.hh-brand { display: inline-flex; padding: 0.75rem 0; }
+.hh-nav-pill,
+.hh-nav-action {
+  border: 1px solid rgba(231, 235, 240, 0.2);
+  background: rgba(10, 14, 21, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px) saturate(1.15);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+}
+.hh-nav-pill { border-radius: 0.85rem; }
+.hh-nav-action { border-radius: 0.7rem; }
+
+.menu-item-in { animation: menu-in 0.5s var(--ease-fluid) both; }
+@keyframes menu-in { from { opacity: 0; transform: translateY(1rem); } }
+
+/* ------------------------------------------------------- the tide intro -- */
+
+html.booting body { overflow: hidden; }
+html.booting body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: #05080d;
+}
+
+.tide {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  padding: 2rem;
+  background: #05080d;
+  color: var(--color-ink);
+  transition: transform 620ms var(--ease-fluid);
+}
+.tide[data-phase="lifting"] { transform: translateY(-100%); }
+
+/* The water itself: a plane that rises past the mark, then keeps going. */
+.tide-water {
+  position: absolute;
+  z-index: 0;
+  inset: 100% 0 -100% 0;
+  background: linear-gradient(to bottom, rgba(47,227,189,0.16), rgba(47,227,189,0.03) 22%, transparent 60%);
+  border-top: 1px solid var(--color-tide);
+  box-shadow: 0 -0.5rem 3rem rgba(47,227,189,0.22);
+  transition: inset 1500ms var(--ease-fluid);
+}
+.tide[data-phase="rising"] .tide-water { inset: 46% 0 -54% 0; }
+.tide[data-phase="mark"] .tide-water,
+.tide[data-phase="lifting"] .tide-water { inset: 12% 0 -88% 0; }
+
+.tide-meta {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+.tide-stack {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  align-self: center;
+  justify-items: start;
+}
+.tide-mark {
+  width: clamp(9rem, 26vw, 22rem);
+  height: auto;
+  color: var(--color-ink);
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition: opacity 260ms ease, transform 420ms var(--ease-fluid);
+}
+.tide[data-phase="mark"] .tide-mark,
+.tide[data-phase="lifting"] .tide-mark { opacity: 1; transform: none; }
+.tide-depth {
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-tide);
+  opacity: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+.tide-footer { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1.25rem; }
+.tide-rule { height: 2px; background: rgba(231,235,240,0.14); }
+.tide-rule span { display: block; height: 100%; background: var(--color-tide); transition: width 90ms linear; }
+.tide-skip {
+  border: 0;
+  border-bottom: 1px solid var(--color-hairline);
+  padding: 0.25rem 0;
+  background: transparent;
+  color: var(--color-ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* ----------------------------------------------------------- the crossing -- */
+
+.crossing {
+  --crossing-progress: 0;
+  position: relative;
+  min-height: 420svh;
+  overflow: clip;
+  background:
+    radial-gradient(circle at 22% 78%, rgba(47,227,189,0.075), transparent 26rem),
+    radial-gradient(circle at 78% 18%, rgba(255,193,94,0.055), transparent 24rem),
+    #05080d;
+}
+.crossing::after {
+  content: "";
+  position: absolute;
+  z-index: 7;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("/grain.svg");
+  background-size: 210px;
+  opacity: 0.03;
+}
+
+.crossing-chart-shell {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  background-image: radial-gradient(circle, rgba(231, 235, 240, 0.11) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse at 50% 52%, black 0 52%, transparent 88%);
+}
+
+/* ------------------------------------------------------------- the chart -- */
+
+.chart { position: absolute; inset: 0; height: 100%; width: 100%; }
+.chart-contour { fill: none; stroke: rgba(231,235,240,0.16); stroke-width: 1; }
+.chart-contour-2 { stroke-dasharray: 2 9; opacity: 0.7; }
+.chart-contour-3 { stroke-dasharray: 2 13; opacity: 0.45; }
+.chart-horizon { stroke: rgba(231,235,240,0.14); stroke-width: 1; }
+.chart-route { fill: none; stroke: rgba(231,235,240,0.24); stroke-width: 1.25; stroke-dasharray: 5 8; }
+.chart-route-run { fill: none; stroke: var(--color-tide); stroke-width: 1.5; stroke-linecap: round; opacity: 0.9; }
+.chart-marker circle { fill: #05080d; stroke: rgba(231,235,240,0.4); stroke-width: 1.25; transition: stroke 420ms ease, fill 420ms ease; }
+.chart-marker text { fill: var(--color-ink-muted); font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.1em; transition: fill 420ms ease; }
+.chart-marker.is-active circle { stroke: var(--color-tide); fill: rgba(47,227,189,0.14); }
+.chart-marker.is-active text { fill: var(--color-tide); }
+.chart-vessel-body { fill: var(--color-tide); }
+.chart-vessel-halo { fill: none; stroke: rgba(47,227,189,0.34); stroke-width: 1; }
+.chart-port { fill: none; stroke: rgba(255,193,94,0.4); stroke-width: 1; }
+.chart-market circle { fill: rgba(255,193,94,0.55); }
+.chart-label { fill: var(--color-ink-muted); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; }
+
+.chart-fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 24% 76%, rgba(47,227,189,0.16), transparent 14rem),
+    radial-gradient(circle at 78% 24%, rgba(255,193,94,0.12), transparent 16rem);
+}
+
+/* -------------------------------------------------------------- the hero -- */
+
+.crossing-hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: clip;
+  border-bottom: 1px solid rgba(231,235,240,0.12);
+}
+.crossing-hero::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 26% 74%, rgba(47,227,189,0.12) 0, rgba(47,227,189,0.03) 24%, transparent 50%),
+    radial-gradient(ellipse at 80% 26%, rgba(255,193,94,0.1) 0, rgba(255,193,94,0.025) 26%, transparent 54%),
+    linear-gradient(to bottom, rgba(5,8,13,0.2), rgba(5,8,13,0.58));
+}
+.crossing-title { margin: 0; text-transform: uppercase; pointer-events: none; }
+.crossing-title-back,
+.crossing-title-front {
+  position: absolute;
+  left: clamp(1.25rem, 3.8vw, 4rem);
+  line-height: 0.78;
+  letter-spacing: -0.085em;
+}
+.crossing-title-back {
+  z-index: 1;
+  top: 21%;
+  font-size: clamp(5rem, 13.5vw, 13.5rem);
+  font-weight: 700;
+}
+.crossing-title-front {
+  z-index: 4;
+  top: 42%;
+  font-family: var(--font-editorial);
+  font-size: clamp(5.25rem, 14.5vw, 14.5rem);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  text-transform: none;
+}
+.crossing-period { color: var(--color-tide); }
+
+.crossing-hero-copy {
+  position: absolute;
+  z-index: 5;
+  left: clamp(1.25rem, 3.8vw, 4rem);
+  bottom: clamp(3rem, 8vh, 6.5rem);
+  max-width: 27rem;
+  pointer-events: none;
+}
+.crossing-hero-copy p { margin: 0; font-size: clamp(1rem, 1.45vw, 1.35rem); line-height: 1.48; color: #ccd2da; }
+.crossing-hero-copy em,
+.crossing-closing em {
+  font-family: var(--font-editorial);
+  font-size: 1.2em;
+  font-style: italic;
+  color: var(--color-tide);
+}
+
+.crossing-hero-action {
+  position: absolute;
+  z-index: 5;
+  right: clamp(1.25rem, 3.8vw, 4rem);
+  bottom: clamp(3rem, 8vh, 6.5rem);
+  display: grid;
+  width: min(19rem, calc(100vw - 2.5rem));
+  gap: 1.5rem;
+}
+.crossing-primary-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.65rem;
+  background: var(--color-tide);
+  padding: 1.2rem 1.35rem;
+  color: #05080d;
+  font-size: var(--text-body);
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: transform 240ms var(--ease-fluid), background 240ms ease;
+}
+.crossing-primary-action:hover { transform: translateY(-0.2rem); background: #5aebcb; }
+.crossing-primary-action svg { width: 1.2rem; }
+.crossing-facts { display: grid; margin: 0; border-top: 1px solid rgba(231,235,240,0.18); }
+.crossing-facts div { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; border-bottom: 1px solid rgba(231,235,240,0.12); padding: 0.7rem 0; }
+.crossing-facts dt { font-family: var(--font-mono); font-size: 0.58rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-ink-muted); }
+.crossing-facts dd { margin: 0; font-size: 0.78rem; text-transform: uppercase; color: #cfd5dc; }
+
+.crossing-scroll-cue {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  translate: -50% 0;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+.crossing-scroll-cue svg { width: 0.8rem; }
+
+/* ----------------------------------------------------------- the journey -- */
+
+.crossing-journey { position: relative; min-height: 320svh; }
+.crossing-journey-title {
+  position: absolute;
+  z-index: 5;
+  top: 5rem;
+  left: clamp(1.25rem, 3.8vw, 4rem);
+  margin: 0;
+  max-width: 80vw;
+  font-size: clamp(2.8rem, 6.7vw, 7rem);
+  font-weight: 650;
+  line-height: 0.9;
+  letter-spacing: -0.065em;
+  text-transform: uppercase;
+}
+.crossing-journey-title span { color: var(--color-tide); }
+
+.crossing-step {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  min-height: 108svh;
+  align-items: center;
+  padding: 9rem clamp(1.25rem, 3.8vw, 4rem) 4rem;
+  pointer-events: none;
+}
+.crossing-step-copy {
+  display: grid;
+  width: min(23rem, 40vw);
+  gap: 0.8rem;
+  opacity: 0.32;
+  transform: translateY(1.5rem);
+  transition: opacity 520ms ease, transform 700ms var(--ease-fluid);
+}
+.crossing-step.is-active .crossing-step-copy { opacity: 1; transform: none; }
+.crossing-step-copy p { margin: 0 0 1.1rem; font-family: var(--font-mono); font-size: 1rem; color: var(--color-tide); }
+.crossing-step-copy h3 { margin: 0; max-width: 12ch; font-size: clamp(1.9rem, 3.7vw, 4rem); font-weight: 650; line-height: 0.95; letter-spacing: -0.05em; text-transform: uppercase; }
+.crossing-step-copy strong { max-width: 24ch; margin-top: 0.35rem; font-size: var(--text-lead); font-weight: 450; line-height: 1.45; color: var(--color-ink-70); }
+.crossing-step-copy span { max-width: 30ch; font-size: var(--text-body-sm); line-height: 1.55; color: var(--color-ink-muted); }
+
+.crossing-progress {
+  position: sticky;
+  z-index: 5;
+  top: 28vh;
+  float: right;
+  display: grid;
+  height: 44vh;
+  width: 4rem;
+  margin-right: 1.5rem;
+  grid-template-rows: auto 1fr repeat(3, auto);
+  justify-items: center;
+  gap: 0.65rem;
+  pointer-events: none;
+}
+.crossing-progress span { writing-mode: vertical-rl; font-family: var(--font-mono); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--color-ink-muted); }
+.crossing-progress i { width: 1px; height: 100%; background: rgba(231,235,240,0.2); }
+.crossing-progress b { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid rgba(231,235,240,0.28); border-radius: 999px; font-family: var(--font-mono); font-size: 0.55rem; font-weight: 400; color: var(--color-ink-muted); transition: border-color 300ms ease, color 300ms ease, background 300ms ease; }
+.crossing-progress b.is-active { border-color: var(--color-tide); background: rgba(47,227,189,0.12); color: var(--color-tide); }
+
+.crossing-closing {
+  position: absolute;
+  z-index: 5;
+  left: clamp(1.25rem, 3.8vw, 4rem);
+  bottom: 3.5rem;
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-editorial);
+  font-size: clamp(2rem, 4vw, 4.4rem);
+  font-style: italic;
+  line-height: 1.02;
+  color: #d2d7de;
+}
+
+/* ------------------------------------------------------- lower sections -- */
+
+.hh-criteria { position: relative; z-index: 8; background: #070a11; }
+.hh-criteria-grid { display: grid; }
+.hh-criteria-panel { padding: 7rem 0; }
+.hh-criteria-panel-right { border-top: 1px solid var(--color-hairline); }
+
+.hh-final { z-index: 8; background: #05080d; }
+/* Depth soundings, echoing the chart contours without repeating the SVG. */
+.hh-final-object { position: absolute; right: -6rem; top: 50%; width: min(46vw, 40rem); aspect-ratio: 1; translate: 0 -50%; opacity: 0.55; }
+.hh-final-object span { position: absolute; inset: 12%; border: 1px solid rgba(47,227,189,0.2); border-radius: 999px; }
+.hh-final-object span:nth-child(2) { inset: 26%; border-color: rgba(47,227,189,0.28); border-style: dashed; }
+.hh-final-object span:nth-child(3) { inset: 40%; border-color: rgba(255,193,94,0.3); }
+.hh-final-object span:nth-child(4) { inset: 47.5%; border: 0; background: var(--color-tide); box-shadow: 0 0 2.5rem rgba(47,227,189,0.5); animation: beacon 3.4s ease-in-out infinite; }
+@keyframes beacon { 50% { scale: 1.5; opacity: 0.45; } }
+
+.hh-footer { position: relative; z-index: 8; background: #070a11; }
+
+@media (min-width: 1024px) {
+  .hh-criteria-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hh-criteria-panel { padding-right: 4rem; }
+  .hh-criteria-panel-right { border-top: 0; border-left: 1px solid var(--color-hairline); padding-left: 4rem; padding-right: 0; }
+}
+
+@media (max-width: 1023px) {
+  .crossing { min-height: 460svh; }
+  .crossing-title-back { top: 18%; font-size: clamp(4rem, 18vw, 8rem); }
+  .crossing-title-front { top: 30%; font-size: clamp(4rem, 19vw, 8.5rem); }
+  .crossing-hero-copy { bottom: 12rem; }
+  .crossing-hero-action { left: 1.25rem; right: auto; bottom: 2rem; width: calc(100% - 2.5rem); grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.7fr); align-items: end; }
+  .crossing-primary-action { align-self: end; }
+  .crossing-scroll-cue { display: none; }
+  .crossing-journey { min-height: 360svh; }
+  .crossing-step { min-height: 120svh; align-items: flex-end; padding-bottom: 5rem; }
+  .crossing-step-copy { width: min(27rem, 68vw); padding: 1.25rem; border: 1px solid rgba(231,235,240,0.15); border-radius: 0.75rem; background: rgba(5,8,13,0.7); backdrop-filter: blur(12px); }
+  .crossing-progress { display: none; }
+  .hh-final-object { right: -10rem; opacity: 0.4; }
+}
+
+@media (max-width: 639px) {
+  .hh-header {
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(231,235,240,0.1);
+    background: #05080d;
+    backdrop-filter: blur(18px) saturate(1.15);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  }
+  .crossing { min-height: 485svh; }
+  .crossing-title-back,
+  .crossing-title-front { left: 1.1rem; }
+  .crossing-title-back { top: 16%; font-size: 22vw; }
+  .crossing-title-front { top: 26%; font-size: 23vw; }
+  .crossing-hero-copy { bottom: 15.5rem; left: 1.1rem; }
+  .crossing-hero-copy p { font-size: 1rem; }
+  .crossing-hero-action { left: 1.1rem; bottom: 1.4rem; width: calc(100% - 2.2rem); grid-template-columns: 1fr; gap: 0.8rem; }
+  .crossing-primary-action { padding: 0.95rem 1rem; }
+  .crossing-facts { grid-template-columns: repeat(3, 1fr); }
+  .crossing-facts div { display: block; padding: 0.6rem 0.35rem; }
+  .crossing-facts dt { min-height: 2.2rem; }
+  .crossing-facts dd { margin-top: 0.35rem; font-size: 0.64rem; }
+  .crossing-journey-title { top: 5.5rem; left: 1.1rem; max-width: calc(100vw - 2.2rem); font-size: 12vw; }
+  .crossing-step { min-height: 128svh; padding: 9rem 1.1rem 3rem; }
+  .crossing-step:last-of-type { padding-bottom: 10rem; }
+  .crossing-step-copy { width: 100%; }
+  .crossing-closing { left: 1.1rem; bottom: 2rem; max-width: calc(100vw - 2.2rem); }
+  .hh-criteria-panel { padding: 5.5rem 0; }
+  .hh-final-object { right: -12rem; width: 28rem; opacity: 0.3; }
+  .tide { padding: 1.25rem; }
+}
+
+/* ------------------------------------------------------------- reveals -- */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.7s var(--ease-fluid), transform 0.7s var(--ease-fluid), clip-path 0.8s var(--ease-fluid);
+}
+.js [data-reveal="fade"] { transform: none; }
+.js [data-reveal="clip"] { transform: none; clip-path: inset(0 0 105% 0); }
+.js [data-reveal="rise"] { transform: translateY(2.5rem); }
+.js [data-reveal][data-shown="true"] { opacity: 1; transform: none; clip-path: inset(0 0 -10% 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .js [data-reveal] { opacity: 1; transform: none; clip-path: none; }
+  .crossing-step-copy { opacity: 1; transform: none; }
+}
