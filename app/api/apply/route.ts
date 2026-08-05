@@ -25,7 +25,7 @@ function renderEmail(data: Record<string, string>) {
     ["Audience", data.audience],
     ["How they would reach them", data.reach],
     ["Optional link", data.link || "Not provided"],
-    ["Solo or crew", data.team],
+    ["Solo or team", data.team],
   ];
 
   const html = rows.map(([key, value]) =>

@@ -54,7 +54,7 @@ export function Nav() {
           </ul>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link href={action.href} className="hh-nav-action px-5 py-3 text-caption font-semibold tracking-[0.06em] text-ink transition-colors hover:border-tide hover:text-white sm:px-6">
+            <Link href={action.href} className="hh-nav-action px-5 py-3 text-caption font-semibold tracking-[0.06em] text-ink transition-colors hover:border-signal hover:text-white sm:px-6">
               {action.label}
             </Link>
             <button ref={toggleRef} type="button" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen((value) => !value)} className="hh-nav-action grid size-11 place-items-center text-ink lg:hidden">

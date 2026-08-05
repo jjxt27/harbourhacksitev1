@@ -16,10 +16,10 @@ export default function FaqPage() {
           <header className="mb-16">
             <Label as="p">Practical details</Label>
             <h1 className="mt-6 font-display text-display-1 font-extrabold uppercase">
-              Questions<span className="text-tide">.</span>
+              Questions<span className="text-signal">.</span>
             </h1>
             <p className="mt-7 max-w-[44ch] text-lead text-ink-70">
-              What to know before you apply, and before you leave the harbour.
+              What to know before you apply, and before you start.
             </p>
           </header>
 

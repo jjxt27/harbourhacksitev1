@@ -4,19 +4,19 @@ import { Reveal } from "@/components/Reveal";
 
 export function Fit() {
   return (
-    <section id="who-ships-out" className="hh-criteria scroll-mt-20 border-t border-hairline">
+    <section id="who-turns-up" className="hh-criteria scroll-mt-20 border-t border-hairline">
       <Container>
         <div className="hh-criteria-grid">
           <Reveal variant="fade" className="hh-criteria-panel">
-            <p className="font-mono text-label uppercase text-tide">01 / Who comes aboard</p>
+            <p className="font-mono text-label uppercase text-signal">01 / Who it is for</p>
             <h2 className="mt-6 max-w-[10ch] font-display text-display-1 font-semibold uppercase">
-              {audience.title}<span className="text-tide">.</span>
+              {audience.title}<span className="text-signal">.</span>
             </h2>
             <p className="mt-8 max-w-[30ch] text-lead text-ink-70">{audience.lede}</p>
             <ul className="mt-12 border-t border-hairline">
               {audience.points.map((point) => (
                 <li key={point} className="group flex items-start gap-4 border-b border-hairline py-5 text-body text-ink-70">
-                  <span aria-hidden="true" className="mt-[0.45em] size-2 shrink-0 rounded-full border border-ink-muted transition-colors group-hover:border-tide group-hover:bg-tide" />
+                  <span aria-hidden="true" className="mt-[0.45em] size-2 shrink-0 rounded-full border border-ink-muted transition-colors group-hover:border-signal group-hover:bg-signal" />
                   {point}
                 </li>
               ))}
@@ -24,9 +24,9 @@ export function Fit() {
           </Reveal>
 
           <Reveal delay={100} variant="fade" className="hh-criteria-panel hh-criteria-panel-right">
-            <p className="font-mono text-label uppercase text-beacon">02 / How far it travelled</p>
+            <p className="font-mono text-label uppercase text-amber">02 / How far it got</p>
             <h2 className="mt-6 max-w-[10ch] font-display text-display-1 font-semibold uppercase">
-              {judging.title}<span className="text-beacon">.</span>
+              {judging.title}<span className="text-amber">.</span>
             </h2>
             <p className="mt-8 max-w-[34ch] text-lead text-ink-70">{judging.lede}</p>
             <ul className="mt-12 border-t border-hairline">

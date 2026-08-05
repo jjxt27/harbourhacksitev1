@@ -34,8 +34,8 @@ export function Button({ children, href, variant = "primary", className, ...rest
       href={href}
       className={cn(
         variant === "primary"
-          ? "inline-flex rounded-md bg-tide px-7 py-4 text-body-sm font-bold uppercase tracking-[0.08em] text-[#05080d] transition-transform hover:scale-[0.985] active:scale-[0.97]"
-          : "border-b border-tide pb-1 font-mono text-label font-medium uppercase text-ink transition-colors hover:text-tide",
+          ? "inline-flex rounded-md bg-signal px-7 py-4 text-body-sm font-bold uppercase tracking-[0.08em] text-[#05080d] transition-transform hover:scale-[0.985] active:scale-[0.97]"
+          : "border-b border-signal pb-1 font-mono text-label font-medium uppercase text-ink transition-colors hover:text-signal",
         className,
       )}
       {...rest}

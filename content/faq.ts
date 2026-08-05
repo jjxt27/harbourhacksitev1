@@ -20,14 +20,15 @@ export const faq: readonly FaqGroup[] = [
       {
         q: "Why is it called HarbourHack?",
         a: [
-          "Sydney is the harbour. It is also the point: a harbour is where things are loaded and sent out to market.",
-          "Plenty of hackathons stop at the build. This one is about the crossing — getting the thing out of the harbour and into someone's hands.",
+          "Sydney. That is most of it.",
+          "The rest: plenty of hackathons end at the demo, and a demo proves nothing. This one is about what happens after — getting the thing out of the room and into someone's hands.",
         ],
       },
       {
         q: "What does \"go-to-market\" mean here?",
         a: [
           "Everything between a working thing and a person using it. Who it is for, where you find them, what you say, what they do next.",
+          "It means the same thing whether or not you are a startup. A club tool or a side project has an audience too, and you still have to go and find them.",
           "You will spend real time on distribution, not just on the product. That is the part most builders skip.",
         ],
       },
@@ -43,13 +44,13 @@ export const faq: readonly FaqGroup[] = [
         ],
       },
       {
-        q: "Can I apply solo or with a crew?",
+        q: "Can I apply solo or with a team?",
         a: ["Either. Apply solo, or tell us who you are building with."],
       },
     ],
   },
   {
-    title: "The crossing",
+    title: "The program",
     items: [
       {
         q: "What actually happens during the program?",

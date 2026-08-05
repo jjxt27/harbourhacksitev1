@@ -97,7 +97,7 @@ export function ApplicationForm() {
     requestAnimationFrame(() => headingRef.current?.focus());
   };
 
-  const continueToCargo = () => {
+  const continueToIdea = () => {
     const found = errorsFor(0);
     if (Object.keys(found).length) return showErrors(found);
     goToStep(1);
@@ -146,7 +146,7 @@ export function ApplicationForm() {
         <div className="mt-5 space-y-4">
           {apply.success.body.map((line) => <p key={line} className="max-w-[58ch] text-lead text-ink-70">{line}</p>)}
         </div>
-        <Link href="/" className="mt-9 inline-flex items-center gap-2 border-b border-tide pb-1 font-mono text-label uppercase">
+        <Link href="/" className="mt-9 inline-flex items-center gap-2 border-b border-signal pb-1 font-mono text-label uppercase">
           <ArrowLeft aria-hidden="true" className="size-4" /> {apply.workflow.backToProgram}
         </Link>
       </div>
@@ -164,7 +164,7 @@ export function ApplicationForm() {
           {apply.workflow.steps.map((label, index) => (
             <li key={label} className="relative border-t border-hairline pt-5">
               <button type="button" disabled={index === 1 && step === 0} onClick={() => index === 0 && goToStep(0)} aria-current={step === index ? "step" : undefined} className={cn("font-mono text-label uppercase transition-colors", step === index ? "text-ink" : "text-ink-muted", index === 0 ? "text-left" : "w-full text-right")}>
-                <span className={cn("absolute -top-2 size-4 rounded-full border border-ink bg-paper", index === 0 ? "left-0" : "right-0", step === index && "border-tide bg-tide")} />
+                <span className={cn("absolute -top-2 size-4 rounded-full border border-ink bg-paper", index === 0 ? "left-0" : "right-0", step === index && "border-signal bg-signal")} />
                 {label}
               </button>
             </li>
@@ -229,12 +229,12 @@ export function ApplicationForm() {
 
       <div className="mt-9 flex flex-wrap items-center gap-6">
         {step === 0 ? (
-          <button type="button" onClick={continueToCargo} className="inline-flex items-center gap-3 rounded-full bg-tide px-7 py-4 text-body-sm font-bold uppercase tracking-[0.08em] text-accent-contrast transition-transform hover:scale-[0.985] active:scale-[0.97]">
+          <button type="button" onClick={continueToIdea} className="inline-flex items-center gap-3 rounded-full bg-signal px-7 py-4 text-body-sm font-bold uppercase tracking-[0.08em] text-accent-contrast transition-transform hover:scale-[0.985] active:scale-[0.97]">
             {apply.workflow.next}<ArrowRight aria-hidden="true" className="size-4" />
           </button>
         ) : <>
           <button type="button" onClick={() => goToStep(0)} className="inline-flex items-center gap-2 border-b border-hairline pb-1 font-mono text-label uppercase"><ArrowLeft aria-hidden="true" className="size-4" />{apply.workflow.back}</button>
-          <button type="submit" disabled={status === "pending"} className="inline-flex rounded-full bg-tide px-7 py-4 text-body-sm font-bold uppercase tracking-[0.08em] text-accent-contrast transition-transform hover:scale-[0.985] active:scale-[0.97] disabled:pointer-events-none disabled:opacity-60">
+          <button type="submit" disabled={status === "pending"} className="inline-flex rounded-full bg-signal px-7 py-4 text-body-sm font-bold uppercase tracking-[0.08em] text-accent-contrast transition-transform hover:scale-[0.985] active:scale-[0.97] disabled:pointer-events-none disabled:opacity-60">
             {status === "pending" ? apply.submit.pending : apply.submit.idle}
           </button>
         </>}

@@ -16,10 +16,10 @@ export function FinalCta() {
       <Container>
         <div className="relative z-10 grid gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-0">
           <Reveal variant="rise" className="lg:pr-16">
-            <p className="font-mono text-label uppercase text-tide">Cast off / Begin here</p>
+            <p className="font-mono text-label uppercase text-signal">Start here</p>
             <h2 className="mt-6 max-w-[13ch] font-display text-display-1 font-semibold uppercase">
               {finalCta.title.replace(/\.$/, "")}
-              <span className="text-tide">.</span>
+              <span className="text-signal">.</span>
             </h2>
             <p className="mt-6 max-w-[46ch] text-lead text-ink-70">{finalCta.lede}</p>
             <div className="mt-9"><Button href={finalCta.cta.href}>{finalCta.cta.label}</Button></div>

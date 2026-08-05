@@ -14,7 +14,7 @@ export default function OpengraphImage() {
           <span style={{ color: "#7d8894" }}>Applications close {dates.applicationsClose.label}</span>
         </div>
         <div style={{ display: "flex", maxWidth: 1000, fontSize: 96, lineHeight: 1, letterSpacing: -5, fontWeight: 800, textTransform: "uppercase" }}>
-          Ship out<span style={{ color: "#2fe3bd" }}>.</span>
+          Get out<span style={{ color: "#2fe3bd" }}>.</span>
         </div>
         <div style={{ display: "flex", borderTop: "1px solid rgba(231,235,240,0.2)", paddingTop: 24, fontSize: 24, color: "#b0b9c4" }}>
           A go-to-market hackathon. Build it, then go and get it in front of the people it is for.

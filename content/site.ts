@@ -1,4 +1,9 @@
-/** Public copy and program facts. Keep unresolved facts explicit. */
+/**
+ * Public copy and program facts. Keep unresolved facts explicit.
+ *
+ * On voice: the harbour is the city and the name, not a costume. Keep nautical
+ * language to a light touch — see the "Avoid" list in BRAND_GUIDELINES.md.
+ */
 
 export type ProgramDate = {
   label: string;
@@ -12,9 +17,9 @@ export const site = {
   name: "HarbourHack",
   shortName: "HH",
   city: "Sydney",
-  tagline: "Ship out.",
+  tagline: "Get out.",
   description:
-    "A go-to-market hackathon in Sydney. Build something small, put it in the water and go find the people who will actually use it.",
+    "A go-to-market hackathon in Sydney. Build something small, then go and put it in front of the people it is actually for.",
   url: "https://harbourhack.vercel.app",
   parentOrg: null as string | null,
   contactEmail: null as string | null,
@@ -33,8 +38,8 @@ export const dates = {
 export type HeroFact = { key: string; value: string; date: ProgramDate | null };
 
 export const heroFacts: readonly HeroFact[] = [
-  { key: "Port", value: site.city, date: null },
-  { key: "Sails", value: dates.programStart.label, date: dates.programStart },
+  { key: "City", value: site.city, date: null },
+  { key: "When", value: dates.programStart.label, date: dates.programStart },
   {
     key: "Applications close",
     value: dates.applicationsClose.label,
@@ -43,18 +48,18 @@ export const heroFacts: readonly HeroFact[] = [
 ];
 
 export const hero = {
-  headline: "Ship out.",
+  headline: "Get out.",
   /**
    * Split so the hero can set the last clause in the editorial italic without
    * the component owning any copy. `emphasis` carries its own full stop.
    */
   subline: {
-    lead: "Building it is half the crossing.",
+    lead: "Building it is the easy half.",
     rest: "HarbourHack is the other half — getting it in front of real people and coming back with something you",
     emphasis: "learned.",
   },
   primaryCta: { label: "Apply to HH", href: "/apply" },
-  scrollCue: "Scroll to cast off",
+  scrollCue: "Scroll to follow it",
 } as const;
 
 /**
@@ -65,36 +70,36 @@ export const hero = {
  * full stop are accented separately, so they stay in the component.
  */
 export const journey = {
-  title: ["Chart", "Launch", "Land"],
+  title: ["Find", "Build", "Reach"],
   closingLine: "Whatever comes back is the real brief.",
   stages: [
     {
-      id: "chart",
-      title: "Chart the route",
+      id: "find",
+      title: "Find who it is for",
       body: "Pick the problem and the people who have it.",
       note: "One specific audience beats a broad market every time.",
     },
     {
-      id: "launch",
-      title: "Put it in the water",
-      body: "Build the smallest version someone can actually use.",
-      note: "Working beats polished. You can sand it down later.",
+      id: "build",
+      title: "Build the smallest thing",
+      body: "Make the smallest version someone can actually use.",
+      note: "Working beats polished. You can tidy it up later.",
     },
     {
-      id: "land",
-      title: "Land the first users",
-      body: "Go and get them. Watch what they do. Steer from there.",
+      id: "reach",
+      title: "Reach them",
+      body: "Go and get them. Watch what they do. Change what you built.",
       note: "Distribution is not the afterthought. It is the other half.",
     },
   ],
 } as const;
 
 export const audience = {
-  title: "Who ships out",
+  title: "Who turns up",
   lede: "Students, grads and early builders who would rather launch something small than plan something big.",
   points: [
-    "Technical and non-technical builders. Both halves of a crossing matter.",
-    "Apply solo or bring a crew.",
+    "Technical and non-technical builders. Both halves of the job matter.",
+    "Apply solo or bring a team.",
     "No company, funding or traction required.",
     "You need an idea and the willingness to go and talk to strangers about it.",
   ],
@@ -103,17 +108,17 @@ export const audience = {
 export const judging = {
   title: "What we measure",
   lede:
-    "Not the demo. We look at how far the thing actually travelled: who you reached, what they did with it, how fast you moved and how you steered once the signal came back.",
+    "Not the demo. We look at how far the thing actually got: who you reached, what they did with it, how fast you moved and how you changed course once the signal came back.",
   criteria: [
     "Reach — how you got in front of people",
     "Evidence — what real users did, not what they said",
-    "Speed — distance covered in the time you had",
-    "Judgement — how you steered on the signal",
+    "Speed — ground covered in the time you had",
+    "Judgement — how you changed course on the signal",
   ],
 } as const;
 
 export const finalCta = {
-  title: "Nothing is proven inside the harbour.",
+  title: "Nothing is proven in the building.",
   lede: "No company. No funding. No launch plan. Bring an idea and take it out to the people it is for.",
   cta: { label: "Apply to HarbourHack", href: "/apply" },
 } as const;
@@ -159,7 +164,7 @@ export const sponsors = {
 } as const;
 
 export const nav = [
-  { label: "The route", href: "/#how-it-works" },
-  { label: "Who ships out", href: "/#who-ships-out" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Who turns up", href: "/#who-turns-up" },
   { label: "FAQ", href: "/faq" },
 ] as const;

@@ -3,7 +3,7 @@ import { Geist_Mono, Inter, Newsreader } from "next/font/google";
 import { site } from "@/content/site";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { Tide } from "@/components/Tide";
+import { Sweep } from "@/components/Sweep";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
  * Runs before paint so the reveal system and the intro never flash.
  *
  * `js` switches the CSS reveals from "always visible" to "hidden until shown".
- * `booting` gates the tide intro — set only on a first visit in this session
+ * `booting` gates the sweep intro — set only on a first visit in this session
  * and never under reduced motion, then cleared by the component or, if
  * scripting stalls, by the failsafe timeout below.
  */
@@ -41,7 +41,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en-AU" className={`${inter.variable} ${geistMono.variable} ${newsreader.variable}`} suppressHydrationWarning>
       <head><script dangerouslySetInnerHTML={{ __html: JS }} /></head>
       <body className="min-h-[100dvh]">
-        <Tide />
+        <Sweep />
         <a href="#main" className="skip-link">Skip to content</a>
         <Nav />
         <main id="main">{children}</main>

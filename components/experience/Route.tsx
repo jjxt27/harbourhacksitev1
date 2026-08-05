@@ -4,17 +4,17 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { heroFacts, hero, journey } from "@/content/site";
-import { HarbourChart } from "./HarbourChart";
+import { RouteChart } from "./RouteChart";
 
 /**
- * The homepage experience: a sticky chart the reader scrubs by scrolling,
- * with the hero and the three journey stages laid over it.
+ * The homepage experience: a sticky plot the reader scrubs by scrolling, with
+ * the hero and the three journey stages laid over it.
  *
  * Scroll progress is held in a ref rather than state — the chart reads it in
  * its own animation frame, so a scroll never re-renders this tree. Only the
  * active stage, which changes three times over the whole section, is state.
  */
-export function Crossing() {
+export function Route() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stageRefs = useRef<Array<HTMLElement | null>>([]);
   const progressRef = useRef(0);
@@ -59,33 +59,33 @@ export function Crossing() {
   }, []);
 
   return (
-    <div ref={wrapperRef} className="crossing">
+    <div ref={wrapperRef} className="route">
       <div
-        className="crossing-chart-shell"
+        className="route-chart-shell"
         role="img"
-        aria-label="A nautical chart plotting a route from the harbour out to the open market, with a vessel that advances as you scroll"
+        aria-label="A plot of the route from you to the people you are trying to reach, marked with the three stages of the program"
       >
-        <HarbourChart progressRef={progressRef} activeStage={activeStage} />
+        <RouteChart progressRef={progressRef} activeStage={activeStage} />
       </div>
 
-      <section className="crossing-hero" aria-labelledby="crossing-title">
-        <h1 id="crossing-title" className="crossing-title" aria-label={hero.headline}>
-          <span className="crossing-title-back">Ship</span>
-          <span className="crossing-title-front">out<span className="crossing-period">.</span></span>
+      <section className="route-hero" aria-labelledby="route-title">
+        <h1 id="route-title" className="route-title" aria-label={hero.headline}>
+          <span className="route-title-back">Get</span>
+          <span className="route-title-front">out<span className="route-period">.</span></span>
         </h1>
 
-        <div className="crossing-hero-copy">
+        <div className="route-hero-copy">
           <p>
             {hero.subline.lead}<br />
             {hero.subline.rest} <em>{hero.subline.emphasis}</em>
           </p>
         </div>
 
-        <div className="crossing-hero-action">
-          <Link href={hero.primaryCta.href} className="crossing-primary-action">
+        <div className="route-hero-action">
+          <Link href={hero.primaryCta.href} className="route-primary-action">
             {hero.primaryCta.label} <ArrowUpRight aria-hidden="true" />
           </Link>
-          <dl className="crossing-facts">
+          <dl className="route-facts">
             {heroFacts.map((fact) => (
               <div key={fact.key}>
                 <dt>{fact.key}</dt>
@@ -97,23 +97,23 @@ export function Crossing() {
           </dl>
         </div>
 
-        <a href="#how-it-works" className="crossing-scroll-cue">
+        <a href="#how-it-works" className="route-scroll-cue">
           {hero.scrollCue} <ArrowDown aria-hidden="true" />
         </a>
       </section>
 
-      <section id="how-it-works" className="crossing-journey" aria-labelledby="journey-title">
-        <h2 id="journey-title" className="crossing-journey-title">
+      <section id="how-it-works" className="route-journey" aria-labelledby="journey-title">
+        <h2 id="journey-title" className="route-journey-title">
           {journey.title.map((word, index) => (
             <Fragment key={word}>
               {index > 0 ? <span> → </span> : null}
               {word}
             </Fragment>
           ))}
-          <span className="crossing-period">.</span>
+          <span className="route-period">.</span>
         </h2>
 
-        <div className="crossing-progress" aria-hidden="true">
+        <div className="route-progress" aria-hidden="true">
           <span>Scroll</span>
           <i />
           {journey.stages.map((stage, index) => (
@@ -126,9 +126,9 @@ export function Crossing() {
             key={stage.id}
             ref={(node) => { stageRefs.current[index] = node; }}
             data-stage-index={index}
-            className={`crossing-step ${activeStage === index ? "is-active" : ""}`}
+            className={`route-step ${activeStage === index ? "is-active" : ""}`}
           >
-            <div className="crossing-step-copy">
+            <div className="route-step-copy">
               <p>0{index + 1}</p>
               <h3>{stage.title}</h3>
               <strong>{stage.body}</strong>
@@ -137,7 +137,7 @@ export function Crossing() {
           </article>
         ))}
 
-        <p className="crossing-closing">{journey.closingLine}</p>
+        <p className="route-closing">{journey.closingLine}</p>
       </section>
     </div>
   );

@@ -22,7 +22,7 @@ export const apply = {
   deadlineNote: "Applications close",
   estimate: "About 6 minutes",
   workflow: {
-    steps: ["Crew", "Cargo"],
+    steps: ["About you", "The idea"],
     saved: "Your answers save on this device.",
     next: "Continue",
     back: "Back",
@@ -56,7 +56,7 @@ export const apply = {
       placeholder: "https://",
     },
     team: {
-      label: "Are you applying solo or with a crew?",
+      label: "Are you applying solo or with a team?",
       hint: "Add names if you already have people.",
     },
     commitment: {
@@ -73,7 +73,7 @@ export const apply = {
     audience: "Tell us who it is for. Be specific.",
     reach: "Tell us how you would reach them.",
     link: "That is not a URL we can open. Include https://",
-    team: "Tell us whether you are applying solo or with a crew.",
+    team: "Tell us whether you are applying solo or with a team.",
     commitment: "We need you there for the full program and Demo Day.",
     submit: "Something broke on our end. Try again, or email us.",
   },
@@ -81,7 +81,7 @@ export const apply = {
   submit: { idle: "Send application", pending: "Sending..." },
 
   success: {
-    title: "You are on the manifest.",
+    title: "You are on the list.",
     body: [
       "Thanks for putting your idea forward.",
       "We read every application and will send the outcome by email after applications close.",

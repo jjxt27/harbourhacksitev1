@@ -2,7 +2,7 @@
 
 Marketing and application site for **HarbourHack (HH)**, a go-to-market hackathon in Sydney for students, grads and other early-stage builders.
 
-The proposition is deliberately narrow: plenty of hackathons stop at the build. This one is about the crossing — getting a working thing out of the harbour and into the hands of the people it is for, then steering on whatever comes back. Applicants do not need a company, funding, customers or a finished product.
+The proposition is deliberately narrow: plenty of hackathons stop at the build. This one is about what happens after — getting a working thing into the hands of the people it is for, then changing course based on what comes back. Applicants do not need a company, funding, customers or a finished product.
 
 ## Run it
 
@@ -22,15 +22,19 @@ Then open http://localhost:3000.
 | `content/apply.ts` | Application labels, hints, errors and success copy. |
 | `content/faq.ts` | FAQ questions and answers. |
 | `app/globals.css` | Design tokens and the motion system. |
-| `components/experience/` | The scroll experience: the chart and the crossing laid over it. |
+| `components/experience/` | The scroll experience: the route plot and the content laid over it. |
 | `components/sections/` | The lower homepage bands. |
 | `lib/validateApplication.ts` | Validation shared by the form and the API route. |
 
-The visual system is a blue-cast near-black, one aqua accent (Tide) and one warm counterweight (Beacon). The homepage is a single sticky nautical chart that the reader scrubs by scrolling, with the hero and the three journey stages laid over it. Everything else is straight rules, strong typography and restrained viewport reveals.
+The visual system is a blue-cast near-black, one aqua accent (Signal) and one warm counterweight (Amber). The homepage is a single sticky plot of the distance between you and the people you are trying to reach, scrubbed by scrolling, with the hero and the three journey stages laid over it. Everything else is straight rules, strong typography and restrained viewport reveals.
 
-### The chart
+### The plot
 
-`components/experience/HarbourChart.tsx` draws the route once, then measures it with `getPointAtLength` to place the three channel markers and to move the vessel. Position and heading are written straight to SVG attributes inside an animation frame, so scrolling never re-renders the React tree. Moving the `ROUTE` constant moves the markers and the vessel with it — nothing else is hard-coded to those coordinates.
+`components/experience/RouteChart.tsx` draws the route once, then measures it with `getPointAtLength` to place the three stage markers and to move the head. Position and bearing are written straight to SVG attributes inside an animation frame, so scrolling never re-renders the React tree. Moving the `ROUTE` constant moves the markers and the head with it — nothing else is hard-coded to those coordinates.
+
+### Ambient motion
+
+Three slow loops sit behind the route: two gradient layers and a drifting dot grid, all defined in the "ambient motion" block of `app/globals.css`. They animate transform only, on layers that are already composited, and every loop returns to its start state — which is what makes the reduced-motion freeze look correct rather than stuck mid-cycle. `BRAND_GUIDELINES.md` §7 has the rules for keeping them below the threshold of noticing.
 
 ## Application delivery
 

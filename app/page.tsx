@@ -1,4 +1,4 @@
-import { Crossing } from "@/components/experience/Crossing";
+import { Route } from "@/components/experience/Route";
 import { Fit } from "@/components/sections/Fit";
 import { Trust } from "@/components/sections/Trust";
 import { FinalCta } from "@/components/sections/FinalCta";
@@ -6,7 +6,7 @@ import { FinalCta } from "@/components/sections/FinalCta";
 export default function HomePage() {
   return (
     <>
-      <Crossing />
+      <Route />
       <Fit />
       <Trust />
       <FinalCta />

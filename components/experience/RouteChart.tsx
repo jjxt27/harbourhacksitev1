@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
 
 /**
- * The route the whole experience is built on: harbour at the lower left, open
- * market at the upper right. Every other element on the chart is positioned by
- * measuring this path, so moving it moves the markers and the vessel with it.
+ * The route the whole experience is built on: you at the lower left, the people
+ * you are trying to reach at the upper right. Every other element on the plot
+ * is positioned by measuring this path, so moving it moves the markers and the
+ * head with it.
  */
 const ROUTE = "M150 600C300 590 362 502 470 450 600 388 704 330 860 172";
 
@@ -14,36 +15,36 @@ const VIEWBOX = { width: 1000, height: 700 };
 /** Where along the route each journey stage sits, as a fraction of its length. */
 const STAGE_AT = [0.2, 0.55, 0.9] as const;
 
-/** Half the span, in viewBox units, used to read the vessel's heading. */
+/** Half the span, in viewBox units, used to read the head's bearing. */
 const TANGENT = 2;
 
 type Point = { x: number; y: number };
 
-type HarbourChartProps = {
+type RouteChartProps = {
   /** Scroll progress through the whole experience, 0 to 1. Read, never set. */
   progressRef: RefObject<number>;
   activeStage: number;
 };
 
 /**
- * A nautical chart drawn in SVG, with a vessel that tracks scroll progress
- * along the route.
+ * A plot of the route from you to the people you are trying to reach, with a
+ * head that tracks scroll progress along it.
  *
  * Position comes from `getPointAtLength` rather than CSS `offset-path`: it
  * works in every browser that ships SVG, stays in viewBox units so it scales
- * with the container, and gives the heading for free from a second sample.
+ * with the container, and gives the bearing for free from a second sample.
  *
  * The loop only writes attributes on two nodes and never sets React state, so
  * scrolling does not re-render the tree.
  */
-export function HarbourChart({ progressRef, activeStage }: HarbourChartProps) {
+export function RouteChart({ progressRef, activeStage }: RouteChartProps) {
   const routeRef = useRef<SVGPathElement>(null);
   const runRef = useRef<SVGPathElement>(null);
-  const vesselRef = useRef<SVGGElement>(null);
+  const headRef = useRef<SVGGElement>(null);
   const [markers, setMarkers] = useState<Point[]>([]);
   const [length, setLength] = useState(0);
 
-  // Measure once the path is in the document, then place the channel markers.
+  // Measure once the path is in the document, then place the stage markers.
   useEffect(() => {
     const route = routeRef.current;
     if (!route) return;
@@ -60,8 +61,8 @@ export function HarbourChart({ progressRef, activeStage }: HarbourChartProps) {
   useEffect(() => {
     const route = routeRef.current;
     const run = runRef.current;
-    const vessel = vesselRef.current;
-    if (!route || !run || !vessel || !length) return;
+    const head = headRef.current;
+    if (!route || !run || !head || !length) return;
 
     let frame = 0;
     let last = -1;
@@ -74,14 +75,14 @@ export function HarbourChart({ progressRef, activeStage }: HarbourChartProps) {
 
       const travelled = length * progress;
       const point = route.getPointAtLength(travelled);
-      // Heading comes from a pair of samples straddling the vessel. Sampling
-      // only ahead would collapse to a zero-length vector at the end of the
-      // route and snap the vessel flat on the last frame of the crossing.
+      // Bearing comes from a pair of samples straddling the head. Sampling only
+      // ahead would collapse to a zero-length vector at the end of the route
+      // and snap the head flat on the last frame.
       const behind = route.getPointAtLength(Math.max(0, travelled - TANGENT));
       const ahead = route.getPointAtLength(Math.min(length, travelled + TANGENT));
       const angle = (Math.atan2(ahead.y - behind.y, ahead.x - behind.x) * 180) / Math.PI;
 
-      vessel.setAttribute("transform", `translate(${point.x} ${point.y}) rotate(${angle})`);
+      head.setAttribute("transform", `translate(${point.x} ${point.y}) rotate(${angle})`);
       run.style.strokeDashoffset = `${length * (1 - progress)}`;
     };
 
@@ -96,19 +97,19 @@ export function HarbourChart({ progressRef, activeStage }: HarbourChartProps) {
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
     >
-      {/* Depth soundings radiating out of the harbour. */}
-      <g className="chart-port">
+      {/* Where you start, and how far your own circle actually reaches. */}
+      <g className="chart-origin">
         <ellipse className="chart-contour" cx="150" cy="600" rx="120" ry="78" />
         <ellipse className="chart-contour chart-contour-2" cx="150" cy="600" rx="210" ry="132" />
         <ellipse className="chart-contour chart-contour-3" cx="150" cy="600" rx="310" ry="190" />
       </g>
 
-      <line className="chart-horizon" x1="0" y1="200" x2="1000" y2="200" />
-      <text className="chart-label" x="52" y="666">Harbour</text>
-      <text className="chart-label" x="838" y="120" textAnchor="middle">Market</text>
+      <line className="chart-axis" x1="0" y1="200" x2="1000" y2="200" />
+      <text className="chart-label" x="52" y="666">You</text>
+      <text className="chart-label" x="838" y="120" textAnchor="middle">Them</text>
 
-      {/* The market: the people the crossing is actually for. */}
-      <g className="chart-market">
+      {/* The people the whole thing is for. */}
+      <g className="chart-cluster">
         <circle cx="860" cy="172" r="5" />
         <circle cx="898" cy="146" r="3.5" />
         <circle cx="826" cy="140" r="3" />
@@ -133,9 +134,9 @@ export function HarbourChart({ progressRef, activeStage }: HarbourChartProps) {
         </g>
       ))}
 
-      <g ref={vesselRef} transform="translate(150 600)">
-        <circle className="chart-vessel-halo" r="17" />
-        <path className="chart-vessel-body" d="M11 0-7 7-3 0-7-7Z" />
+      <g ref={headRef} transform="translate(150 600)">
+        <circle className="chart-head-halo" r="17" />
+        <path className="chart-head-body" d="M11 0-7 7-3 0-7-7Z" />
       </g>
     </svg>
   );

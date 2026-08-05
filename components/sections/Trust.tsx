@@ -17,9 +17,9 @@ export function Trust() {
   return (
     <section aria-labelledby="trust-title" className="ground-light border-t border-hairline py-20 md:py-28">
       <Container>
-        <Label as="p" className="text-ink-muted">The crew and the port</Label>
+        <Label as="p" className="text-ink-muted">The team and the place</Label>
         <h2 id="trust-title" className="mt-5 max-w-[13ch] font-display text-display-2 font-extrabold uppercase">
-          Know who is on the dock.
+          Know who is behind it.
         </h2>
 
         {people.length ? (
@@ -45,7 +45,7 @@ export function Trust() {
         {(hasVenue || hasDetails) ? (
           <dl className="mt-14 grid border-t border-hairline md:grid-cols-3">
             {(trust.venue.name || trust.venue.address) ? <Detail term="Venue" value={trust.venue.name ?? trust.venue.address ?? ""} note={trust.venue.name ? trust.venue.address : null} /> : null}
-            {trust.places ? <Detail term="Berths" value={`${trust.places}`} /> : null}
+            {trust.places ? <Detail term="Places" value={`${trust.places}`} /> : null}
             {trust.weeklyCommitment ? <Detail term="Commitment" value={trust.weeklyCommitment} /> : null}
             {trust.selectionDate.iso ? <Detail term="Decisions" value={trust.selectionDate.label} /> : null}
           </dl>

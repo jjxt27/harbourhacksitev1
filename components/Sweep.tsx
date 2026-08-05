@@ -4,27 +4,27 @@ import { useCallback, useEffect, useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
 import { site } from "@/content/site";
 
-const RISE_MS = 1400;
+const RUN_MS = 1400;
 const HOLD_MS = 120;
 const MARK_MS = 420;
 const LIFT_MS = 620;
 
-/** Starting depth of the sounding, in metres. Counts down as the water rises. */
-const DEPTH = 42;
+/** Where the readout finishes. Counts up as the line travels. */
+const TARGET = 100;
 
-type Phase = "idle" | "rising" | "mark" | "lifting";
+type Phase = "idle" | "running" | "mark" | "lifting";
 
 /**
- * The signature intro: a rising tide with a depth sounding counting down to
- * zero, resolving into the HH monogram before the curtain lifts.
+ * The signature intro: an accent rule sweeping up the screen with a readout
+ * counting to 100, resolving into the HH monogram before the curtain lifts.
  *
  * Runs once per browser session and never under reduced motion — both gates
  * live in the inline script in `app/layout.tsx`, which adds the `booting` class
  * this component looks for. Without that class it renders nothing.
  */
-export function Tide() {
+export function Sweep() {
   const [phase, setPhase] = useState<Phase>("idle");
-  const [depth, setDepth] = useState(DEPTH);
+  const [count, setCount] = useState(0);
 
   const release = useCallback(() => {
     document.documentElement.classList.remove("booting");
@@ -60,10 +60,10 @@ export function Tide() {
         return;
       }
 
-      const progress = Math.min((now - started) / RISE_MS, 1);
+      const progress = Math.min((now - started) / RUN_MS, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
-      setPhase("rising");
-      setDepth(Math.round((1 - eased) * DEPTH));
+      setPhase("running");
+      setCount(Math.round(eased * TARGET));
 
       if (progress < 1) {
         frame = requestAnimationFrame(tick);
@@ -87,22 +87,20 @@ export function Tide() {
 
   if (phase === "idle") return null;
 
-  const filled = ((DEPTH - depth) / DEPTH) * 100;
-
   return (
-    <div className="tide" data-phase={phase}>
-      <div className="tide-water" aria-hidden="true" />
-      <div className="tide-meta">
+    <div className="sweep" data-phase={phase}>
+      <div className="sweep-line" aria-hidden="true" />
+      <div className="sweep-meta">
         <span>{site.name} / {site.city}</span>
-        <span>Sounding</span>
+        <span>Go to market</span>
       </div>
-      <div className="tide-stack" aria-hidden="true">
-        <BrandMark variant="mark" className="tide-mark" />
-        <span className="tide-depth">{depth} m</span>
+      <div className="sweep-stack" aria-hidden="true">
+        <BrandMark variant="mark" className="sweep-mark" />
+        <span className="sweep-readout">{count}</span>
       </div>
-      <div className="tide-footer">
-        <div className="tide-rule" aria-hidden="true"><span style={{ width: `${filled}%` }} /></div>
-        <button type="button" onClick={liftOut} className="tide-skip">Skip intro</button>
+      <div className="sweep-footer">
+        <div className="sweep-rule" aria-hidden="true"><span style={{ width: `${count}%` }} /></div>
+        <button type="button" onClick={liftOut} className="sweep-skip">Skip intro</button>
       </div>
     </div>
   );

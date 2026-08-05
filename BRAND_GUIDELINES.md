@@ -1,6 +1,6 @@
 # HarbourHack brand guidelines
 
-Version 1.0
+Version 1.1
 
 Last updated: 5 August 2026
 
@@ -8,18 +8,21 @@ This document is the practical source of truth for HarbourHack brand work. It re
 
 ## 1. Brand idea
 
-HarbourHack is a go-to-market hackathon. It exists because most hackathons end at the demo, and a demo proves nothing. The work HarbourHack cares about starts once something works: finding the people who have the problem, getting the thing into their hands, and steering on what they actually do with it.
+HarbourHack is a go-to-market hackathon. It exists because most hackathons end at the demo, and a demo proves nothing. The work HarbourHack cares about starts once something works: finding the people who have the problem, getting the thing into their hands, and changing course based on what they actually do with it.
 
-The name works at two connected levels:
+### On the name
 
-- **The harbour is Sydney.** The program is here, in person, and the city is part of the invitation.
-- **A harbour is where things are loaded and sent out to market.** Nothing is proven while it is still tied up at the dock.
+The harbour is Sydney. That is the whole of it.
 
-The nautical language is a frame, not a costume. Use it where it carries meaning — the crossing, the route, the signal coming back — and drop it the moment it starts sounding like a theme party.
+**The nautical reading is not the brand.** HarbourHack is a place name, not a theme. Ships, tides, anchors, crews, cargo, crossings, casting off and running aground are all off the table — they make a serious program about distribution sound like a party. The identity earns its character from typography, restraint and one accent colour, not from maritime props.
+
+Where a spatial metaphor helps, use the plain one the work already suggests: there is a distance between you and the people you are trying to reach, and the program is about crossing it.
 
 ### Core proposition
 
-> Ship out.
+> Get out.
+
+Two readings, both intended: get out of the building, and get the thing out to people.
 
 ### Supporting message
 
@@ -27,7 +30,7 @@ Build it, then go and get it in front of the people it is for.
 
 ### Operating loop
 
-> Chart → Launch → Land → Steer → Repeat
+> Find → Build → Reach → Change → Repeat
 
 Every HarbourHack story has to reach real users. "We built it" is not an outcome. Neither is "we would have launched with more time."
 
@@ -58,11 +61,11 @@ The identity is a **drawn HH monogram** locked up with a **typeset wordmark**. T
 
 ### The monogram
 
-Four stems and a waterline. The waterline replaces both H crossbars and runs out past the right edge of the mark — the tide leaving the harbour. It is the only element in the identity that carries Tide colour.
+Four stems and a rule. The rule replaces both H crossbars and runs out past the right edge of the mark — the thing you made, leaving. It is the only element in the identity that carries Signal colour.
 
-- The waterline must stay attached to the stems.
+- The rule must stay attached to the stems and at crossbar height.
 - Keep the overshoot past the right stem. It is the detail that makes the mark recognisable.
-- Do not add a second waterline, move it off the crossbar height, or apply Tide to the stems.
+- Do not add a second rule or apply Signal to the stems.
 
 ### The wordmark
 
@@ -73,17 +76,17 @@ Four stems and a waterline. The waterline replaces both H crossbars and runs out
 | Variant | Use |
 |---|---|
 | `full` — monogram plus wordmark | Desktop and tablet navigation, footers, signage, presentation covers, partner lockups |
-| `mark` — monogram only | Mobile navigation, the tide intro, favicons, avatars, small merchandise |
+| `mark` — monogram only | Mobile navigation, the intro sequence, favicons, avatars, small merchandise |
 
 Do not use the `mark` variant merely as decoration when the full lockup fits.
 
 ### Colour versions
 
-| Background | Stems and wordmark | Waterline |
+| Background | Stems and wordmark | Rule |
 |---|---|---|
-| Harbour Black | Ink | Tide |
-| Sea Fog or white | Harbour Black | Tide |
-| Photograph | Black or white, whichever holds contrast | Tide, if legible |
+| Harbour Black | Ink | Signal |
+| Sea Fog or white | Harbour Black | Signal |
+| Photograph | Black or white, whichever holds contrast | Signal, if legible |
 | One-colour production | One approved solid colour | Same solid colour |
 
 Do not place the full-colour mark over a busy photograph without a clear, quiet area behind it.
@@ -97,11 +100,11 @@ Keep clear space equal to at least the height of one crossbar on every side.
 | Full lockup | 140 px wide | 34 mm wide |
 | Monogram | 44 px wide | 12 mm wide |
 
-Below the monogram minimum, use the dedicated favicon in [`app/icon.tsx`](app/icon.tsx), which drops to a single H so the channel does not close up.
+Below the monogram minimum, use the dedicated favicon in [`app/icon.tsx`](app/icon.tsx), which drops to a single H so the counters do not close up.
 
 ### Misuse
 
-Never stretch, condense, skew or rotate the mark; change the spacing between stems; detach, recolour or duplicate the waterline; add outlines, shadows, bevels, gradients or glow; place the mark inside an arbitrary badge; or use wave, anchor, ship-wheel or rope motifs alongside it.
+Never stretch, condense, skew or rotate the mark; change the spacing between stems; detach, recolour or duplicate the rule; add outlines, shadows, bevels, gradients or glow; place the mark inside an arbitrary badge; or set it alongside wave, anchor, ship-wheel, rope or compass-rose motifs.
 
 ### Website usage
 
@@ -130,9 +133,11 @@ Both the SVG and the wordmark are `aria-hidden`. A link containing only the mark
 | `ink` | Ink | `#E7EBF0` | Primary text and marks on dark surfaces |
 | `ink-70` | Soft Ink | `#B0B9C4` | Supporting copy on dark surfaces |
 | `ink-muted` | Muted Grey | `#7D8894` | Labels and low-priority metadata |
-| `tide` / `accent` | Tide | `#2FE3BD` | Primary actions, progress, focus, the waterline, the signature full stop |
-| `beacon` | Beacon | `#FFC15E` | The second voice: the market, the judging panel, warm counterpoint |
-| `danger` | Signal Red | `#FF5F57` | Errors, invalid states and unconfirmed warnings |
+| `signal` / `accent` | Signal | `#2FE3BD` | Primary actions, progress, focus, the mark's rule, the signature full stop |
+| `amber` | Amber | `#FFC15E` | The second voice: the people being reached, the judging panel, warm counterpoint |
+| `danger` | Alert Red | `#FF5F57` | Errors, invalid states and unconfirmed warnings |
+
+Signal and Alert are deliberately far apart in hue. Signal never means failure, and Alert never means progress.
 
 ### Light-ground palette
 
@@ -149,11 +154,10 @@ Applied with the `ground-light` utility, which reassigns the tokens rather than 
 ### Colour principles
 
 - Harbour Black and Sea Fog carry most of the composition.
-- Tide identifies action and progress. It is never a large background fill.
-- Beacon is the *market* — the thing being crossed towards. Use it for the second column, the far side of the chart, the judging voice. It is never a button.
-- Harbour Black text on Tide buttons. Never Ink on Tide.
-- Do not use Tide for body text on a light ground.
-- Signal Red means failure only. Tide must not also mean failure.
+- Signal identifies action and progress. It is never a large background fill.
+- Amber represents *the people you are trying to reach* — the far side of the plot, the second column, the judging voice. It is never a button.
+- Harbour Black text on Signal buttons. Never Ink on Signal.
+- Do not use Signal for body text on a light ground.
 - Reach for a hairline before reaching for another surface colour.
 
 Hairlines are Ink at 20% or 10% on dark surfaces, and Harbour Black at 25% or 12% on light surfaces.
@@ -202,7 +206,7 @@ If a fourth use appears, one of the four is wrong.
 
 ### The signature full stop
 
-Display headings end in a Tide full stop: `Ship out.` `Who ships out.` `What we measure.` It is the typographic equivalent of the waterline — a small, consistent mark that says the sentence has landed.
+Display headings end in a Signal full stop: `Get out.` `Who turns up.` `What we measure.` It is the typographic equivalent of the mark's rule — a small, consistent detail that says the sentence has landed.
 
 Use it on display headings only. Not on body copy, not on labels, not more than once in a heading.
 
@@ -218,9 +222,9 @@ Use it on display headings only. Not on body copy, not on labels, not more than 
 
 ### Components
 
-**Primary action** — Tide fill, Harbour Black text, uppercase Inter, bold. Reserved for the main conversion action.
+**Primary action** — Signal fill, Harbour Black text, uppercase Inter, bold. Reserved for the main conversion action.
 
-**Secondary action** — uppercase Geist Mono with a thin Tide underline, for navigation deeper into the story.
+**Secondary action** — uppercase Geist Mono with a thin Signal underline, for navigation deeper into the story.
 
 **Forms** — square fields, quiet raised surfaces, persistent labels, plain-language validation. Do not turn every field into a rounded card.
 
@@ -228,30 +232,45 @@ Use it on display headings only. Not on body copy, not on labels, not more than 
 
 ### Shape language
 
-Predominantly square and linear. The exceptions are deliberate and few: the primary action's soft radius, the chart's circular soundings and channel markers, and the round beacon. Do not spread glass panels or soft cards across the interface.
+Predominantly square and linear. The exceptions are deliberate and few: the primary action's soft radius, the plot's concentric rings and stage markers, and the round reach indicator. Do not spread glass panels or soft cards across the interface.
 
 ## 7. Motion
 
-Motion reinforces the crossing: things move from here to there, and progress is legible.
+Motion reinforces the idea that things travel: from you to them, from idea to used.
 
 ### Signature motion
 
-Two moments carry the brand, and no more should be added.
+Three moments carry the brand, and no more should be added.
 
-**The tide intro.** A rising water plane with a depth sounding counting down to zero, resolving into the monogram before the curtain lifts. Runs once per browser session, never under reduced motion, always with a visible skip control. See [`components/Tide.tsx`](components/Tide.tsx).
+**The intro sweep.** An accent rule travels up the screen with a readout counting to 100, resolving into the monogram before the curtain lifts. Runs once per browser session, never under reduced motion, always with a visible skip control. See [`components/Sweep.tsx`](components/Sweep.tsx).
 
-**The crossing.** The homepage chart is scrubbed by scroll: the vessel advances along the route, the run behind it draws in Tide, and each channel marker lights as its stage becomes active. It is driven entirely by scroll position — nothing on the chart animates on its own.
+**The route.** The homepage plot is scrubbed by scroll: the head advances along the route, the run behind it draws in Signal, and each stage marker lights as it becomes active. Driven entirely by scroll position — nothing on the plot advances on its own.
+
+**The ambient background.** Two slow gradient layers and a drifting dot grid sit behind the route. They exist to keep the dark ground from reading as flat, and nothing else. See the "ambient motion" block in [`app/globals.css`](app/globals.css).
+
+### Ambient motion rules
+
+This is the easiest part of the system to ruin. Ambient motion must stay below the threshold where a reader can tell it is moving without staring at it.
+
+- Cycles run **45 seconds or longer**. Anything faster reads as an animation rather than atmosphere.
+- Translation stays under ~3% of the layer, scale under ~10%.
+- Transform only. Never animate colour, opacity, blur, filters or `background-position` on a full-viewport layer.
+- Overlapping layers get durations that do not divide into each other, so they never resolve into a visible shared beat.
+- Every loop returns to its starting state, so freezing it at any keyframe looks correct. This is what makes reduced-motion degradation safe.
+- Ambient motion belongs behind content, never behind text that is being read at small sizes.
 
 ### Timing
 
 | Motion | Current timing |
 |---|---:|
-| Tide rise | 1400 ms |
-| Tide mark reveal | 420 ms |
-| Tide curtain lift | 620 ms |
+| Intro sweep | 1400 ms |
+| Intro mark reveal | 420 ms |
+| Intro curtain lift | 620 ms |
 | Content reveal | 700 ms |
 | Stage transition | 520 ms |
 | Mobile menu entrance | 500 ms |
+| Ambient drift / sway / pan | 44–67 s |
+| Reach indicator ring | 180 s |
 
 Use the fluid easing curve `cubic-bezier(0.32, 0.72, 0, 1)` for expressive transitions.
 
@@ -259,15 +278,16 @@ Use the fluid easing curve `cubic-bezier(0.32, 0.72, 0, 1)` for expressive trans
 
 - One purposeful transition beats several competing effects.
 - Animate opacity and transforms where possible.
-- Avoid looping ambient motion. The beacon pulse is the single exception.
 - Scroll-linked motion must never trap or fight the scroll.
 - Support `prefers-reduced-motion` and keep all content available without animation.
 
 ## 8. Illustration, photography and texture
 
-### The chart
+### The plot
 
-The nautical chart is the house illustration style: thin consistent strokes, dashed contours, circular soundings, mono labels, no fill. New diagrams should look like they came off the same chart. They must explain something — a route, a sequence, a relationship — not fill space.
+The route plot is the house illustration style: thin consistent strokes, dashed paths, concentric rings, mono labels, no fill. New diagrams should look like they came off the same drawing. They must explain something — a route, a sequence, a relationship — not fill space.
+
+It is a diagram of reach, not a nautical chart. No compass roses, depth soundings, coastlines or sea monsters.
 
 ### Photography
 
@@ -297,21 +317,20 @@ The site grain sits at roughly 3% opacity. Texture must never reduce text clarit
 
 ### Preferred language
 
-- Ship out.
+- Get out.
 - Get it in front of the people it is for.
 - One specific audience beats a broad market.
 - Working beats polished.
 - Distribution is the other half.
 - Whatever comes back is the real brief.
-- Nothing is proven inside the harbour.
+- Nothing is proven in the building.
 
 ### Avoid
 
+- **Nautical vocabulary.** No ships, tides, anchors, harbours-as-metaphor, crews, cargo, crossings, ports, docks, casting off, running aground, smooth sailing, all hands, charting new waters, or being on the manifest. The name is a place. Leave it there.
 - "Revolutionary", "world-changing" or unsupported superlatives
 - "Leverage", "synergy", "ecosystem", "growth hacking" and pitch-deck vocabulary
 - Claims about traction, customers or outcomes that have not happened
-- Nautical puns stacked on nautical puns — one frame per passage, then get back to plain words
-- "Anchor", "smooth sailing", "all hands", "charting new waters" and other dead metaphors
 - Assuming every participant is building a venture-backed startup
 - Copy that sounds like a pitch instead of an invitation
 
@@ -320,19 +339,19 @@ The site grain sits at roughly 3% opacity. Texture must never reduce text clarit
 Accessibility is part of the identity: direct design must also be easy to use.
 
 - Every text colour in this document meets WCAG AA against its intended ground. Verify new combinations before release.
-- Tide two-pixel focus ring with a four-pixel offset.
+- Signal two-pixel focus ring with a four-pixel offset.
 - Interactive targets at least 44 by 44 CSS pixels where practical.
-- Never communicate status by colour alone — the chart markers change fill *and* label colour, and the stage rail carries a number.
-- The chart is decorative and carries a single descriptive `role="img"` label; all of its meaning also exists as text in the stage copy.
+- Never communicate status by colour alone — the stage markers change fill *and* label colour, and the progress rail carries a number.
+- The plot is decorative and carries a single descriptive `role="img"` label; all of its meaning also exists as text in the stage copy.
 - Preserve logical heading order and keyboard operation.
-- Respect reduced-motion preferences.
+- Respect reduced-motion preferences. Ambient loops must return to their start state so freezing them is visually correct.
 - Do not hide essential content behind hover, animation or JavaScript. The scroll experience must remain readable with scripting disabled.
 
 ## 11. Social, partner and event applications
 
 - Full lockup when the layout is wider than it is tall; monogram for square avatars and very small placements.
 - Keep partner logos optically balanced and separated by at least the mark's clear space.
-- Never recolour a partner logo to Tide.
+- Never recolour a partner logo to Signal.
 - Use the dark palette for the default social card; Sea Fog only when a light campaign treatment is intentional.
 - Do not publish dates, prizes, mentors, partners or venue claims until verified.
 

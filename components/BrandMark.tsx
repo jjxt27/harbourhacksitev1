@@ -9,10 +9,10 @@ type BrandMarkProps = {
  * The HarbourHack identity: a drawn HH monogram, optionally locked up with the
  * typeset wordmark.
  *
- * The monogram is four stems and a waterline. The waterline replaces both H
- * crossbars and runs out past the right edge of the mark — the tide leaving the
- * harbour. It is the one piece of the identity that carries Tide colour, and it
- * must stay attached to the stems in both variants.
+ * The monogram is four stems and a rule. The rule replaces both H crossbars and
+ * runs out past the right edge of the mark — the thing you made, leaving. It is
+ * the one piece of the identity that carries Signal colour, and it must stay
+ * attached to the stems in both variants.
  *
  * Decorative by design: the SVG and the wordmark are both `aria-hidden`, so a
  * link that contains only the mark needs its own accessible name alongside.
@@ -45,9 +45,9 @@ function Monogram({ className }: { className?: string }) {
       <path fill="currentColor" d="M14 2h6v20h-6V2Z" />
       <path fill="currentColor" d="M24 2h6v20h-6V2Z" />
       <path fill="currentColor" d="M38 2h6v20h-6V2Z" />
-      {/* Waterline */}
-      <path fill="var(--color-tide, #2fe3bd)" d="M6 9h8v6H6V9Z" />
-      <path fill="var(--color-tide, #2fe3bd)" d="M30 9h22v6H30V9Z" />
+      {/* The rule */}
+      <path fill="var(--color-signal, #2fe3bd)" d="M6 9h8v6H6V9Z" />
+      <path fill="var(--color-signal, #2fe3bd)" d="M30 9h22v6H30V9Z" />
     </svg>
   );
 }
