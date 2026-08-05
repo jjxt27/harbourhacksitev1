@@ -1,8 +1,9 @@
 /**
  * Public copy and program facts. Keep unresolved facts explicit.
  *
- * On voice: the harbour is the city and the name, not a costume. Keep nautical
- * language to a light touch — see the "Avoid" list in BRAND_GUIDELINES.md.
+ * On voice: "ship", "launch" and "land" are the industry's own verbs and belong
+ * here. The maritime scene around them — crews, cargo, harbours as metaphor —
+ * does not. See the "Avoid" list in BRAND_GUIDELINES.md.
  */
 
 export type ProgramDate = {
@@ -17,9 +18,9 @@ export const site = {
   name: "HarbourHack",
   shortName: "HH",
   city: "Sydney",
-  tagline: "Get out.",
+  tagline: "Ship out.",
   description:
-    "A go-to-market hackathon in Sydney. Build something small, then go and put it in front of the people it is actually for.",
+    "A go-to-market hackathon in Sydney. Ship something small, then go and put it in front of the people it is actually for.",
   url: "https://harbourhack.vercel.app",
   parentOrg: null as string | null,
   contactEmail: null as string | null,
@@ -48,13 +49,13 @@ export const heroFacts: readonly HeroFact[] = [
 ];
 
 export const hero = {
-  headline: "Get out.",
+  headline: "Ship out.",
   /**
    * Split so the hero can set the last clause in the editorial italic without
    * the component owning any copy. `emphasis` carries its own full stop.
    */
   subline: {
-    lead: "Building it is the easy half.",
+    lead: "Shipping it is the easy half.",
     rest: "HarbourHack is the other half — getting it in front of real people and coming back with something you",
     emphasis: "learned.",
   },
@@ -70,7 +71,7 @@ export const hero = {
  * full stop are accented separately, so they stay in the component.
  */
 export const journey = {
-  title: ["Find", "Build", "Reach"],
+  title: ["Find", "Ship", "Land"],
   closingLine: "Whatever comes back is the real brief.",
   stages: [
     {
@@ -80,14 +81,14 @@ export const journey = {
       note: "One specific audience beats a broad market every time.",
     },
     {
-      id: "build",
-      title: "Build the smallest thing",
-      body: "Make the smallest version someone can actually use.",
+      id: "ship",
+      title: "Ship the smallest thing",
+      body: "Build the smallest version someone can actually use.",
       note: "Working beats polished. You can tidy it up later.",
     },
     {
-      id: "reach",
-      title: "Reach them",
+      id: "land",
+      title: "Land the first users",
       body: "Go and get them. Watch what they do. Change what you built.",
       note: "Distribution is not the afterthought. It is the other half.",
     },
@@ -95,7 +96,7 @@ export const journey = {
 } as const;
 
 export const audience = {
-  title: "Who turns up",
+  title: "Who ships",
   lede: "Students, grads and early builders who would rather launch something small than plan something big.",
   points: [
     "Technical and non-technical builders. Both halves of the job matter.",
@@ -118,8 +119,8 @@ export const judging = {
 } as const;
 
 export const finalCta = {
-  title: "Nothing is proven in the building.",
-  lede: "No company. No funding. No launch plan. Bring an idea and take it out to the people it is for.",
+  title: "Shipping is not the finish line.",
+  lede: "No company. No funding. No launch plan. Bring an idea, ship the smallest useful version and go and find the people it is for.",
   cta: { label: "Apply to HarbourHack", href: "/apply" },
 } as const;
 
@@ -165,6 +166,6 @@ export const sponsors = {
 
 export const nav = [
   { label: "How it works", href: "/#how-it-works" },
-  { label: "Who turns up", href: "/#who-turns-up" },
+  { label: "Who ships", href: "/#who-ships" },
   { label: "FAQ", href: "/faq" },
 ] as const;

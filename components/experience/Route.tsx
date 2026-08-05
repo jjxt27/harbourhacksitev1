@@ -70,7 +70,7 @@ export function Route() {
 
       <section className="route-hero" aria-labelledby="route-title">
         <h1 id="route-title" className="route-title" aria-label={hero.headline}>
-          <span className="route-title-back">Get</span>
+          <span className="route-title-back">Ship</span>
           <span className="route-title-front">out<span className="route-period">.</span></span>
         </h1>
 

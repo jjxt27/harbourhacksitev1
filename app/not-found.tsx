@@ -8,7 +8,7 @@ export default function NotFound() {
       <Container>
         <Label as="p" className="text-ink-muted">404 / Not on the map</Label>
         <h1 className="mt-6 max-w-[12ch] font-display text-display-1 font-extrabold uppercase">
-          This page never made it out.
+          This page never shipped.
         </h1>
         <p className="mt-7 max-w-[50ch] text-lead text-ink-70">The routes that matter are still open.</p>
         <div className="mt-10 flex flex-wrap items-center gap-7">

@@ -21,7 +21,7 @@ export const faq: readonly FaqGroup[] = [
         q: "Why is it called HarbourHack?",
         a: [
           "Sydney. That is most of it.",
-          "The rest: plenty of hackathons end at the demo, and a demo proves nothing. This one is about what happens after — getting the thing out of the room and into someone's hands.",
+          "The rest: plenty of hackathons end when you ship, and shipping proves nothing on its own. This one is about what happens after — getting the thing out of the room and into someone's hands.",
         ],
       },
       {

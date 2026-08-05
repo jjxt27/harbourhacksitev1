@@ -1,6 +1,6 @@
 # HarbourHack brand guidelines
 
-Version 1.1
+Version 1.2
 
 Last updated: 5 August 2026
 
@@ -8,29 +8,31 @@ This document is the practical source of truth for HarbourHack brand work. It re
 
 ## 1. Brand idea
 
-HarbourHack is a go-to-market hackathon. It exists because most hackathons end at the demo, and a demo proves nothing. The work HarbourHack cares about starts once something works: finding the people who have the problem, getting the thing into their hands, and changing course based on what they actually do with it.
+HarbourHack is a go-to-market hackathon. It exists because most hackathons end when you ship, and shipping proves nothing on its own. The work HarbourHack cares about starts once something works: finding the people who have the problem, getting the thing into their hands, and changing course based on what they actually do with it.
 
 ### On the name
 
 The harbour is Sydney. That is the whole of it.
 
-**The nautical reading is not the brand.** HarbourHack is a place name, not a theme. Ships, tides, anchors, crews, cargo, crossings, casting off and running aground are all off the table — they make a serious program about distribution sound like a party. The identity earns its character from typography, restraint and one accent colour, not from maritime props.
+**The nautical scene is not the brand.** HarbourHack is a place name, not a theme. Anchors, tides, crews, cargo, casting off, running aground and smooth sailing are all off the table — they make a serious program about distribution sound like a party.
 
-Where a spatial metaphor helps, use the plain one the work already suggests: there is a distance between you and the people you are trying to reach, and the program is about crossing it.
+**"Ship" is the exception, and it is not really an exception.** Ship, launch and land are the software industry's own verbs, and they arrive here from that direction, not from the water. A builder reads "ship it" as releasing something, and that is exactly the meaning intended. Use them freely.
+
+The test is simple: would this word appear in an engineering standup? *Ship, launch, land* pass. *Cargo, crew, aground, cast off* do not.
 
 ### Core proposition
 
-> Get out.
+> Ship out.
 
-Two readings, both intended: get out of the building, and get the thing out to people.
+Two readings, both intended: get it out the door, and get yourself out to the people who might use it.
 
 ### Supporting message
 
-Build it, then go and get it in front of the people it is for.
+Ship it, then go and get it in front of the people it is for.
 
 ### Operating loop
 
-> Find → Build → Reach → Change → Repeat
+> Find → Ship → Land → Change → Repeat
 
 Every HarbourHack story has to reach real users. "We built it" is not an outcome. Neither is "we would have launched with more time."
 
@@ -206,7 +208,7 @@ If a fourth use appears, one of the four is wrong.
 
 ### The signature full stop
 
-Display headings end in a Signal full stop: `Get out.` `Who turns up.` `What we measure.` It is the typographic equivalent of the mark's rule — a small, consistent detail that says the sentence has landed.
+Display headings end in a Signal full stop: `Ship out.` `Who ships.` `What we measure.` It is the typographic equivalent of the mark's rule — a small, consistent detail that says the sentence has landed.
 
 Use it on display headings only. Not on body copy, not on labels, not more than once in a heading.
 
@@ -317,17 +319,17 @@ The site grain sits at roughly 3% opacity. Texture must never reduce text clarit
 
 ### Preferred language
 
-- Get out.
-- Get it in front of the people it is for.
+- Ship out.
+- Ship it, then go and get it in front of the people it is for.
 - One specific audience beats a broad market.
 - Working beats polished.
 - Distribution is the other half.
 - Whatever comes back is the real brief.
-- Nothing is proven in the building.
+- Shipping is not the finish line.
 
 ### Avoid
 
-- **Nautical vocabulary.** No ships, tides, anchors, harbours-as-metaphor, crews, cargo, crossings, ports, docks, casting off, running aground, smooth sailing, all hands, charting new waters, or being on the manifest. The name is a place. Leave it there.
+- **The maritime scene.** No tides, anchors, harbours-as-metaphor, crews, cargo, ports, docks, casting off, running aground, smooth sailing, all hands, charting new waters, or being on the manifest. The name is a place. Leave it there. (Ship, launch and land are software verbs and are welcome — see §1.)
 - "Revolutionary", "world-changing" or unsupported superlatives
 - "Leverage", "synergy", "ecosystem", "growth hacking" and pitch-deck vocabulary
 - Claims about traction, customers or outcomes that have not happened

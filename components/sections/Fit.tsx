@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 
 export function Fit() {
   return (
-    <section id="who-turns-up" className="hh-criteria scroll-mt-20 border-t border-hairline">
+    <section id="who-ships" className="hh-criteria scroll-mt-20 border-t border-hairline">
       <Container>
         <div className="hh-criteria-grid">
           <Reveal variant="fade" className="hh-criteria-panel">

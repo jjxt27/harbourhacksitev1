@@ -19,7 +19,7 @@ export default function ApplyPage() {
               {apply.deadlineNote} {dates.applicationsClose.label}
             </Label>
             <h1 className="mt-6 font-display text-display-1 font-extrabold uppercase">
-              Get out<span className="text-signal">.</span>
+              Ship out<span className="text-signal">.</span>
             </h1>
             <p className="mt-7 max-w-[52ch] text-lead text-ink-70">{apply.lede}</p>
             <p className="mt-5 font-mono text-label uppercase text-ink-muted">{apply.estimate}</p>

@@ -2,7 +2,7 @@
 
 Marketing and application site for **HarbourHack (HH)**, a go-to-market hackathon in Sydney for students, grads and other early-stage builders.
 
-The proposition is deliberately narrow: plenty of hackathons stop at the build. This one is about what happens after — getting a working thing into the hands of the people it is for, then changing course based on what comes back. Applicants do not need a company, funding, customers or a finished product.
+The proposition is deliberately narrow: plenty of hackathons end when you ship, and shipping proves nothing on its own. This one is about what happens after — getting a working thing into the hands of the people it is for, then changing course based on what comes back. Applicants do not need a company, funding, customers or a finished product.
 
 ## Run it
 
