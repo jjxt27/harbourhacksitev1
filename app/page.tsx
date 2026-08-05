@@ -1,5 +1,5 @@
-import { Thread } from "@/components/Thread";
+import { Chat } from "@/components/Chat";
 
 export default function HomePage() {
-  return <Thread />;
+  return <Chat />;
 }

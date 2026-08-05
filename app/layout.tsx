@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Mono, Schibsted_Grotesk } from "next/font/google";
 import { site } from "@/content/site";
-import { SeenProvider } from "@/components/SeenContext";
-import { Bar } from "@/components/Bar";
-import { Foot } from "@/components/Foot";
 import "./globals.css";
 
 const schibsted = Schibsted_Grotesk({
@@ -38,17 +35,16 @@ export const metadata: Metadata = {
 };
 
 /**
- * Runs before first paint. `.js` switches messages from "always legible" to
- * "dim until seen" — the unread state must never be the server-rendered one,
- * or a reader without scripting gets a page of grey text with no way to clear
- * it, and a reader with scripting gets a flash of full contrast first.
+ * Runs before first paint. `.js` hides messages that have not been delivered
+ * yet — which must never be the server-rendered state, or a reader without
+ * scripting gets an empty page instead of the whole conversation.
  */
 const PRE_PAINT = `document.documentElement.classList.add('js')`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    // The pre-paint script adds `js` to this element, so the class list is
-    // expected to differ from the server's.
+    // The pre-paint script adds `js` here, so the class list is expected to
+    // differ from the server's.
     <html
       lang="en-AU"
       className={`${schibsted.variable} ${dmMono.variable}`}
@@ -56,12 +52,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <head><script dangerouslySetInnerHTML={{ __html: PRE_PAINT }} /></head>
       <body>
-        <SeenProvider>
-          <a href="#main" className="skip-link">Skip to the thread</a>
-          <Bar />
-          <main id="main" className="shell">{children}</main>
-          <Foot />
-        </SeenProvider>
+        <a href="#main" className="skip-link">Skip to the conversation</a>
+        <main id="main">{children}</main>
       </body>
     </html>
   );

@@ -1,105 +1,83 @@
 /**
- * The homepage thread.
+ * The conversation.
  *
- * The conceit: this page is a message HarbourHack sent, and the reader is the
- * person it reached. That is why the copy is second person and why the last
- * group closes the loop — by the time you read it, the thing it describes has
- * already happened to you.
+ * This is a chat, so write like one: short lines, one thought each, the way a
+ * person actually types. If a message needs a comma splice to land, send two
+ * messages instead. Nothing here should read like marketing copy — the moment
+ * a bubble sounds written rather than typed, the illusion goes.
  *
- * Keep messages at the length of something a person would actually send. If a
- * line needs a comma splice or a second sentence to land, split it into two
- * messages instead. The rhythm is the design.
+ * Pacing is authored, not random. `pause` is the beat before the sender starts
+ * typing; `typing` overrides the length-derived duration. Both are in ms.
  */
 
-export type Tone = "lead" | "body" | "aside";
-
-export type Message = {
-  text: string;
-  /** `lead` is set at display scale. Two per page, at most. */
-  tone?: Tone;
-  /** Turns the message into a link. Used sparingly — twice on the homepage. */
+export type ChatMessage = {
+  id: string;
+  /** Authored, not generated: a real clock would desync server and client. */
+  time: string;
+  text?: string;
+  /** Beat before typing starts. */
+  pause?: number;
+  /** Typing time. Defaults to something derived from the length of `text`. */
+  typing?: number;
+  /** `facts` and `cta` render as attachments rather than plain bubbles. */
+  kind?: "text" | "facts" | "cta";
+  /** For `cta`. */
+  card?: { title: string; body: string; label: string; href: string };
+  /** Renders the bubble as a link. */
   href?: string;
 };
 
-export type Group = {
-  /** Sent-at time. Fictional, but consistent and in sequence. */
-  time: string;
-  messages: readonly Message[];
-  /** Renders the programme facts directly beneath this group. */
-  attachment?: "facts";
-};
+/** Typing time when a message does not set its own. */
+export const typingFor = (text: string) => Math.min(1400, 320 + text.length * 13);
 
-/**
- * Annotated rather than `as const`, so optional fields like `tone` and
- * `attachment` stay on the type for every group instead of being narrowed away
- * on the members that do not use them.
- */
-const groups: readonly Group[] = [
+const messages: ChatMessage[] = [
+  { time: "09:12", id: "hey", text: "Hey.", pause: 700, typing: 500 },
+  { time: "09:12", id: "quick", text: "Quick one, then I'll leave you alone." },
+  { time: "09:13", id: "nobody", text: "Nobody is going to find the thing you build on their own.", pause: 600 },
+  { time: "09:13", id: "sit", text: "You'll make something good and it'll just sit there." },
+  { time: "09:14", id: "someone", text: "Someone has to go and put it in front of a person." },
+  { time: "09:14", id: "you", text: "That someone is you.", typing: 600 },
+  { time: "09:15", id: "about", text: "That's the whole idea behind HarbourHack.", pause: 700 },
+  { time: "09:15", id: "what", text: "Go-to-market hackathon. Sydney." },
+  { time: "09:15", id: "facts", kind: "facts", pause: 400, typing: 500 },
+  { time: "09:16", id: "actually", text: "Here's what you'd actually do 👇", pause: 700 },
+  { time: "09:16", id: "pick", text: "Pick one person. A real one, someone you can name." },
+  { time: "09:17", id: "build", text: "Build the smallest thing they could use." },
+  { time: "09:17", id: "give", text: "Then go and give it to them. In person, in a DM, in a group chat — whatever works." },
+  { time: "09:18", id: "watch", text: "Then watch what they do with it, and change it." },
+  { time: "09:18", id: "need", text: "You don't need a company, funding, users or a deck.", pause: 700 },
+  { time: "09:19", id: "code", text: "You don't even need to code. Half of this is talking to strangers." },
+  { time: "09:19", id: "scoring", text: "We're not scoring the demo. We're scoring how far it got.", pause: 700 },
+  { time: "09:20", id: "rough", text: "A rough thing ten people came back to beats a beautiful thing nobody opened." },
+  { time: "09:20", id: "questions", text: "People have asked most of the obvious questions already", href: "/faq", pause: 600 },
+  { time: "09:21", id: "anyway", text: "Anyway — this message reached you.", pause: 900 },
+  { time: "09:21", id: "skill", text: "That's the whole skill. Come and learn it properly.", typing: 800 },
   {
-    time: "09:14",
-    messages: [
-      { text: "Nobody is going to find it on their own.", tone: "lead" },
-      { text: "You will build something good, and it will sit there." },
-      { text: "Someone has to go and put it in front of a person." },
-      { text: "That someone is you." },
-    ],
-  },
-  {
-    time: "09:16",
-    attachment: "facts",
-    messages: [
-      { text: "HarbourHack is a hackathon about that half of the job." },
-      { text: "Not the building. The getting-it-to-someone." },
-    ],
-  },
-  {
-    time: "09:19",
-    messages: [
-      { text: "Here is what you will actually do." },
-      { text: "Pick a person. One. A real one, someone you can name." },
-      { text: "Build the smallest thing they could use." },
-      { text: "Give it to them. In person, in a DM, in a group chat, whatever gets it into their hands." },
-      { text: "Then watch what they do with it, and change it." },
-    ],
-  },
-  {
-    time: "09:23",
-    messages: [
-      { text: "You do not need a company." },
-      { text: "You do not need funding, users, or a deck." },
-      { text: "You do not need to write code. Half of this is talking to strangers." },
-      { text: "You need an idea, and the nerve to show it to someone before it is ready." },
-    ],
-  },
-  {
-    time: "09:26",
-    messages: [
-      { text: "We are not scoring the demo." },
-      { text: "We are scoring how far it got. Who saw it. What they did. What you changed." },
-      { text: "A rough thing ten people came back to beats a beautiful thing nobody opened." },
-    ],
-  },
-  {
-    time: "09:29",
-    messages: [
-      { text: "People usually ask a few things first.", tone: "aside" },
-      { text: "Read what they asked", href: "/faq", tone: "aside" },
-    ],
-  },
-  {
-    time: "09:31",
-    messages: [
-      { text: "This message reached you.", tone: "lead" },
-      { text: "That is the whole skill. Come and learn it properly." },
-    ],
+    time: "09:21",
+    id: "cta",
+    kind: "cta",
+    pause: 500,
+    typing: 600,
+    card: {
+      title: "Register your interest",
+      body: "Tell us what you want to build and who it's for. Takes about six minutes.",
+      label: "Open the form",
+      href: "/apply",
+    },
   },
 ];
 
-export const thread = {
+export const chat = {
   sender: "HarbourHack",
-  /** Label for the running count of messages the reader has marked seen. */
-  seenLabel: "Seen",
-  groups,
-  /** The persistent action. Named as a reply because /apply is the reply. */
-  reply: { label: "Reply", href: "/apply" },
+  /** Sits under the name in the header when nothing is being typed. */
+  status: "online",
+  typingStatus: "typing…",
+  dayLabel: "Today",
+  /** The chat opens this far back so timestamps read as a real span, not one minute. */
+  spanMinutes: 9,
+
+  composer: { placeholder: "Write a reply…", action: "Register interest", href: "/apply" },
+  skip: "Skip to the end",
+  jump: "Jump to latest",
+  messages,
 } as const;

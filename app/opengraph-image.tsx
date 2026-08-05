@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 import { site, dates } from "@/content/site";
-import { thread } from "@/content/thread";
+import { chat } from "@/content/thread";
 
 export const alt = `${site.name} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
@@ -29,7 +29,7 @@ export default function OpengraphImage() {
 
         <div style={{ display: "flex", alignItems: "flex-start", gap: 44 }}>
           <div style={{ display: "flex", color: "#868c99", fontSize: 20, paddingTop: 22 }}>
-            {thread.groups[0].time}
+            {chat.messages[0].time}
           </div>
           <div style={{ display: "flex", maxWidth: 780, fontSize: 82, fontWeight: 500, lineHeight: 1.03, letterSpacing: -3.4 }}>
             {site.tagline}

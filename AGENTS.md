@@ -6,11 +6,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # HarbourHack
 
-A go-to-market hackathon site built as a single message thread. Read `BRAND_GUIDELINES.md` before changing anything visual, and `README.md` for how the pieces fit.
+A go-to-market hackathon site built as one live chat. Read `BRAND_GUIDELINES.md` before changing anything visual, and `README.md` for how the live delivery works.
 
-Four rules that are easy to break by accident:
+Six rules that are easy to break by accident:
 
-- **Copy lives in `content/`.** Components hold no user-facing strings. If a line needs special treatment, split the content into parts rather than moving words into JSX.
-- **Receipt green means "seen" and nothing else.** It is not a button colour, a link colour or an accent. The primary action is bone on slate deliberately.
+- **Copy lives in `content/`.** Components hold no user-facing strings. Message pacing is authored there too.
+- **Every message must render server-side.** Undelivered ones are hidden with CSS, never omitted — that is what stops readers scrolling ahead, keeps the page indexable, and makes it work without scripting.
+- **The sequence must stay skippable**, and reduced motion must deliver everything at once. Timed content is a WCAG 2.2.1 failure otherwise.
+- **Receipt green marks the sender and the reply.** It is not a decoration colour.
 - **Unconfirmed facts stay visibly `TBC`.** Never invent dates, costs, prizes, mentors, venues or numbers.
-- **There is no Tailwind.** `app/globals.css` is hand-written and meant to stay readable start to finish. Do not reintroduce a utility framework.
+- **There is no Tailwind.** `app/globals.css` is hand-written and meant to stay readable start to finish.

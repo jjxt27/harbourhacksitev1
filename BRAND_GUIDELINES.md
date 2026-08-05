@@ -1,10 +1,10 @@
-# HarbourHack — The Thread
+# HarbourHack — The Conversation
 
-Version 2.0
+Version 3.0
 
 Last updated: 5 August 2026
 
-This replaces everything before it. The previous identity is in git history and should not be referred to.
+This replaces everything before it. Earlier identities are in git history and should not be referred to.
 
 ## 1. The idea
 
@@ -12,77 +12,80 @@ HarbourHack is a go-to-market hackathon. Most hackathons end when you ship, and 
 
 Every go-to-market story starts the same way: **one message, to one stranger.**
 
-So the site is that message. The whole thing is a thread, top to bottom, and the reader is the person it reached. That is not a theme laid over a website; it is the structure:
+So the site is that message. The whole thing is one conversation, and the reader is the person on the other end of it:
 
 | Page | What it is |
 |---|---|
-| `/` | The outbound thread. We are messaging you. |
+| `/` | The chat. It plays out live, in front of you. |
 | `/faq` | The replies. What people wrote back, and what we said. |
 | `/apply` | **Your reply.** The form is your side of the conversation. |
 
-The last message on the homepage is *"This message reached you."* By the time it is read, the thing the programme teaches has already been demonstrated on the reader. Nothing else on the site is allowed to be cleverer than that.
+The last message is *"this message reached you"*, followed by the card that asks you to register. By that point the thing the programme teaches has already been done to the reader. Nothing else on the site is allowed to be cleverer than that.
 
 ### On the name
 
-The harbour is Sydney. That is the whole of it. There is no maritime visual language — no tides, anchors, crews, cargo or charts. "Ship", "launch" and "land" are software verbs and are fine in copy.
+The harbour is Sydney. That is the whole of it. No maritime visual language — no tides, anchors, crews, cargo or charts. "Ship", "launch" and "land" are software verbs and are fine in copy.
 
 ## 2. The signature
 
-**Read receipts.** Messages start dim and turn bone as you read them. A counter in the bar climbs, and a column of dots on the right fills in — one dot per message.
+**A live one-to-one chat.** Typing indicator, bubbles landing one at a time, per-message timestamps, a day divider, a composer at the bottom. It runs about 18 seconds end to end.
 
-This is the only interactive idea on the site, and it must stay the only one. Its rules:
+The illusion is the product. It only holds if all of these hold:
 
-- **Receipt green marks being seen. Nothing else, ever.** Not buttons, not links, not hovers, not headings. The moment it decorates something, the signature is dead. The primary button is bone on slate for exactly this reason.
-- **Both states must be legible.** Unread text is a contrast-checked colour (4.89:1), not a way of hiding content. Dimming is a shift in emphasis.
-- **The count must be honest but never anticlimactic.** Messages count when they reach the reading band *or* when they scroll past it, so a fast reader still arrives at the closing line with a full count.
-- **It degrades to nothing.** Without scripting the thread renders in full. Under reduced motion every message is seen on the first render.
+- **You cannot scroll ahead.** Undelivered messages render server-side and are hidden behind `.js`, so there is nothing below the latest bubble to scroll to. This is why the sequence is un-skippable *by scrolling* without any scroll hijacking. Scrolling **up** to re-read is always free.
+- **It is always skippable deliberately.** Timing content out is a WCAG 2.2.1 failure otherwise. The header carries a skip control until the conversation ends, and the composer links to the form from the first second — nobody is trapped.
+- **Reduced motion gets everything at once.** No typing, no waiting, no skip control needed.
+- **Without scripting the whole conversation renders.** The hidden state only exists when there is script to clear it.
+- **A short conversation sits on the composer, not the top of the screen.** Messages grow upward, the way a real client behaves.
+- **Never yank a reader who has scrolled up.** Auto-follow only applies when they are already near the bottom; otherwise show the jump control.
 
 ## 3. Colour
-
-Five values. There is no sixth.
 
 | Token | Name | Value | Use |
 |---|---|---|---|
 | `--c-ground` | Slate | `#1C1F26` | The page. Warm enough not to read as UI black. |
-| `--c-ground-deep` | Deep | `#14171D` | Recessed panels: the facts card, inbound questions, the footer. |
-| `--c-bone` | Bone | `#F2EFE9` | Read text, and the primary button's fill. |
-| `--c-dim` | Dim | `#868C99` | Unread text, timestamps, hints. |
-| `--c-receipt` | Receipt | `#38E08C` | **Seen. Only ever seen.** Plus the focus ring. |
+| `--c-ground-deep` | Deep | `#14171D` | Chat header, composer, cards, footer. |
+| `--c-ground-raised` | Raised | `#262B35` | Message bubbles. |
+| `--c-bone` | Bone | `#F2EFE9` | Message text. |
+| `--c-dim` | Dim | `#9199A6` | Timestamps, status, hints. Tuned to clear AA on the bubble surface, which is the tightest pairing on the site. |
+| `--c-receipt` | Receipt | `#38E08C` | The sender and the reply: avatar, typing status, send button, card link, focus ring. |
 | `--c-alert` | Alert | `#FF6B5A` | Errors and unconfirmed facts. |
-| `--c-rule` | Rule | `#333944` | Hairlines and unlit receipt dots. Never text. |
+| `--c-rule` | Rule | `#333944` | Hairlines. Never text. |
+
+Receipt green marks **presence and the reply** — who is typing, and how you answer. It never decorates. Outbound question bubbles on `/faq` use `#2F3A35`, a green-tinted slate, so the two sides of the conversation read apart without a second accent.
 
 All text pairs clear WCAG AA; the focus ring clears SC 1.4.11 at 9.59:1. Re-check any new pair before shipping it.
 
 ## 4. Type
 
-Two families. **Schibsted Grotesk** carries display and body — the same face at every size, because a thread is one voice. **DM Mono** carries timestamps, counts and labels only, never prose.
+Two families. **Schibsted Grotesk** for everything spoken — one face, because it is one voice. **DM Mono** for timestamps, status and labels only, never prose.
 
 | Role | Size | Notes |
 |---|---|---|
-| Opening line | `clamp(3rem, 9vw, 8rem)` | Once per site. The arrival. |
-| Lead | `clamp(2.6rem, 7vw, 6rem)` | At most two per page. |
-| Message | `clamp(1.35rem, 2.5vw, 2.2rem)` | Far larger than normal web body — these are read one at a time. |
-| Aside | `clamp(1rem, 1.35vw, 1.2rem)` | Quiet asides and hints. |
-| Meta | `0.7rem`, mono, `0.14em` | Rail, counters, labels. |
+| Message | `1.02rem` | Real chat size. Resist making it "designed" — a bubble that reads as a headline stops reading as a message. |
+| Page heading | `clamp(2.4rem, 6vw, 4.5rem)` | Inner pages only. The chat has no headings. |
+| Form question | `clamp(1.1rem, 1.8vw, 1.4rem)` | Spoken, not labelled. |
+| Meta | `0.7rem`, mono, `0.12em` | Status, rails, labels. |
+| Timestamp | `0.6rem`, mono | Floated so it settles onto the last line of a bubble. |
 
-Message measure is capped at `40ch`, leads at `15ch`. **Write to the measure**: if a line needs a comma splice or a second sentence to land, split it into two messages. The rhythm of short messages *is* the typography.
+Bubbles cap at `min(30rem, 82%)`. Write to that measure.
 
 ## 5. Layout
 
-A hard left rail carries the time and the receipt mark; the messages sit in a column beside it. That grid is the same on every page — thread, replies, reply form — which is what makes three different page types feel like one document.
+The chat is a fixed `100dvh` frame: header, scrolling log, composer. Nothing on the homepage scrolls the document — only the log scrolls, which is what makes it feel like an app rather than a page.
 
-- Rail `6rem` desktop, `2.5rem` mobile
-- Column `50rem` max
-- The receipt dots sit in the right margin, and disappear below `68rem` rather than crowding the column
+- Log column `46rem` max, centred
+- Header and composer align their contents to the same column, so the frame reads as designed on wide screens rather than as a stretched app
+- Bubble tails mark the first message of a burst; messages sharing a minute group together
 
-No cards, no bubbles, no avatars, no rounded rectangles beyond the button. The moment it looks like a messaging product it has failed — it is a transcript, not an interface.
+Inner pages reuse the bubble language: `/faq` is a genuine two-sided thread, and `/apply` is a single flowing set of questions rather than a stepped form, because a conversation does not have steps.
 
 ## 6. Voice
 
-Write messages, not marketing.
+Write messages, not marketing. This is the highest-risk part of the design — the moment a bubble sounds written rather than typed, the illusion goes.
 
-- Second person, present tense, plain verbs.
-- One idea per message. If there are two, send two.
+- Short lines, one thought each. If a message needs a comma splice, send two messages.
+- Second person, present tense, plain verbs. Contractions are correct here.
 - Concrete over clever: "in a DM, in a group chat" beats "through your channels".
 - Name the specific: "my flatmate who tutors on weekends" beats "students".
 - Questions on `/apply` are asked the way a person would ask them out loud. "What should we call you?", never "Name".
@@ -94,15 +97,15 @@ Avoid: superlatives, pitch-deck vocabulary, claims about traction that has not h
 
 | Item | Source |
 |---|---|
-| The homepage thread | [`content/thread.ts`](content/thread.ts) |
+| The conversation, and its pacing | [`content/thread.ts`](content/thread.ts) |
 | Programme facts and dates | [`content/site.ts`](content/site.ts) |
 | The reply form's questions | [`content/apply.ts`](content/apply.ts) |
 | The replies | [`content/faq.ts`](content/faq.ts) |
 | Colour, type, layout | [`app/globals.css`](app/globals.css) |
-| The read-receipt mechanic | [`components/SeenContext.tsx`](components/SeenContext.tsx), [`components/Thread.tsx`](components/Thread.tsx) |
+| Delivery, scroll behaviour, skip | [`components/Chat.tsx`](components/Chat.tsx) |
 
-**All user-facing copy lives in `content/`.** Components hold no strings.
+**All user-facing copy lives in `content/`.** Components hold no strings. Pacing is authored per message (`pause`, `typing`) — tune the rhythm there, not in the component.
 
 Colours are duplicated in [`app/icon.tsx`](app/icon.tsx) and [`app/opengraph-image.tsx`](app/opengraph-image.tsx), which render in a worker with no DOM and cannot read the tokens. Change those together with `globals.css`.
 
-There is no Tailwind. The CSS is hand-written and the file is short enough to read start to finish — keep it that way.
+There is no Tailwind. The CSS is hand-written and short enough to read start to finish — keep it that way.

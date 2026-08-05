@@ -8,11 +8,11 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
   }, [error]);
 
   return (
-    <div className="page-head">
-      <div className="page-head-rail">Failed to send</div>
-      <div>
+    <div className="shell">
+      <div className="page-head">
+        <p className="page-head-rail">Failed to send</p>
         <h1>That did not go through.</h1>
-        <p>Try again. If it keeps failing, the thread is still readable from the start.</p>
+        <p>Try again. If it keeps failing, the conversation still opens from the start.</p>
         <button type="button" onClick={reset} className="action" style={{ marginTop: "2rem" }}>
           Try again
         </button>
