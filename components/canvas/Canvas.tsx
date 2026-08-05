@@ -7,6 +7,7 @@ import { useCanvasPan } from "@/hooks/useCanvasPan";
 import { Minimap } from "@/components/canvas/Minimap";
 import { ZoneNav } from "@/components/canvas/ZoneNav";
 import { CanvasProvider } from "@/components/canvas/CanvasContext";
+import { CursorLayer } from "@/components/live/CursorLayer";
 
 /**
  * The pannable harbour.
@@ -51,6 +52,9 @@ export function Canvas({ children }: { children: ReactNode }) {
               {panels[index]}
             </section>
           ))}
+
+          {/* Inside the track, so cursors pan with the content they point at. */}
+          <CursorLayer />
         </motion.div>
       </div>
 

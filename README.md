@@ -23,7 +23,7 @@ npm run dev
 | 3. Industrial Brutalism component kit | Done |
 | 4. Zone 1 and Zone 2 content | Done |
 | 5. Shipping Manifest card generator | Done |
-| 6. Liveblocks multiplayer cursors | Not started |
+| 6. Liveblocks cursors + ghost fallback | Done |
 
 ## The canvas
 
@@ -53,6 +53,26 @@ A fixed grid with a seamless topographic tile over it (`public/topo.svg`, genera
 **`Sharpie`** is the marker circle that appears around a button on hover or focus. Rough.js generates it from **fixed seeds**, so the same button always gets the same scribble — regenerating on every mouse-over reads as noise rather than as a drawing. It is decorative and `aria-hidden`; the child keeps its own focus ring.
 
 `components/art/` holds the two drawn pieces. `HandArrow` is a static path, so it server-renders and never shifts. `PixelBridge` is generated: the arch is a sine, the hangers hang off wherever it lands, and the whole thing is emitted as one path rather than 400 rects. Changing `COLS` or `ARCH_RISE` re-draws a coherent bridge.
+
+## Cursors
+
+Two systems behind one layer. `components/live/CursorLayer.tsx` picks between them at build time — whether a Liveblocks key exists is a compile-time constant, so a room hook is never called without a provider above it.
+
+**Real cursors** come from Liveblocks presence. Positions travel as **track coordinates, not viewport coordinates**: the canvas pans, so two people are almost never scrolled to the same place, and broadcasting viewport pixels would put everyone's cursor over the wrong thing. The layer lives inside the panning track, so cursors move with the content they point at.
+
+**Ghost cursors** fill the room when nobody else is in it. They are ambience, not people, and they are built to stay honest about that:
+
+- They appear **only when the room is genuinely empty**, and stand down the moment a real peer connects
+- They carry generated handles (`Crew 41`), never invented names
+- They do not render under `prefers-reduced-motion`, or on touch devices where there is no pointer to mirror
+
+Ghost positions are written straight to the DOM inside one animation frame loop. Six moving cursors through React state would re-render the canvas sixty times a second for decoration.
+
+The **Tech / Biz prompt** appears once, on pointer devices, and stores the choice in `localStorage`. Escape dismisses it — the canvas works fine with no cursor identity, so it is never a gate on the content.
+
+### The key is public, by design
+
+`NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY` is inlined into the client bundle and readable by anyone who opens the page. That is what a `pk_` key is for. The secret `sk_` key must never be given a `NEXT_PUBLIC_` prefix.
 
 ## Colour, and one constraint
 
