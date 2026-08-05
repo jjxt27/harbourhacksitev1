@@ -22,10 +22,10 @@ export function ZoneNav({ activeZone, goToZone }: ZoneNavProps) {
           event.preventDefault();
           goToZone(0);
         }}
-        className="press pointer-events-auto border-2 border-ink bg-ink px-3 py-2 font-display text-sm font-black uppercase tracking-tight text-paper"
+        className="press pointer-events-auto border-2 border-ink bg-ink px-3 py-2 font-display text-small font-black uppercase tracking-tight text-paper"
       >
         {site.name}
-        <span className="ml-2 font-mono text-[10px] font-normal tracking-[0.14em] text-highlighter">
+        <span className="ml-2 font-mono text-meta font-normal tracking-[0.14em] text-highlighter">
           {site.year}
         </span>
       </a>
@@ -38,7 +38,7 @@ export function ZoneNav({ activeZone, goToZone }: ZoneNavProps) {
                 type="button"
                 onClick={() => goToZone(index)}
                 aria-current={activeZone === index ? "true" : undefined}
-                className={`px-3.5 py-2 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors ${
+                className={`px-3.5 py-2 font-mono text-meta uppercase tracking-[0.16em] transition-colors ${
                   activeZone === index ? "bg-ink text-paper" : "hover:bg-highlighter"
                 }`}
               >

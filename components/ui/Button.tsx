@@ -20,8 +20,8 @@ const VARIANTS: Record<Variant, string> = {
 };
 
 const SIZES = {
-  md: "px-5 py-3 text-sm",
-  lg: "px-7 py-4 text-base",
+  md: "px-5 py-3 text-small",
+  lg: "px-7 py-4 text-body",
 } as const;
 
 type ButtonProps = {

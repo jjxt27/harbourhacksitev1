@@ -13,13 +13,13 @@ export function DryDock() {
       <div className="grid gap-10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-14">
         <div>
           <div className="flex flex-wrap items-center gap-4">
-            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/60">
+            <p className="font-mono text-meta uppercase tracking-[0.2em] text-ink/60">
               {dryDock.kicker}
             </p>
             <Stamp>{site.city}</Stamp>
           </div>
 
-          <h1 className="mt-6 font-display text-[clamp(3.1rem,8.5vw,8.5rem)] font-black uppercase leading-[0.82] tracking-[-0.05em]">
+          <h1 className="mt-6 font-display text-display font-black uppercase leading-[0.82] tracking-[-0.05em]">
             <span className="block">Don&apos;t just</span>
             <span className="block">build.</span>
             <span className="mt-1 block">
@@ -27,7 +27,7 @@ export function DryDock() {
             </span>
           </h1>
 
-          <p className="mt-7 max-w-[44ch] text-lg leading-snug md:text-xl">{dryDock.subtext}</p>
+          <p className="mt-7 max-w-[44ch] text-lead leading-snug md:text-lead">{dryDock.subtext}</p>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
             <Button toZone={dryDock.cta.zone} size="lg">
@@ -41,17 +41,17 @@ export function DryDock() {
         </div>
 
         <div>
-          <p className="mb-4 font-display text-sm font-black uppercase tracking-[0.12em]">
+          <p className="mb-4 font-display text-small font-black uppercase tracking-[0.12em]">
             {dryDock.criteriaLabel}
           </p>
           <ul className="grid gap-4 sm:grid-cols-3 md:gap-3.5">
             {dryDock.criteria.map((item) => (
               <li key={item.n}>
                 <StickyNote tone={item.tone} rotate={item.rotate} tag={item.n} className="h-full">
-                  <strong className="block font-display text-base font-black uppercase leading-tight tracking-tight">
+                  <strong className="block font-display text-body font-black uppercase leading-tight tracking-tight">
                     {item.title}
                   </strong>
-                  <span className="mt-2 block text-[1.05rem] leading-snug">{item.note}</span>
+                  <span className="mt-2 block text-body leading-snug">{item.note}</span>
                 </StickyNote>
               </li>
             ))}
@@ -59,13 +59,13 @@ export function DryDock() {
 
           <div aria-hidden="true" className="mt-10 hidden md:block">
             <HandArrow className="h-20 w-[min(30rem,100%)]" />
-            <p className="mt-1 pl-2 font-hand text-xl">keep going →</p>
+            <p className="mt-1 pl-2 font-hand text-lead">keep going →</p>
           </div>
         </div>
       </div>
 
       {/* Pan hint on desktop, plain scroll hint once the zones stack. */}
-      <p className="mt-10 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] text-ink/60 md:absolute md:bottom-8 md:left-14 md:mt-0">
+      <p className="mt-10 flex items-center gap-2 font-mono text-meta uppercase tracking-[0.18em] text-ink/60 md:absolute md:bottom-8 md:left-14 md:mt-0">
         <MoveHorizontal aria-hidden="true" className="size-3.5" />
         <span className="hidden md:inline">{dryDock.scrollCue}</span>
         <span className="md:hidden">Scroll down</span>

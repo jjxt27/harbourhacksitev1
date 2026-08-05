@@ -35,11 +35,11 @@ export function StickyNote({
       className={`border-2 border-ink p-4 shadow-hard transition-transform duration-150 hover:-translate-y-1 ${TONES[tone]} ${className}`}
     >
       {tag ? (
-        <p className="mb-2 border-b-2 border-ink/25 pb-1.5 font-mono text-[10px] uppercase tracking-[0.18em]">
+        <p className="mb-2 border-b-2 border-ink/25 pb-1.5 font-mono text-meta uppercase tracking-[0.18em]">
           {tag}
         </p>
       ) : null}
-      <div className="font-hand text-lg leading-tight">{children}</div>
+      <div className="font-hand text-lead leading-tight">{children}</div>
     </div>
   );
 }

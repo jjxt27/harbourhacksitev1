@@ -21,6 +21,26 @@
   --color-orange: #ff4f00;
   --color-ferry: #008542;
   --color-highlighter: #e2ff31;
+  /* Orange is not legible as small text. This is the text-safe red: 5.4:1 on
+     white and 4.8:1 on highlighter, so errors read on every ground we use. */
+  --color-alert: #c63200;
+
+  /*
+    The type scale. Eight steps, and nothing between them.
+
+    Sizes used to drift — 16, 17, 18, 20 all appeared as "body", which reads as
+    slippage rather than intent. A step you cannot perceive is not a decision.
+    Mono is floored at 10px: below that, uppercase at 0.16em tracking stops
+    being fine detail and becomes texture.
+  */
+  --text-display: clamp(3.1rem, 8.5vw, 8.5rem);
+  --text-title: clamp(2.3rem, 4.6vw, 4.6rem);
+  --text-heading: 1.875rem;
+  --text-lead: 1.25rem;
+  --text-body: 1.0625rem;
+  --text-small: 0.875rem;
+  --text-meta: 0.6875rem;
+  --text-micro: 0.625rem;
 
   --font-display: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
@@ -37,11 +57,21 @@
 /*
   Contrast, measured against white:
     ink        19.6:1  — anything
+    alert       5.4:1  — the red for error text. Use this, not orange.
     ferry       4.7:1  — passes AA for body text
     orange      3.3:1  — FAILS AA for body text. Only ever use it for text at
                          24px+/19px-bold, for borders, or as a fill with ink on
                          top. Never for paragraphs.
     highlighter 17.5:1 with ink on top — sticky notes are always ink-on-yellow.
+
+  Against the highlighter field in zone three:
+    ink        17.5:1   alert  4.8:1   slate  4.7:1
+    orange     2.9:1   — fill only there, and always inside a 2px ink border,
+                         so the component's edge never depends on it.
+
+  Hard shadows are punctuation. They belong on things that lift — buttons,
+  sticky notes, board cards, the minimap — and not on the containers around
+  them. When everything is raised, nothing reads as raised.
 */
 
 @layer base {
@@ -61,6 +91,9 @@
     background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-display);
+    /* So anything without an explicit size still lands on a scale step,
+       rather than inheriting the browser default of 16px. */
+    font-size: var(--text-body);
     font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
   }

@@ -18,16 +18,16 @@ export function Shipyard() {
     <div className="flex h-full flex-col justify-center gap-8 px-6 py-20 md:px-14 md:py-16">
       <header className="flex flex-wrap items-end justify-between gap-6">
         <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink/60">
+          <p className="font-mono text-meta uppercase tracking-[0.2em] text-ink/60">
             {shipyard.kicker}
           </p>
-          <h2 className="mt-4 font-display text-[clamp(2.3rem,4.6vw,4.6rem)] font-black uppercase leading-[0.88] tracking-[-0.045em]">
+          <h2 className="mt-4 font-display text-title font-black uppercase leading-[0.88] tracking-[-0.045em]">
             {shipyard.headline}
           </h2>
-          <p className="mt-4 max-w-[48ch] text-lg leading-snug">{shipyard.subtext}</p>
+          <p className="mt-4 max-w-[48ch] text-lead leading-snug">{shipyard.subtext}</p>
         </div>
 
-        <dl className="flex gap-8 font-mono text-[10px] uppercase tracking-[0.16em]">
+        <dl className="flex gap-8 font-mono text-meta uppercase tracking-[0.16em]">
           <div>
             <dt className="text-ink/60">Dates</dt>
             <dd className="mt-2">{shipyard.dates === "TBC" ? <Tbc /> : shipyard.dates}</dd>
@@ -59,12 +59,12 @@ export function Shipyard() {
                     className={`border-2 border-ink px-3 py-2.5 shadow-hard-sm ${kind.fill}`}
                   >
                     <div className="flex items-start justify-between gap-3">
-                      <p className="font-display text-sm font-bold uppercase leading-tight tracking-tight">
+                      <p className="font-display text-small font-bold uppercase leading-tight tracking-tight">
                         {card.title}
                       </p>
                       {Icon ? <Icon aria-hidden="true" className="mt-0.5 size-4 shrink-0" strokeWidth={2.5} /> : null}
                     </div>
-                    <p className="mt-2 flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.16em] opacity-75">
+                    <p className="mt-2 flex items-center gap-2 font-mono text-micro uppercase tracking-[0.16em] opacity-75">
                       {kind.label}
                       <span aria-hidden="true">·</span>
                       {card.time === "TBC" ? "Time TBC" : card.time}
@@ -79,10 +79,10 @@ export function Shipyard() {
 
       <section aria-labelledby="mentors" className="border-t-2 border-ink pt-6">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
-          <h3 id="mentors" className="font-display text-sm font-black uppercase tracking-[0.14em]">
+          <h3 id="mentors" className="font-display text-small font-black uppercase tracking-[0.14em]">
             {shipyard.mentorsLabel}
           </h3>
-          <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink/60">
+          <p className="font-mono text-meta uppercase tracking-[0.16em] text-ink/60">
             {shipyard.mentorsNote}
           </p>
         </div>
@@ -91,8 +91,8 @@ export function Shipyard() {
           {shipyard.mentors.length > 0
             ? shipyard.mentors.map((mentor) => (
                 <li key={mentor.name} className="border-2 border-ink bg-paper p-3 shadow-hard-sm">
-                  <p className="font-display text-sm font-bold uppercase leading-tight">{mentor.name}</p>
-                  <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.14em] text-ink/70">
+                  <p className="font-display text-small font-bold uppercase leading-tight">{mentor.name}</p>
+                  <p className="mt-1 font-mono text-micro uppercase tracking-[0.14em] text-ink/70">
                     {mentor.role} · {mentor.company}
                   </p>
                 </li>

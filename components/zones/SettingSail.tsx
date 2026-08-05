@@ -106,15 +106,15 @@ export function SettingSail() {
   }
 
   return (
-    <div className="flex h-full flex-col justify-center px-6 py-20 md:px-14 md:py-16">
+    <div className="flex h-full flex-col justify-center bg-highlighter px-6 py-20 md:px-14 md:py-16">
       <header className="mb-8">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-slate">
+        <p className="font-mono text-meta uppercase tracking-[0.2em] text-slate">
           {settingSail.kicker}
         </p>
-        <h2 className="mt-4 font-display text-[clamp(2.3rem,4.6vw,4.6rem)] font-black uppercase leading-[0.88] tracking-[-0.045em]">
+        <h2 className="mt-4 font-display text-title font-black uppercase leading-[0.88] tracking-[-0.045em]">
           {settingSail.headline}
         </h2>
-        <p className="mt-4 max-w-[46ch] text-lg leading-snug">{settingSail.subtext}</p>
+        <p className="mt-4 max-w-[46ch] text-lead leading-snug">{settingSail.subtext}</p>
       </header>
 
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
@@ -136,18 +136,18 @@ export function SettingSail() {
                   setErrors({});
                   setStatus("idle");
                 }}
-                className="border-b-2 border-ink pb-0.5 font-mono text-[11px] uppercase tracking-[0.14em]"
+                className="border-b-2 border-ink pb-0.5 font-mono text-meta uppercase tracking-[0.14em]"
               >
                 {manifest.reset}
               </button>
             ) : null}
           </div>
 
-          <p aria-live="polite" className="mt-4 font-mono text-[11px] uppercase tracking-[0.12em]">
+          <p aria-live="polite" className="mt-4 font-mono text-meta uppercase tracking-[0.12em]">
             {status === "done" ? (
-              <span className="text-ferry">{manifest.actionDone} — {manifest.shareHint}</span>
+              <span className="text-ink">{manifest.actionDone} — {manifest.shareHint}</span>
             ) : status === "error" && !errors.name && !errors.skills ? (
-              <span className="text-orange">That didn&apos;t save. Try again.</span>
+              <span className="text-alert">That didn&apos;t save. Try again.</span>
             ) : (
               <span className="text-slate">{manifest.shareHint}</span>
             )}
@@ -155,11 +155,11 @@ export function SettingSail() {
         </div>
 
         <div className="lg:sticky lg:top-24">
-          <h3 className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-slate">
+          <h3 className="mb-3 font-mono text-meta uppercase tracking-[0.18em] text-slate">
             {manifest.cardLabel}
           </h3>
           <ManifestCard ref={cardRef} data={data} />
-          <p className="mt-3 max-w-[20.5rem] font-mono text-[10px] uppercase tracking-[0.12em] text-slate">
+          <p className="mt-3 max-w-[20.5rem] font-mono text-meta uppercase tracking-[0.12em] text-slate">
             {site.name} {site.year} · {site.city}
           </p>
         </div>

@@ -28,7 +28,7 @@ export function Minimap({ progress, activeZone, goToZone }: MinimapProps) {
       className="pointer-events-auto fixed bottom-5 right-5 z-40 hidden w-64 border-2 border-ink bg-paper shadow-hard md:block"
       aria-label="Canvas minimap"
     >
-      <p className="border-b-2 border-ink px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em]">
+      <p className="border-b-2 border-ink px-2.5 py-1.5 font-mono text-meta uppercase tracking-[0.18em]">
         Harbour chart
       </p>
 
@@ -44,7 +44,7 @@ export function Minimap({ progress, activeZone, goToZone }: MinimapProps) {
               activeZone === index ? "bg-highlighter" : "bg-paper-off hover:bg-grid"
             }`}
           >
-            <span className="truncate font-mono text-[9px] uppercase tracking-[0.12em]">
+            <span className="truncate font-mono text-micro uppercase tracking-[0.12em]">
               {zone.label}
             </span>
           </button>

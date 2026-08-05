@@ -12,7 +12,7 @@ export type ManifestData = {
 
 /** Long names get a smaller setting rather than being allowed to overflow. */
 function nameSize(name: string) {
-  if (name.length > 20) return "text-[1.25rem]";
+  if (name.length > 20) return "text-lead";
   if (name.length > 13) return "text-[1.6rem]";
   return "text-[2.1rem]";
 }
@@ -43,11 +43,11 @@ export function ManifestCard({
       className="w-[20.5rem] shrink-0 border-2 border-ink bg-paper font-display"
     >
       <div className="flex items-baseline justify-between bg-ink px-4 py-2.5 text-paper">
-        <span className="text-[0.8rem] font-black uppercase tracking-tight">{copy.issuer}</span>
-        <span className="font-mono text-[9px] uppercase tracking-[0.18em]">{site.year}</span>
+        <span className="text-small font-black uppercase tracking-tight">{copy.issuer}</span>
+        <span className="font-mono text-micro uppercase tracking-[0.18em]">{site.year}</span>
       </div>
 
-      <div className="flex items-center justify-between border-b-2 border-ink px-4 py-1.5 font-mono text-[9px] uppercase tracking-[0.14em] text-slate">
+      <div className="flex items-center justify-between border-b-2 border-ink px-4 py-1.5 font-mono text-micro uppercase tracking-[0.14em] text-slate">
         <span>{copy.port}</span>
         <span>
           {copy.manifestLabel} <span className="text-ink">{number}</span>
@@ -55,7 +55,7 @@ export function ManifestCard({
       </div>
 
       <div className="px-4 pb-4 pt-5">
-        <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate">Passenger</p>
+        <p className="font-mono text-micro uppercase tracking-[0.18em] text-slate">Passenger</p>
         <p
           className={`mt-1.5 font-black uppercase leading-[0.92] tracking-[-0.03em] ${nameSize(shown)} ${
             name ? "text-ink" : "text-slate"
@@ -71,14 +71,14 @@ export function ManifestCard({
 
       <div className="grid grid-cols-[auto_1fr]">
         <div className="border-r-2 border-ink px-4 py-3">
-          <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate">
+          <p className="font-mono text-micro uppercase tracking-[0.18em] text-slate">
             {copy.roleLabel}
           </p>
-          <p className="mt-1.5 text-[1.05rem] font-black uppercase tracking-tight">{data.role}</p>
+          <p className="mt-1.5 text-body font-black uppercase tracking-tight">{data.role}</p>
         </div>
 
         <div className="px-4 py-3">
-          <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-slate">
+          <p className="font-mono text-micro uppercase tracking-[0.18em] text-slate">
             {copy.skillsLabel}
           </p>
           <ul className="mt-1.5 flex flex-wrap gap-1.5">
@@ -86,13 +86,13 @@ export function ManifestCard({
               data.skills.map((skill) => (
                 <li
                   key={skill}
-                  className="border-2 border-ink bg-highlighter px-1.5 py-0.5 text-[0.7rem] font-bold uppercase tracking-tight"
+                  className="border-2 border-ink bg-highlighter px-1.5 py-0.5 text-meta font-bold uppercase tracking-tight"
                 >
                   {skill}
                 </li>
               ))
             ) : (
-              <li className="text-[0.8rem] font-bold uppercase tracking-tight text-slate">
+              <li className="text-small font-bold uppercase tracking-tight text-slate">
                 Empty hold
               </li>
             )}
@@ -102,20 +102,20 @@ export function ManifestCard({
 
       <div className="relative border-y-2 border-ink px-4 py-3.5">
         <Barcode seed={`${number}|${shown}`} className="h-9 w-full" />
-        <p className="mt-1.5 font-mono text-[8.5px] uppercase tracking-[0.3em] text-slate">
+        <p className="mt-1.5 font-mono text-micro uppercase tracking-[0.3em] text-slate">
           {number}
         </p>
 
         <span
           aria-hidden="true"
-          className="absolute right-3 top-2 rotate-[-11deg] border-[3px] border-orange px-2 py-1 text-center font-display text-[0.55rem] font-black uppercase leading-tight tracking-[0.14em] text-orange"
+          className="absolute right-3 top-2 rotate-[-11deg] border-[3px] border-orange px-2 py-1 text-center font-display text-micro font-black uppercase leading-tight tracking-[0.14em] text-orange"
         >
           <span className="block border-y border-orange py-0.5">{copy.stamp}</span>
         </span>
       </div>
 
       <div className="bg-orange px-4 py-3">
-        <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-ink">
+        <p className="font-mono text-micro uppercase tracking-[0.18em] text-ink">
           {copy.bannerLabel}
         </p>
         <p className="mt-0.5 text-[1.6rem] font-black uppercase leading-none tracking-[-0.03em] text-ink">
@@ -123,7 +123,7 @@ export function ManifestCard({
         </p>
       </div>
 
-      <p className="border-t-2 border-ink px-4 py-2 font-mono text-[8px] uppercase tracking-[0.16em] text-slate">
+      <p className="border-t-2 border-ink px-4 py-2 font-mono text-micro uppercase tracking-[0.16em] text-slate">
         {copy.footnote}
       </p>
     </div>

@@ -45,7 +45,7 @@ export function Cursor({ handle, role, colour, x, y, ref }: CursorProps) {
       </svg>
 
       <span
-        className="ml-4 -mt-1 inline-flex items-center gap-1.5 whitespace-nowrap border-2 border-ink px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.1em]"
+        className="ml-4 -mt-1 inline-flex items-center gap-1.5 whitespace-nowrap border-2 border-ink px-1.5 py-0.5 font-mono text-meta uppercase tracking-[0.1em]"
         style={{ background: colour.bg, color: colour.fg }}
       >
         <Icon aria-hidden="true" className="size-3" strokeWidth={2.5} />

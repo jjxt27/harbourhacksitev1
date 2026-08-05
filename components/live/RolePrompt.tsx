@@ -46,16 +46,16 @@ export function RolePrompt() {
         aria-labelledby="role-prompt-title"
         className="w-full max-w-md border-2 border-ink bg-paper p-7 shadow-hard-lg"
       >
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-slate">
+        <p className="font-mono text-meta uppercase tracking-[0.2em] text-slate">
           Before you board
         </p>
         <h2
           id="role-prompt-title"
-          className="mt-3 font-display text-3xl font-black uppercase leading-[0.92] tracking-[-0.04em]"
+          className="mt-3 font-display text-heading font-black uppercase leading-[0.92] tracking-[-0.04em]"
         >
           Are you Tech or Biz?
         </h2>
-        <p className="mt-3 text-base leading-snug">
+        <p className="mt-3 text-body leading-snug">
           It sets the badge on your cursor so everyone on the canvas can see what you bring.
         </p>
 
@@ -71,10 +71,10 @@ export function RolePrompt() {
                 className="press grid gap-2 border-2 border-ink bg-paper px-4 py-4 text-left hover:bg-highlighter"
               >
                 <Icon aria-hidden="true" className="size-6" strokeWidth={2.5} />
-                <span className="font-display text-lg font-black uppercase tracking-tight">
+                <span className="font-display text-lead font-black uppercase tracking-tight">
                   {option}
                 </span>
-                <span className="text-sm leading-snug text-slate">{BLURB[option]}</span>
+                <span className="text-small leading-snug text-slate">{BLURB[option]}</span>
               </button>
             );
           })}
@@ -83,7 +83,7 @@ export function RolePrompt() {
         <button
           type="button"
           onClick={() => setRole("Tech")}
-          className="mt-5 border-b-2 border-ink pb-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-slate"
+          className="mt-5 border-b-2 border-ink pb-0.5 font-mono text-meta uppercase tracking-[0.14em] text-slate"
         >
           Skip — I&apos;ll decide later
         </button>
