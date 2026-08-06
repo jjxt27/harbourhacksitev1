@@ -1,22 +1,46 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, JetBrains_Mono, Kalam } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import { site } from "@/content/canvas";
 import "./globals.css";
 
-const geist = Geist({ variable: "--font-geist", subsets: ["latin"], display: "swap" });
-
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
+/** The two weights the intro uses, plus the italic it loads for pull quotes. */
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
-const kalam = Kalam({
-  variable: "--font-kalam",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
+
+/**
+ * Runs before first paint.
+ *
+ * Adds `.js` so progressive-enhancement rules can key off it, then decides
+ * whether the intro plays — here rather than after hydration, so the page
+ * underneath never flashes into view and back out.
+ *
+ * Two separate signals, which is the part worth not collapsing:
+ *
+ *   `data-boot`  should the intro play. Only the component clears it.
+ *   `.booting`   is the page scroll-locked. The timeout below clears it no
+ *                matter what, so a JavaScript failure downstream cannot leave
+ *                anyone staring at a page they cannot scroll.
+ *
+ * They started as one class and it was subtly wrong: on a slow first load the
+ * failsafe fired before React had mounted, and the intro was cancelled rather
+ * than merely unlocked. The lock needs a short leash; the decision does not.
+ *
+ * Reduced motion skips the whole thing — an unskippable timed gate is a WCAG
+ * 2.2.1 problem, and the intro carries no information anyway.
+ */
+const BOOT_SCRIPT = `(function(){var r=document.documentElement;r.classList.add('js');var seen=false;try{seen=sessionStorage.getItem('hh-intro-seen')==='1'}catch(e){}if(!seen&&!matchMedia('(prefers-reduced-motion: reduce)').matches){r.setAttribute('data-boot','1');r.classList.add('booting');setTimeout(function(){r.classList.remove('booting')},6000)}})();`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -37,19 +61,26 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
-  // The canvas owns horizontal movement; pinch-zoom stays available.
+  themeColor: "#061e3c",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-AU" className={`${geist.variable} ${jetbrains.variable} ${kalam.variable}`}>
+    <html
+      lang="en-AU"
+      className={`${cormorant.variable} ${inter.variable}`}
+      // The inline script above adds `.js` before React sees the document.
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />
+      </head>
       <body>
         <a
-          href="#setting-sail"
-          className="press sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-highlighter focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase"
+          href="#register"
+          className="eyebrow sr-only focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-[200] focus:bg-brass focus:px-5 focus:py-3 focus:text-night"
         >
           Skip to registration
         </a>
