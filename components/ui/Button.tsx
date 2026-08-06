@@ -3,9 +3,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Sharpie } from "@/components/ui/Sharpie";
-import { useCanvasNav } from "@/components/canvas/CanvasContext";
+import { useMapNav } from "@/components/map/MapContext";
 import { useIsDesktop } from "@/hooks/useMediaQuery";
-import { zones } from "@/content/canvas";
 
 /**
  * `orange` is the conversion action. `ink` is secondary. `paper` is tertiary.
@@ -30,8 +29,8 @@ type ButtonProps = {
   size?: keyof typeof SIZES;
   /** External or in-page href. */
   href?: string;
-  /** Pans to a zone by id. Falls back to an anchor jump on mobile. */
-  toZone?: string;
+  /** Flies the camera to a dock by id. Falls back to an anchor jump on mobile. */
+  toDock?: string;
   onClick?: () => void;
   type?: "button" | "submit";
   disabled?: boolean;
@@ -45,14 +44,14 @@ export function Button({
   variant = "orange",
   size = "md",
   href,
-  toZone,
+  toDock,
   onClick,
   type = "button",
   disabled,
   sharpie = true,
   className = "",
 }: ButtonProps) {
-  const { goToZone } = useCanvasNav();
+  const { goToDockId } = useMapNav();
   const isDesktop = useIsDesktop();
 
   const shell = [
@@ -67,16 +66,15 @@ export function Button({
 
   let control: ReactNode;
 
-  if (toZone) {
-    const index = zones.findIndex((zone) => zone.id === toZone);
+  if (toDock) {
     control = (
       <Link
-        href={`#${toZone}`}
+        href={`#${toDock}`}
         className={shell}
         onClick={(event) => {
-          if (!isDesktop || index < 0) return;
+          if (!isDesktop) return;
           event.preventDefault();
-          goToZone(index);
+          goToDockId(toDock);
         }}
       >
         {children}

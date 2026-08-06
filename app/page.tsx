@@ -1,20 +1,20 @@
-import { Canvas } from "@/components/canvas/Canvas";
+import { MapCanvas } from "@/components/map/MapCanvas";
 import { LiveRoom } from "@/components/live/LiveRoom";
 import { RolePrompt } from "@/components/live/RolePrompt";
 import { DryDock } from "@/components/zones/DryDock";
 import { Shipyard } from "@/components/zones/Shipyard";
-import { SettingSail } from "@/components/zones/SettingSail";
+import { CustomsOffice } from "@/components/customs/CustomsOffice";
 
-/** One child per zone, in the order declared in content/canvas.ts. */
+/** One child per dock, in the order declared in content/map.ts. */
 export default function HomePage() {
   return (
     <LiveRoom>
       <RolePrompt />
-      <Canvas>
+      <MapCanvas>
         <DryDock />
         <Shipyard />
-        <SettingSail />
-      </Canvas>
+        <CustomsOffice />
+      </MapCanvas>
     </LiveRoom>
   );
 }

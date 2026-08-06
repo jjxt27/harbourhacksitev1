@@ -21,6 +21,13 @@
   --color-orange: #ff4f00;
   --color-ferry: #008542;
   --color-highlighter: #e2ff31;
+
+  /* The water. Everything between the docks sits on this. */
+  --color-harbour: #0b192c;
+  /* Chart lines over the water — light enough to read as a grid, dark enough
+     that it never competes with the docks floating on top. */
+  --color-harbour-line: #16304d;
+  --color-harbour-swell: #102542;
   /* Orange is not legible as small text. This is the text-safe red: 5.4:1 on
      white and 4.8:1 on highlighter, so errors read on every ground we use. */
   --color-alert: #c63200;
@@ -50,6 +57,10 @@
   --shadow-hard-sm: 2px 2px 0 var(--color-ink);
   --shadow-hard: 4px 4px 0 var(--color-ink);
   --shadow-hard-lg: 6px 6px 0 var(--color-ink);
+  /* Docks and crates cast this one. Solid ink rather than a translucent black:
+     50% black over the harbour is barely a shadow at all, and the whole point
+     of the offset is that it reads as a hard edge, not as depth. */
+  --shadow-hard-xl: 8px 8px 0 var(--color-ink);
 
   --ease-canvas: cubic-bezier(0.22, 0.68, 0, 1);
 }
@@ -64,10 +75,22 @@
                          top. Never for paragraphs.
     highlighter 17.5:1 with ink on top — sticky notes are always ink-on-yellow.
 
-  Against the highlighter field in zone three:
+  Against the highlighter field on the customs dock:
     ink        17.5:1   alert  4.8:1   slate  4.7:1
     orange     2.9:1   — fill only there, and always inside a 2px ink border,
                          so the component's edge never depends on it.
+
+  Against the harbour, measured on #0b192c:
+    paper      17.6:1
+    highlighter 15.6:1
+    orange      5.3:1  — on the water, and only on the water, orange finally
+                         passes AA for body text. It still fails on paper, so
+                         the rule does not relax once you step onto a dock.
+    slate       2.4:1  — never use slate over water. Use paper at 70% weight by
+                         choosing a lighter token, not by fading this one.
+
+  Two grounds, two rulebooks. Anything floating on the water is paper, orange
+  or highlighter on ink-blue. Anything on a dock is the paper system unchanged.
 
   Hard shadows are punctuation. They belong on things that lift — buttons,
   sticky notes, board cards, the minimap — and not on the containers around
@@ -133,92 +156,175 @@
   }
 }
 
-/* ------------------------------------------------------------- the canvas --
-   Desktop: a fixed viewport window with a wide track panned along X.
-   Mobile:  the same markup, unhooked — the track becomes a normal column and
-            the document scrolls vertically. The switch is pure CSS, so there
-            is no hydration branch and no layout flash.                       */
+/* ----------------------------------------------------------------- the map --
+   Desktop: a fixed window onto a 10,000px world, panned and zoomed by
+            transforming `.map-world`.
+   Mobile:  the same markup, unhooked. The world stops being a coordinate space
+            and the docks stop being positioned, so they fall back into normal
+            flow as a scrolling column in DOM order.
 
-.canvas-window {
-  position: relative;
-  width: 100%;
+   The switch is a media query and nothing else — no server/client fork, no
+   layout effect, no hydration flash. That is why the dock rect arrives as four
+   custom properties rather than as inline `left`/`top`: a custom property is
+   trivially overridden here, an inline style is not.                          */
+
+.map-viewport {
+  position: fixed;
+  inset: 0;
   overflow: hidden;
-  height: 100svh;
+  background: var(--color-harbour);
   overscroll-behavior: none;
-  touch-action: pan-y;
+  touch-action: none;
 }
 
-.canvas-track {
-  display: flex;
-  align-items: stretch;
-  height: 100%;
-  width: max-content;
+.map-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--world);
+  height: var(--world);
+  transform-origin: 0 0;
   will-change: transform;
 }
 
-.canvas-zone {
-  position: relative;
-  flex: none;
-  height: 100%;
-  border-right: 2px solid var(--color-ink);
+.map-viewport[data-pannable="true"] { cursor: grab; }
+.map-viewport[data-grabbing="true"] { cursor: grabbing; user-select: none; }
+
+.dock {
+  position: absolute;
+  left: var(--dock-x);
+  top: var(--dock-y);
+  width: var(--dock-w);
+  height: var(--dock-h);
 }
 
-.canvas-window[data-grabbing="true"] { cursor: grabbing; }
-.canvas-window[data-pannable="true"] { cursor: grab; }
-
 @media (max-width: 767px) {
-  .canvas-window {
-    height: auto;
+  .map-viewport {
+    position: static;
     overflow: visible;
     touch-action: auto;
     cursor: auto !important;
   }
-  .canvas-track {
-    display: block;
+  .map-world {
+    position: static;
     width: 100%;
     height: auto;
-    /* The pan transform must not survive into the stacked layout. */
+    padding: 0.75rem;
+    /* The camera transform must not survive into the stacked layout. */
     transform: none !important;
   }
-  .canvas-zone {
-    width: 100% !important;
+  .dock {
+    position: static;
+    width: 100%;
     height: auto;
-    border-right: 0;
-    border-bottom: 2px solid var(--color-ink);
+    margin: 0 0 0.75rem;
+  }
+  .dock-deck {
+    /* The offset shadow would sit under the next dock in a column. */
+    box-shadow: var(--shadow-hard);
   }
 }
 
-/* ------------------------------------------------------------- background --
-   A fixed grid with topographic contours over it. Fixed rather than parented
-   to the track, so the ground stays put while the content moves across it —
-   the contours get their own slower parallax instead.                        */
+/* ------------------------------------------------------------- the water --
+   Painted on the viewport, not on the world.
 
-.ground {
-  position: fixed;
+   A 10,000 x 10,000 textured element is 100 million pixels of surface the
+   compositor has to keep somewhere. Instead the ocean is one viewport-sized
+   layer whose `background-position` is driven by the camera, which produces an
+   identical parallax for the cost of a screenful.                             */
+
+.map-ocean {
+  position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-color: var(--color-paper-off);
+  background-color: var(--color-harbour);
   background-image:
-    linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(to right, var(--color-harbour-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-harbour-line) 1px, transparent 1px);
 }
 
-.ground-topo {
+/* The swell. A second, coarser grid drifting diagonally at its own pace, so the
+   water reads as moving under the chart rather than with it. */
+.map-swell {
   position: absolute;
-  inset: -10% -20%;
-  background-image: url("/topo.svg");
-  background-size: 1400px auto;
-  background-repeat: repeat;
-  opacity: 0.5;
-  will-change: transform;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    -22deg,
+    transparent 0 46px,
+    var(--color-harbour-swell) 46px 48px
+  );
+  animation: swell 26s linear infinite;
 }
 
-@media (max-width: 767px) {
-  .ground { position: fixed; }
+@keyframes swell {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-104px, -42px, 0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ground-topo { transform: none !important; }
+  .map-swell { animation: none; }
+}
+
+/* Once the docks stack, the viewport is no longer fixed, so `inset: 0` would
+   resolve against the initial containing block and the water would stop after
+   the first screenful. Pin the two layers directly instead.
+
+   These have to sit after the rules above, not up in the layout media query:
+   same specificity, so source order is what decides. */
+@media (max-width: 767px) {
+  .map-ocean {
+    position: fixed;
+  }
+  .map-swell {
+    position: fixed;
+    inset: -20%;
+  }
+}
+
+/* ------------------------------------------------------------- the docks --
+   Concrete slabs with hazard-striped edges. The stripe is a gradient rather
+   than an image so it stays crisp at 2x zoom.                                 */
+
+.dock-deck {
+  position: relative;
+  height: 100%;
+  background-color: var(--color-grid);
+  /* Aggregate in the concrete. Two offset dot grids, almost invisible on their
+     own, enough together to stop the slab reading as flat #e5e5e5. */
+  background-image:
+    radial-gradient(var(--color-slate) 0.5px, transparent 0.6px),
+    radial-gradient(var(--color-slate) 0.5px, transparent 0.6px);
+  background-size: 13px 13px, 21px 21px;
+  background-position: 0 0, 7px 9px;
+  border: 2px solid var(--color-ink);
+  box-shadow: var(--shadow-hard-xl);
+}
+
+.hazard {
+  --hazard-size: 13px;
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-highlighter) 0 var(--hazard-size),
+    var(--color-ink) var(--hazard-size) calc(var(--hazard-size) * 2)
+  );
+}
+
+.hazard-orange {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-orange) 0 var(--hazard-size, 13px),
+    var(--color-ink) var(--hazard-size, 13px) calc(var(--hazard-size, 13px) * 2)
+  );
+}
+
+/* Corrugation, for the crate faces. Vertical ribs, hard-edged. */
+.corrugated {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgb(0 0 0 / 0.14) 0 2px,
+    transparent 2px 9px
+  );
 }

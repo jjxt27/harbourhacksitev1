@@ -12,8 +12,9 @@ const RECT_TTL = 60;
 /**
  * Everyone else in the room, plus ghosts while it is empty.
  *
- * Cursor positions travel as track coordinates, so a peer panned to zone three
- * still sees this cursor over the thing it is actually pointing at.
+ * Cursor positions travel as world coordinates, so a peer looking at the
+ * customs dock at a different zoom still sees this cursor over the thing it is
+ * actually pointing at.
  */
 export function RealCursors({
   layerRef,
@@ -32,7 +33,7 @@ export function RealCursors({
     updateMyPresence({ role, handle });
   }, [role, handle, updateMyPresence]);
 
-  const rect = useRef<{ left: number; top: number; at: number } | null>(null);
+  const rect = useRef<{ left: number; top: number; scale: number; at: number } | null>(null);
 
   useEffect(() => {
     const layer = layerRef.current;
@@ -42,12 +43,18 @@ export function RealCursors({
       const now = performance.now();
       if (!rect.current || now - rect.current.at > RECT_TTL) {
         const box = layer.getBoundingClientRect();
-        rect.current = { left: box.left, top: box.top, at: now };
+        // The layer sits inside the scaled world, so its measured width is its
+        // layout width times the camera's zoom. Dividing it out is how a screen
+        // offset becomes a world coordinate without this knowing about the
+        // camera at all.
+        const scale = layer.offsetWidth > 0 ? box.width / layer.offsetWidth : 1;
+        rect.current = { left: box.left, top: box.top, scale: scale || 1, at: now };
       }
+      const { left, top, scale } = rect.current;
       updateMyPresence({
         cursor: {
-          x: Math.round(event.clientX - rect.current.left),
-          y: Math.round(event.clientY - rect.current.top),
+          x: Math.round((event.clientX - left) / scale),
+          y: Math.round((event.clientY - top) / scale),
         },
       });
     };

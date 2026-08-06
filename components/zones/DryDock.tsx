@@ -1,4 +1,4 @@
-import { ArrowRight, MoveHorizontal } from "lucide-react";
+import { ArrowRight, Move } from "lucide-react";
 import { dryDock, site } from "@/content/canvas";
 import { Button } from "@/components/ui/Button";
 import { StickyNote } from "@/components/ui/StickyNote";
@@ -30,11 +30,11 @@ export function DryDock() {
           <p className="mt-7 max-w-[44ch] text-lead leading-snug md:text-lead">{dryDock.subtext}</p>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
-            <Button toZone={dryDock.cta.zone} size="lg">
+            <Button toDock={dryDock.cta.dock} size="lg">
               {dryDock.cta.label}
               <ArrowRight aria-hidden="true" className="size-4" strokeWidth={3} />
             </Button>
-            <Button toZone={dryDock.secondary.zone} variant="paper" sharpie={false}>
+            <Button toDock={dryDock.secondary.dock} variant="paper" sharpie={false}>
               {dryDock.secondary.label}
             </Button>
           </div>
@@ -64,9 +64,9 @@ export function DryDock() {
         </div>
       </div>
 
-      {/* Pan hint on desktop, plain scroll hint once the zones stack. */}
+      {/* Pan hint on desktop, plain scroll hint once the docks stack. */}
       <p className="mt-10 flex items-center gap-2 font-mono text-meta uppercase tracking-[0.18em] text-ink/60 md:absolute md:bottom-8 md:left-14 md:mt-0">
-        <MoveHorizontal aria-hidden="true" className="size-3.5" />
+        <Move aria-hidden="true" className="size-3.5" />
         <span className="hidden md:inline">{dryDock.scrollCue}</span>
         <span className="md:hidden">Scroll down</span>
       </p>

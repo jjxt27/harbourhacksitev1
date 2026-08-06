@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { ibisSpot } from "@/content/map";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 
 const STORE_KEY = "harbourhack-ibis";
@@ -63,7 +64,8 @@ export function BinChicken() {
         }
       }}
       onTap={poke}
-      style={{ x, y, left: "calc(100vw - 7rem)", top: "52vh" }}
+      data-no-pan=""
+      style={{ x, y, left: ibisSpot.x, top: ibisSpot.y }}
       // Desktop only. On the stacked mobile layout `touch-none` would swallow
       // the vertical swipe and trap scrolling wherever he happened to land.
       className="absolute z-20 hidden w-32 cursor-grab touch-none select-none md:block"

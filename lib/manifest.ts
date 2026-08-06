@@ -1,4 +1,4 @@
-import type { Role } from "@/content/canvas";
+import { containers, type ContainerId } from "@/content/customs";
 
 /**
  * A small, stable string hash.
@@ -17,17 +17,25 @@ export function hash(input: string): number {
   return h >>> 0;
 }
 
-const ROLE_CODE: Record<Role, string> = {
-  Tech: "TCH",
-  Biz: "BIZ",
-  Design: "DSN",
-};
+/**
+ * The class letters in the middle of a manifest number, read off the cargo:
+ * all build containers, all market containers, or a mixed load.
+ */
+export function cargoClass(cargo: readonly ContainerId[]): string {
+  if (cargo.length === 0) return "STD";
+  const classes = new Set(
+    cargo.map((id) => containers.find((container) => container.id === id)?.class),
+  );
+  if (classes.size > 1) return "MIX";
+  return classes.has("build") ? "BLD" : "MKT";
+}
 
-/** Container-marking style: HH26-TCH-4821. */
-export function manifestNumber(name: string, role: Role): string {
-  const seed = hash(`${name.trim().toLowerCase()}|${role}`);
+/** Container-marking style: HH26-BLD-4821. */
+export function manifestNumber(name: string, cargo: readonly ContainerId[]): string {
+  const code = cargoClass(cargo);
+  const seed = hash(`${name.trim().toLowerCase()}|${[...cargo].sort().join(",")}`);
   const digits = String(seed % 10000).padStart(4, "0");
-  return `HH26-${ROLE_CODE[role]}-${digits}`;
+  return `HH26-${code}-${digits}`;
 }
 
 /**
