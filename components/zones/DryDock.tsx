@@ -2,6 +2,7 @@ import { ArrowRight, Move } from "lucide-react";
 import { dryDock, site } from "@/content/canvas";
 import { Button } from "@/components/ui/Button";
 import { CriteriaNotes } from "@/components/zones/CriteriaNotes";
+import { PaintedBlock, Stencil } from "@/components/ui/Stencil";
 import { Stamp } from "@/components/ui/Stamp";
 import { HandArrow } from "@/components/art/HandArrow";
 import { PixelBridge } from "@/components/art/PixelBridge";
@@ -19,15 +20,22 @@ export function DryDock() {
             <Stamp>{site.city}</Stamp>
           </div>
 
+          {/* Sprayed onto the deck. The first two lines are stencilled ink;
+              "Ship." is a painted block with the word knocked out of it,
+              because orange sprayed straight onto concrete is 2.6:1 and fails
+              even the large-text bar. As a fill with ink on top it is 5.7:1. */}
           <h1 className="mt-6 font-display text-display font-black uppercase leading-[0.82] tracking-[-0.05em]">
-            <span className="block">Don&apos;t just</span>
-            <span className="block">build.</span>
-            <span className="mt-1 block">
-              <mark className="bg-highlighter px-2.5 py-0.5 text-ink">Ship.</mark>
+            <span className="stencil block opacity-[0.82]">Don&apos;t just</span>
+            <span className="stencil block opacity-[0.82]">build.</span>
+            <span className="mt-2 block">
+              <PaintedBlock>Ship.</PaintedBlock>
             </span>
           </h1>
 
-          <p className="mt-7 max-w-[44ch] text-lead leading-snug md:text-lead">{dryDock.subtext}</p>
+          {/* On a clipboard hung on the wall, not floating in space. */}
+          <p className="mt-7 max-w-[40ch] rotate-[0.6deg] border-2 border-ink bg-paper px-5 py-4 font-hand text-lead leading-snug shadow-hard">
+            {dryDock.subtext}
+          </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
             <Button toDock={dryDock.cta.dock} size="lg">
@@ -41,9 +49,9 @@ export function DryDock() {
         </div>
 
         <div>
-          <p className="mb-4 font-display text-small font-black uppercase tracking-[0.12em]">
+          <Stencil as="p" className="mb-4 text-heading leading-tight tracking-[0.02em]">
             {dryDock.criteriaLabel}
-          </p>
+          </Stencil>
           <CriteriaNotes />
 
           <div aria-hidden="true" className="mt-10 hidden md:block">

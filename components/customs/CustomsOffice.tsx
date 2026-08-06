@@ -8,6 +8,7 @@ import { downloadPass, passFilename, renderPass } from "@/lib/passExport";
 import { useDeclaration, validate } from "@/hooks/useDeclaration";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 import { useSound } from "@/hooks/useSound";
+import { Stencil } from "@/components/ui/Stencil";
 import { DeclarationForm } from "@/components/customs/DeclarationForm";
 import { CargoLoader } from "@/components/customs/CargoLoader";
 import { BoardingPass } from "@/components/customs/BoardingPass";
@@ -126,10 +127,12 @@ export function CustomsOffice() {
         <p className="font-mono text-meta uppercase tracking-[0.2em] text-slate">
           {customs.kicker}
         </p>
-        <h2 className="mt-3 font-display text-title font-black uppercase leading-[0.88] tracking-[-0.045em]">
+        <Stencil faded className="mt-3 text-title leading-[0.88] tracking-[-0.045em]">
           {customs.headline}
-        </h2>
-        <p className="mt-3 max-w-[46ch] text-lead leading-snug">{customs.subtext}</p>
+        </Stencil>
+        <p className="mt-4 max-w-[42ch] -rotate-1 border-2 border-ink bg-paper px-4 py-3 font-hand text-lead leading-snug shadow-hard-sm">
+          {customs.subtext}
+        </p>
       </header>
 
       <div className="grid gap-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12">
@@ -282,17 +285,21 @@ function Crane({
         ? customs.cranePrinting
         : customs.crane;
 
+  const live = clear && !busy;
+
   return (
     <button
       type="submit"
       aria-disabled={!clear || busy}
-      className={`press relative inline-flex items-center gap-3 border-2 border-ink px-7 py-4 font-display text-lead font-black uppercase tracking-tight ${
-        clear && !busy ? "bg-orange text-ink" : "bg-grid text-slate"
+      // A machined switch, not a rectangle of colour: lit top edge, shadowed
+      // bottom, and the whole face travels 4px into its own shadow on press.
+      className={`switch relative inline-flex items-center gap-3 px-7 py-4 font-display text-lead font-black uppercase tracking-tight ${
+        live ? "!bg-orange text-ink" : "text-paper"
       }`}
     >
       <span
         aria-hidden="true"
-        className={`absolute inset-x-0 top-0 h-1.5 ${clear && !busy ? "hazard" : ""}`}
+        className={`absolute inset-x-0 top-0 h-2 ${live ? "hazard" : "bg-ink/30"}`}
       />
       {busy ? (
         <Loader2 aria-hidden="true" className="size-5 animate-spin" strokeWidth={3} />

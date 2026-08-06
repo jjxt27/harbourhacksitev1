@@ -332,11 +332,86 @@
   );
 }
 
-/* Corrugation, for the crate faces. Vertical ribs, hard-edged. */
+/* --------------------------------------------------------- corrugated steel --
+   A container's side is a folded sheet: a flat, a shadowed fall, a lit rise,
+   repeating. Three stops rather than one line, because a single dark rule reads
+   as pinstripe fabric and this has to read as bent metal.
+
+   The shading is black and white at low alpha rather than named colours, so one
+   rule works on all three fills — orange, industrial blue and cargo green each
+   darken and catch light as themselves.                                        */
+
 .corrugated {
   background-image: repeating-linear-gradient(
     90deg,
-    rgb(0 0 0 / 0.14) 0 2px,
-    transparent 2px 9px
+    rgb(0 0 0 / 0.16) 0 3px,
+    rgb(0 0 0 / 0.05) 3px 7px,
+    rgb(255 255 255 / 0.14) 7px 10px,
+    rgb(0 0 0 / 0.05) 10px 14px
   );
+}
+
+/* The end doors: same fold, turned, plus the locking bars. */
+.corrugated-end {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgb(0 0 0 / 0.22) 0 4px,
+      transparent 4px 26px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgb(0 0 0 / 0.14) 0 3px,
+      rgb(255 255 255 / 0.1) 3px 6px,
+      transparent 6px 12px
+    );
+}
+
+/* ------------------------------------------------------------- the stencil --
+   Type sprayed through a cut plate. The bars punched across the glyphs are the
+   bridges that hold a stencil's counters in — without them the middle of an O
+   falls out — and they are what separates spray paint from a bold webfont.
+
+   Done as a mask so it works on any element and any family: no stencil webfont
+   in the bundle, and no typeface chosen on the reader's behalf.
+
+   `--stencil-bar` is the gap width, `--stencil-gap` the distance between bars.
+   Both scale with the text, so a 30px heading and a 120px one are cut alike.  */
+
+@utility stencil {
+  --stencil-bar: 0.075em;
+  --stencil-gap: 0.42em;
+  -webkit-mask-image: repeating-linear-gradient(
+    to bottom,
+    #000 0 calc(var(--stencil-gap) - var(--stencil-bar)),
+    transparent calc(var(--stencil-gap) - var(--stencil-bar)) var(--stencil-gap)
+  );
+  mask-image: repeating-linear-gradient(
+    to bottom,
+    #000 0 calc(var(--stencil-gap) - var(--stencil-bar)),
+    transparent calc(var(--stencil-gap) - var(--stencil-bar)) var(--stencil-gap)
+  );
+}
+
+/* -------------------------------------------------------- mechanical switch --
+   A button with a machined face rather than a flat fill: a lit top edge, a
+   shadowed bottom, and a hard 4px offset that collapses on press so the whole
+   thing physically travels. No blur anywhere — the offset is the depth.        */
+
+@utility switch {
+  background-color: var(--color-slate);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.22) 0 18%,
+    rgb(0 0 0 / 0) 18% 62%,
+    rgb(0 0 0 / 0.28) 62% 100%
+  );
+  border: 3px solid var(--color-ink);
+  box-shadow: var(--shadow-hard);
+  transition: transform 80ms var(--ease-canvas), box-shadow 80ms var(--ease-canvas);
+
+  &:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 var(--color-ink);
+  }
 }

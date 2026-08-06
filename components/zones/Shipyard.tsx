@@ -1,15 +1,19 @@
 import { GraduationCap, MapPin, UserRound, Wrench } from "lucide-react";
 import { shipyard } from "@/content/canvas";
 import { Panel } from "@/components/ui/Panel";
-import { CargoContainer, type CargoFill } from "@/components/ui/CargoContainer";
+import { ShippingContainer, type ContainerFill } from "@/components/ui/ShippingContainer";
+import { Stencil } from "@/components/ui/Stencil";
 import { Tbc } from "@/components/ui/Stamp";
 
-/** Card kinds get a glyph and a fill, so the board is scannable at a glance. */
+/**
+ * Kind decides the paint, so the yard is scannable by colour before it is
+ * readable by label — which is the whole reason real containers are painted.
+ */
 const KINDS = {
-  workshop: { icon: GraduationCap, label: "Workshop", fill: "yellow" },
+  workshop: { icon: GraduationCap, label: "Workshop", fill: "industrial" },
   mentor: { icon: Wrench, label: "Mentor", fill: "orange" },
-  session: { icon: null, label: "Session", fill: "paper" },
-} as const satisfies Record<string, { icon: unknown; label: string; fill: CargoFill }>;
+  session: { icon: null, label: "Session", fill: "cargo" },
+} as const satisfies Record<string, { icon: unknown; label: string; fill: ContainerFill }>;
 
 type Kind = keyof typeof KINDS;
 
@@ -22,10 +26,16 @@ export function Shipyard() {
           <p className="font-mono text-meta uppercase tracking-[0.2em] text-ink/60">
             {shipyard.kicker}
           </p>
-          <h2 className="mt-4 font-display text-title font-black uppercase leading-[0.88] tracking-[-0.045em]">
+          <Stencil
+            faded
+            className="mt-4 text-title leading-[0.88] tracking-[-0.045em]"
+          >
             {shipyard.headline}
-          </h2>
-          <p className="mt-4 max-w-[48ch] text-lead leading-snug">{shipyard.subtext}</p>
+          </Stencil>
+          {/* On a clipboard, not floating. */}
+          <p className="mt-5 max-w-[44ch] -rotate-1 border-2 border-ink bg-paper px-4 py-3 font-hand text-lead leading-snug shadow-hard-sm">
+            {shipyard.subtext}
+          </p>
         </div>
 
         <dl className="flex gap-8 font-mono text-meta uppercase tracking-[0.16em]">
@@ -43,22 +53,25 @@ export function Shipyard() {
       </header>
 
       <div className="grid gap-5 md:grid-cols-3 md:gap-6">
-        {shipyard.columns.map((column) => (
+        {shipyard.columns.map((column, columnIndex) => (
           <Panel
             key={column.id}
             label={column.title}
             meta={column.time === "TBC" ? "Time TBC" : column.time}
             tone="off"
           >
-            <ul className="grid gap-3">
-              {column.cards.map((card) => {
+            {/* Extra gap: these lean, so square spacing would let corners
+                touch. The stack is a yard, not a list. */}
+            <ul className="grid gap-4">
+              {column.cards.map((card, row) => {
                 const kind = KINDS[card.kind as Kind] ?? KINDS.session;
                 const Icon = kind.icon;
                 return (
                   <li key={card.title}>
-                    <CargoContainer
+                    <ShippingContainer
                       label={card.title}
                       fill={kind.fill}
+                      index={columnIndex * 4 + row}
                       meta={`${kind.label} · ${card.time === "TBC" ? "Time TBC" : card.time}`}
                       glyph={
                         Icon ? (
@@ -80,9 +93,9 @@ export function Shipyard() {
 
       <section aria-labelledby="mentors" className="border-t-2 border-ink pt-6">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
-          <h3 id="mentors" className="font-display text-small font-black uppercase tracking-[0.14em]">
+          <Stencil as="h3" id="mentors" className="text-heading tracking-[0.06em]">
             {shipyard.mentorsLabel}
-          </h3>
+          </Stencil>
           <p className="font-mono text-meta uppercase tracking-[0.16em] text-ink/60">
             {shipyard.mentorsNote}
           </p>
