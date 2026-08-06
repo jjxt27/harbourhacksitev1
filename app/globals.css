@@ -27,6 +27,12 @@
      the ground rather than as more of the ground. */
   --color-land: #f5f5f5;
 
+  /* Oxidised steel, for the yard boards the containers stack against.
+     Paper on rust is 9.4:1. Ink on it is 2.0:1, so nothing dark ever goes on
+     this — it is a dark ground, and it is treated like one. */
+  --color-rust: #6b3a22;
+  --color-rust-light: #8a4e2f;
+
   /* The two industrial fills that join orange on the containers.
        industrial 5.5:1 with paper on it — paper only, ink fails at 3.4:1
        cargo      8.2:1 with paper on it
@@ -390,6 +396,52 @@
     to bottom,
     #000 0 calc(var(--stencil-gap) - var(--stencil-bar)),
     transparent calc(var(--stencil-gap) - var(--stencil-bar)) var(--stencil-gap)
+  );
+}
+
+/* --------------------------------------------------------- oxidised steel --
+   A yard board that has been outside for thirty years.
+
+   Two layers, both hard-edged: vertical run-streaks where water has come down
+   the sheet, and broad diagonal patches where the paint has gone entirely.
+   Every stop is abrupt — a soft gradient would read as an airbrushed texture,
+   and rust on a real board has an edge where it stops.                        */
+
+.rusted {
+  background-color: var(--color-rust);
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgb(0 0 0 / 0.2) 0 5px,
+      transparent 5px 23px,
+      rgb(255 255 255 / 0.05) 23px 27px,
+      transparent 27px 52px
+    ),
+    repeating-linear-gradient(
+      174deg,
+      rgb(0 0 0 / 0.16) 0 40px,
+      transparent 40px 92px,
+      rgb(138 78 47 / 0.55) 92px 130px,
+      transparent 130px 214px
+    );
+}
+
+/* A run of bolt heads. Square, because the no-radius rule holds even here —
+   and a hex bolt seen from directly above is closer to a square than a disc. */
+.bolted {
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-ink) 0 7px,
+    transparent 7px 34px
+  );
+}
+
+/* An empty container footprint, painted on the deck. */
+.berth {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgb(10 10 10 / 0.07) 0 9px,
+    transparent 9px 20px
   );
 }
 

@@ -58,7 +58,6 @@ export function Shipyard() {
             key={column.id}
             label={column.title}
             meta={column.time === "TBC" ? "Time TBC" : column.time}
-            tone="off"
           >
             {/* Extra gap: these lean, so square spacing would let corners
                 touch. The stack is a yard, not a list. */}
@@ -103,22 +102,36 @@ export function Shipyard() {
 
         <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {shipyard.mentors.length > 0
-            ? shipyard.mentors.map((mentor) => (
-                <li key={mentor.name} className="border-2 border-ink bg-paper p-3 shadow-hard-sm">
-                  <p className="font-display text-small font-bold uppercase leading-tight">{mentor.name}</p>
-                  <p className="mt-1 font-mono text-micro uppercase tracking-[0.14em] text-ink/70">
-                    {mentor.role} · {mentor.company}
-                  </p>
+            ? shipyard.mentors.map((mentor, index) => (
+                <li key={mentor.name}>
+                  <ShippingContainer label={mentor.name} fill="cargo" index={index + 9} meta={mentor.company}>
+                    <p className="relative mt-1 font-mono text-micro uppercase tracking-[0.14em] opacity-80">
+                      {mentor.role}
+                    </p>
+                  </ShippingContainer>
                 </li>
               ))
-            : /* Empty slots, honestly labelled — never invented names. */
+            : /* Empty berths: the footprint is painted on the deck and the box
+                 has not arrived. Honest about being unfilled, and it reads as
+                 a gap in the yard rather than as a broken card. Never invented
+                 names. */
               Array.from({ length: shipyard.mentorSlots }, (_, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-2.5 border-2 border-dashed border-ink/40 bg-paper/50 p-3"
+                  className="berth relative flex min-h-[4.5rem] items-center gap-2.5 border-2 border-dashed border-ink/45 px-3 py-3"
                 >
-                  <UserRound aria-hidden="true" className="size-4 shrink-0 text-ink/40" strokeWidth={2.5} />
+                  <UserRound aria-hidden="true" className="size-4 shrink-0 text-ink/45" strokeWidth={2.5} />
                   <Tbc />
+                  {/* Corner castings, with no container in them. */}
+                  {["left-0 top-0", "right-0 top-0", "bottom-0 left-0", "bottom-0 right-0"].map(
+                    (corner) => (
+                      <span
+                        key={corner}
+                        aria-hidden="true"
+                        className={`absolute ${corner} size-2 bg-ink/45`}
+                      />
+                    ),
+                  )}
                 </li>
               ))}
         </ul>
