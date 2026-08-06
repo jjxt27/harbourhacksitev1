@@ -1,14 +1,15 @@
 import { GraduationCap, MapPin, UserRound, Wrench } from "lucide-react";
 import { shipyard } from "@/content/canvas";
 import { Panel } from "@/components/ui/Panel";
+import { CargoContainer, type CargoFill } from "@/components/ui/CargoContainer";
 import { Tbc } from "@/components/ui/Stamp";
 
 /** Card kinds get a glyph and a fill, so the board is scannable at a glance. */
 const KINDS = {
-  workshop: { icon: GraduationCap, label: "Workshop", fill: "bg-highlighter" },
-  mentor: { icon: Wrench, label: "Mentor", fill: "bg-orange text-paper" },
-  session: { icon: null, label: "Session", fill: "bg-paper" },
-} as const;
+  workshop: { icon: GraduationCap, label: "Workshop", fill: "yellow" },
+  mentor: { icon: Wrench, label: "Mentor", fill: "orange" },
+  session: { icon: null, label: "Session", fill: "paper" },
+} as const satisfies Record<string, { icon: unknown; label: string; fill: CargoFill }>;
 
 type Kind = keyof typeof KINDS;
 
@@ -54,21 +55,21 @@ export function Shipyard() {
                 const kind = KINDS[card.kind as Kind] ?? KINDS.session;
                 const Icon = kind.icon;
                 return (
-                  <li
-                    key={card.title}
-                    className={`border-2 border-ink px-3 py-2.5 shadow-hard-sm ${kind.fill}`}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="font-display text-small font-bold uppercase leading-tight tracking-tight">
-                        {card.title}
-                      </p>
-                      {Icon ? <Icon aria-hidden="true" className="mt-0.5 size-4 shrink-0" strokeWidth={2.5} /> : null}
-                    </div>
-                    <p className="mt-2 flex items-center gap-2 font-mono text-micro uppercase tracking-[0.16em] opacity-75">
-                      {kind.label}
-                      <span aria-hidden="true">·</span>
-                      {card.time === "TBC" ? "Time TBC" : card.time}
-                    </p>
+                  <li key={card.title}>
+                    <CargoContainer
+                      label={card.title}
+                      fill={kind.fill}
+                      meta={`${kind.label} · ${card.time === "TBC" ? "Time TBC" : card.time}`}
+                      glyph={
+                        Icon ? (
+                          <Icon
+                            aria-hidden="true"
+                            className="relative mt-0.5 size-4 shrink-0"
+                            strokeWidth={2.5}
+                          />
+                        ) : null
+                      }
+                    />
                   </li>
                 );
               })}

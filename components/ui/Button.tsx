@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { Sharpie } from "@/components/ui/Sharpie";
 import { useMapNav } from "@/components/map/MapContext";
 import { useIsDesktop } from "@/hooks/useMediaQuery";
+import { useSound } from "@/hooks/useSound";
 
 /**
  * `orange` is the conversion action. `ink` is secondary. `paper` is tertiary.
@@ -53,6 +54,8 @@ export function Button({
 }: ButtonProps) {
   const { goToDockId } = useMapNav();
   const isDesktop = useIsDesktop();
+  // Silent unless the reader has turned sound on. `useSound` gates it, not us.
+  const sound = useSound();
 
   const shell = [
     "press inline-flex items-center gap-2.5 border-2 border-ink font-display font-black uppercase tracking-tight",
@@ -72,6 +75,7 @@ export function Button({
         href={`#${toDock}`}
         className={shell}
         onClick={(event) => {
+          sound.play("crane");
           if (!isDesktop) return;
           event.preventDefault();
           goToDockId(toDock);
@@ -88,7 +92,15 @@ export function Button({
     );
   } else {
     control = (
-      <button type={type} onClick={onClick} disabled={disabled} className={shell}>
+      <button
+        type={type}
+        onClick={() => {
+          sound.play("crate");
+          onClick?.();
+        }}
+        disabled={disabled}
+        className={shell}
+      >
         {children}
       </button>
     );

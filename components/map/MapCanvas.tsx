@@ -10,6 +10,7 @@ import { Buoys } from "@/components/map/Buoys";
 import { MapChrome } from "@/components/map/MapChrome";
 import { Chart } from "@/components/map/Chart";
 import { BinChicken } from "@/components/art/BinChicken";
+import { BadIdeaNote } from "@/components/art/BadIdeaNote";
 import { CursorLayer } from "@/components/live/CursorLayer";
 
 /** Chart-grid pitch at 1x zoom, in world pixels. */
@@ -62,8 +63,9 @@ export function MapCanvas({ children }: { children: ReactNode }) {
             </Dock>
           ))}
 
-          {/* Both live inside the world, so they travel with the harbour
+          {/* These live inside the world, so they travel with the harbour
               rather than sticking to the glass. */}
+          <BadIdeaNote />
           <BinChicken />
           <CursorLayer />
         </motion.div>

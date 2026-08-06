@@ -39,6 +39,17 @@ export function manifestNumber(name: string, cargo: readonly ContainerId[]): str
 }
 
 /**
+ * The number painted on the side of a container, e.g. `CRG-417`.
+ *
+ * Derived from the label rather than from a counter, so a card keeps its
+ * markings wherever it ends up in the schedule and two builds of the site never
+ * disagree about which box is which.
+ */
+export function crateCode(label: string, prefix = "CRG"): string {
+  return `${prefix}-${String((hash(label) % 900) + 100)}`;
+}
+
+/**
  * Bar widths for the barcode, derived from the same seed.
  *
  * Not a real symbology — it encodes nothing and is decorative, which is why it

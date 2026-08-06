@@ -53,6 +53,19 @@ export const dryDock = {
   secondary: { label: "See the weekend", dock: "shipyard" },
 } as const;
 
+/**
+ * The easter egg. A note nobody wants, and a bird that will take it.
+ *
+ * Decorative from end to end — the joke is the whole payload, so there is
+ * nothing here a reader loses by never finding it.
+ */
+export const badIdea = {
+  tag: "Bad idea",
+  text: "Another to-do app. With AI.",
+  hint: "drag it somewhere useful",
+  eaten: "Gone. Thanks mate.",
+} as const;
+
 export const shipyard = {
   kicker: "Dock 02 — The Shipyard",
   headline: "The build weekend",

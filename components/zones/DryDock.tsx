@@ -1,7 +1,7 @@
 import { ArrowRight, Move } from "lucide-react";
 import { dryDock, site } from "@/content/canvas";
 import { Button } from "@/components/ui/Button";
-import { StickyNote } from "@/components/ui/StickyNote";
+import { CriteriaNotes } from "@/components/zones/CriteriaNotes";
 import { Stamp } from "@/components/ui/Stamp";
 import { HandArrow } from "@/components/art/HandArrow";
 import { PixelBridge } from "@/components/art/PixelBridge";
@@ -44,18 +44,7 @@ export function DryDock() {
           <p className="mb-4 font-display text-small font-black uppercase tracking-[0.12em]">
             {dryDock.criteriaLabel}
           </p>
-          <ul className="grid gap-4 sm:grid-cols-3 md:gap-3.5">
-            {dryDock.criteria.map((item) => (
-              <li key={item.n}>
-                <StickyNote tone={item.tone} rotate={item.rotate} tag={item.n} className="h-full">
-                  <strong className="block font-display text-body font-black uppercase leading-tight tracking-tight">
-                    {item.title}
-                  </strong>
-                  <span className="mt-2 block text-body leading-snug">{item.note}</span>
-                </StickyNote>
-              </li>
-            ))}
-          </ul>
+          <CriteriaNotes />
 
           <div aria-hidden="true" className="mt-10 hidden md:block">
             <HandArrow className="h-20 w-[min(30rem,100%)]" />
