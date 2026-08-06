@@ -37,7 +37,7 @@ export function CursorLayer() {
     <div
       ref={layerRef}
       aria-hidden="true"
-      className="pointer-events-none absolute z-30 overflow-hidden"
+      className="pointer-events-none absolute z-30 overflow-hidden [transform-style:preserve-3d]"
       style={{
         left: chartBounds.minX - MARGIN,
         top: chartBounds.minY - MARGIN,

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type { CSSProperties } from "react";
 import { buoys } from "@/content/map";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 
@@ -19,10 +20,24 @@ export function Buoys() {
   const reduced = usePrefersReducedMotion();
 
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 md:block">
+    // `preserve-3d` is not optional on this wrapper. Any element between the
+    // world and a billboard that does not carry it flattens the 3D transform
+    // underneath, and the billboard's rotateX silently collapses — the buoys
+    // measured a third of their height before this was here.
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 z-10 [transform-style:preserve-3d]"
+    >
       {buoys.map((buoy, index) => (
-        <motion.div
+        // A buoy is a vertical object, so it stands rather than lies. The
+        // billboard wraps the draggable element rather than being on it —
+        // `drag` writes `transform` inline and would overwrite it.
+        <div
           key={buoy.id}
+          className="iso-entity billboard pointer-events-none hidden md:block"
+          style={{ "--wx": `${buoy.x}px`, "--wy": `${buoy.y}px` } as CSSProperties}
+        >
+        <motion.div
           data-no-pan=""
           drag
           dragElastic={0.35}
@@ -39,11 +54,11 @@ export function Buoys() {
                   ease: "easeInOut",
                 }
           }
-          className="pointer-events-auto absolute hidden cursor-grab touch-none active:cursor-grabbing md:block"
-          style={{ left: buoy.x, top: buoy.y }}
+          className="pointer-events-auto relative cursor-grab touch-none active:cursor-grabbing"
         >
           {buoy.kind === "can" ? <CanBuoy /> : <CardinalBuoy />}
         </motion.div>
+        </div>
       ))}
     </div>
   );

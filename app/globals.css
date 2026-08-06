@@ -186,59 +186,179 @@
    custom properties rather than as inline `left`/`top`: a custom property is
    trivially overridden here, an inline style is not.                          */
 
-.map-viewport {
+.iso-viewport {
   position: fixed;
   inset: 0;
   overflow: hidden;
   background: var(--color-harbour);
   overscroll-behavior: none;
   touch-action: none;
+  perspective: var(--iso-perspective);
+  transform-style: preserve-3d;
 }
 
-.map-world {
+/* Pan and zoom, in screen space, above the tilt.
+   Keeping the camera outside the rotation is the whole reason dragging still
+   feels right: a drag to the right moves the view to the right. Translating
+   inside the rotated space would send it off along a map axis instead, and
+   every gesture would need the inverse projection applied to it first. */
+.iso-camera {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* The map itself: a flat square laid down and tilted back. Origin at the
+   top-left corner so the projection maths in content/iso.ts stays simple. */
+.iso-world {
   position: absolute;
   top: 0;
   left: 0;
   width: var(--world);
   height: var(--world);
   transform-origin: 0 0;
-  will-change: transform;
+  transform: rotateX(60deg) rotateZ(-45deg);
+  transform-style: preserve-3d;
 }
 
-.map-viewport[data-pannable="true"] { cursor: grab; }
-.map-viewport[data-grabbing="true"] { cursor: grabbing; user-select: none; }
-
-.dock {
+/* Anything standing on the map, placed by world coordinate and nothing else. */
+.iso-entity {
   position: absolute;
-  left: var(--dock-x);
-  top: var(--dock-y);
-  width: var(--dock-w);
-  height: var(--dock-h);
+  left: var(--wx);
+  top: var(--wy);
+  transform-style: preserve-3d;
 }
+
+/* Stand up and face the camera. Undoes the two map rotations in the opposite
+   order, which is what inverting a pair of rotations requires. */
+.billboard {
+  transform: rotateZ(45deg) rotateX(-60deg);
+  /* Pivot at the base, so a sprite stands on the ground it is placed on
+     rather than sinking half its height into it. */
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+}
+
+.iso-viewport[data-pannable="true"] { cursor: grab; }
+.iso-viewport[data-grabbing="true"] { cursor: grabbing; user-select: none; }
+
+/* ------------------------------------------------------------ the slab --
+   Concrete thickness, pushed down into the water.
+
+   A box-shadow is applied before the map's transform, so `20px 20px` does not
+   fall towards the viewer — it slides along a map axis and comes out
+   horizontal. Solving the projection for zero horizontal movement gives
+   dx = −dy, so the stack steps negative on x and positive on y and the slab
+   reads as sitting *in* the harbour rather than floating over it.
+
+   Nineteen mid-grey steps for the cut face, one ink step at the bottom for the
+   waterline.                                                                  */
+
+.slab {
+  --slab-face: #b4b4b4;
+  box-shadow:
+    -1px 1px 0 var(--slab-face),
+    -2px 2px 0 var(--slab-face),
+    -3px 3px 0 var(--slab-face),
+    -4px 4px 0 var(--slab-face),
+    -5px 5px 0 var(--slab-face),
+    -6px 6px 0 var(--slab-face),
+    -7px 7px 0 var(--slab-face),
+    -8px 8px 0 var(--slab-face),
+    -9px 9px 0 #a6a6a6,
+    -10px 10px 0 #a6a6a6,
+    -11px 11px 0 #a6a6a6,
+    -12px 12px 0 #a6a6a6,
+    -13px 13px 0 #999999,
+    -14px 14px 0 #999999,
+    -15px 15px 0 #999999,
+    -16px 16px 0 #8c8c8c,
+    -17px 17px 0 #8c8c8c,
+    -18px 18px 0 #7f7f7f,
+    -19px 19px 0 #6b6b6b,
+    -20px 20px 0 var(--color-ink);
+}
+
+/* ------------------------------------------------------------- the water --
+   Inside the world, not on the glass.
+
+   It was painted on the viewport when the map was flat, which no longer works:
+   a screen-aligned grid over a tilted ground plane reads as a screen door in
+   front of the scene rather than as chart lines on the water.                 */
+
+.iso-water {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-harbour);
+  background-image:
+    linear-gradient(to right, var(--color-harbour-line) 2px, transparent 2px),
+    linear-gradient(to bottom, var(--color-harbour-line) 2px, transparent 2px);
+  background-size: 96px 96px;
+}
+
+.iso-swell {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -22deg,
+    transparent 0 92px,
+    var(--color-harbour-swell) 92px 96px
+  );
+  animation: swell 26s linear infinite;
+}
+
+@keyframes swell {
+  from { background-position: 0 0; }
+  to { background-position: 208px -84px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iso-swell { animation: none; }
+}
+
+/* ------------------------------------------------------- the mobile switch --
+   Below the breakpoint there is no map. The projection, the camera and the
+   coordinate system are all thrown away and the docks fall back into normal
+   flow in DOM order.
+
+   This is why a dock's rect arrives as four custom properties rather than as
+   inline `left`/`top`: a custom property loses to a media query cleanly, an
+   inline style does not.                                                      */
 
 @media (max-width: 767px) {
-  .map-viewport {
+  .iso-viewport {
     position: static;
     overflow: visible;
     touch-action: auto;
     cursor: auto !important;
+    perspective: none;
+    transform-style: flat;
   }
-  .map-world {
+  .iso-camera,
+  .iso-world {
     position: static;
     width: 100%;
     height: auto;
-    padding: 0.75rem;
-    /* The camera transform must not survive into the stacked layout. */
     transform: none !important;
+    transform-style: flat;
   }
-  .dock {
+  .iso-world { padding: 0.75rem; }
+  .iso-water,
+  .iso-swell {
+    position: fixed;
+    inset: 0;
+  }
+  .iso-entity {
     position: static;
-    width: 100%;
-    height: auto;
+    width: 100% !important;
+    height: auto !important;
     margin: 0 0 0.75rem;
   }
-  .dock-deck {
-    /* The offset shadow would sit under the next dock in a column. */
+  .billboard { transform: none; }
+  .slab {
+    /* Twenty stacked shadows in a vertical column is a mess. */
     box-shadow: var(--shadow-hard);
   }
 }
@@ -250,57 +370,6 @@
    compositor has to keep somewhere. Instead the ocean is one viewport-sized
    layer whose `background-position` is driven by the camera, which produces an
    identical parallax for the cost of a screenful.                             */
-
-.map-ocean {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-color: var(--color-harbour);
-  background-image:
-    linear-gradient(to right, var(--color-harbour-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-harbour-line) 1px, transparent 1px);
-}
-
-/* The swell. A second, coarser grid drifting diagonally at its own pace, so the
-   water reads as moving under the chart rather than with it. */
-.map-swell {
-  position: absolute;
-  inset: -20%;
-  z-index: 0;
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    -22deg,
-    transparent 0 46px,
-    var(--color-harbour-swell) 46px 48px
-  );
-  animation: swell 26s linear infinite;
-}
-
-@keyframes swell {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-104px, -42px, 0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .map-swell { animation: none; }
-}
-
-/* Once the docks stack, the viewport is no longer fixed, so `inset: 0` would
-   resolve against the initial containing block and the water would stop after
-   the first screenful. Pin the two layers directly instead.
-
-   These have to sit after the rules above, not up in the layout media query:
-   same specificity, so source order is what decides. */
-@media (max-width: 767px) {
-  .map-ocean {
-    position: fixed;
-  }
-  .map-swell {
-    position: fixed;
-    inset: -20%;
-  }
-}
 
 /* ------------------------------------------------------------- the docks --
    Concrete slabs with hazard-striped edges. The stripe is a gradient rather
@@ -318,7 +387,7 @@
   background-size: 13px 13px, 21px 21px;
   background-position: 0 0, 7px 9px;
   border: 2px solid var(--color-ink);
-  box-shadow: var(--shadow-hard-xl);
+  /* No shadow here any more — the slab underneath supplies the thickness. */
 }
 
 .hazard {

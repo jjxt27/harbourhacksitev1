@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { badIdea } from "@/content/canvas";
 import { ibisSpot } from "@/content/map";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
@@ -30,6 +30,13 @@ export function BadIdeaNote() {
   const sound = useSound();
 
   return (
+    // Positioned on the map, then stood upright. The billboard has to be a
+    // plain element rather than the motion one: `drag` writes `transform`
+    // inline, which would overwrite the transform doing the standing up.
+    <div
+      className="iso-entity billboard hidden md:block"
+      style={{ "--wx": `${SPOT.x}px`, "--wy": `${SPOT.y}px` } as CSSProperties}
+    >
     <AnimatePresence>
       {eaten ? null : (
         <motion.div
@@ -66,11 +73,10 @@ export function BadIdeaNote() {
             sound.play("drop");
             setEaten(true);
           }}
-          style={{ left: SPOT.x, top: SPOT.y }}
           // Desktop only, for the same reason the bird is: on the stacked mobile
           // layout `touch-none` would swallow the vertical swipe and trap
           // scrolling wherever the note happened to land.
-          className="absolute z-20 hidden w-44 -rotate-2 cursor-grab touch-none select-none border-2 border-ink bg-paper p-3 shadow-hard md:block"
+          className="relative z-20 w-44 -rotate-2 cursor-grab touch-none select-none border-2 border-ink bg-paper p-3 shadow-hard"
         >
           <p className="border-b-2 border-ink/25 pb-1.5 font-mono text-micro uppercase tracking-[0.18em] text-alert">
             {badIdea.tag}
@@ -82,5 +88,6 @@ export function BadIdeaNote() {
         </motion.div>
       )}
     </AnimatePresence>
+    </div>
   );
 }

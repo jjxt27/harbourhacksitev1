@@ -9,7 +9,18 @@ import {
 } from "framer-motion";
 import { useDrag } from "@use-gesture/react";
 import { WORLD, SPAWN, ZOOM, docks, dockCentre } from "@/content/map";
+import { ISO_X, ISO_Y, project, projectedBounds, unproject } from "@/content/iso";
 import { useIsDesktop, usePrefersReducedMotion } from "@/hooks/useMediaQuery";
+
+/**
+ * The map's footprint on screen at 1x.
+ *
+ * A square laid down isometrically is a diamond — √2 as wide as the map, half
+ * that tall, and reaching above its own origin as well as below. Clamping
+ * against the raw 10,000px square instead would let a reader pan a third of the
+ * way off the top of the world before anything stopped them.
+ */
+const BOUNDS = projectedBounds(WORLD);
 
 const SPRING = { stiffness: 240, damping: 40, mass: 0.6 };
 
@@ -98,31 +109,42 @@ export function useMapCamera(): MapCamera {
   const pannable = isDesktop && ready;
 
   /**
-   * Keep the world covering the viewport. When the world is smaller than the
-   * viewport on an axis — possible at 0.5x on a very wide screen — centre it
-   * rather than letting it drift into empty space.
+   * Keep the map covering the viewport.
+   *
+   * `lo`/`hi` are the projected extent of the map on this axis, which for the
+   * vertical is signed — the diamond reaches above its own origin. When the map
+   * is smaller than the viewport, centre it rather than letting it drift.
    */
-  const clampAxis = useCallback((value: number, extent: number, span: number) => {
-    if (span <= extent) return (extent - span) / 2;
-    return Math.min(0, Math.max(extent - span, value));
-  }, []);
+  const clampAxis = useCallback(
+    (value: number, extent: number, lo: number, hi: number) => {
+      const span = hi - lo;
+      if (span <= extent) return (extent - span) / 2 - lo;
+      return Math.min(-lo, Math.max(extent - hi, value));
+    },
+    [],
+  );
 
   const commit = useCallback(
     (nextX: number, nextY: number, nextScale: number) => {
       const s = Math.min(ZOOM.max, Math.max(ZOOM.min, nextScale));
-      const span = WORLD * s;
       ts.set(s);
-      tx.set(clampAxis(nextX, size.current.w, span));
-      ty.set(clampAxis(nextY, size.current.h, span));
+      tx.set(clampAxis(nextX, size.current.w, BOUNDS.minX * s, BOUNDS.maxX * s));
+      ty.set(clampAxis(nextY, size.current.h, BOUNDS.minY * s, BOUNDS.maxY * s));
     },
     [clampAxis, ts, tx, ty],
   );
 
-  /** Put a world point in the middle of the viewport. */
+  /**
+   * Put a world point in the middle of the viewport.
+   *
+   * The world point has to be projected first — the camera moves in screen
+   * space, so it needs to know where on screen that place has landed.
+   */
   const centreOn = useCallback(
     (wx: number, wy: number, nextScale = ts.get()) => {
       const s = Math.min(ZOOM.max, Math.max(ZOOM.min, nextScale));
-      commit(size.current.w / 2 - wx * s, size.current.h / 2 - wy * s, s);
+      const at = project(wx, wy);
+      commit(size.current.w / 2 - at.x * s, size.current.h / 2 - at.y * s, s);
     },
     [commit, ts],
   );
@@ -154,10 +176,12 @@ export function useMapCamera(): MapCamera {
       const dock = docks[Math.min(docks.length - 1, Math.max(0, index))];
       if (!dock) return;
       const { w, h } = size.current;
-      // Frame the whole dock where it fits, but never zoom past the range.
+      // A dock projects to a diamond whose width and height both fall out of
+      // the same sum, so its screen footprint is not its rect.
+      const spread = dock.width + dock.height;
       const fit = Math.min(
-        w / (dock.width + DOCK_PADDING * 2),
-        h / (dock.height + DOCK_PADDING * 2),
+        w / (ISO_X * spread + DOCK_PADDING * 2),
+        h / (ISO_Y * spread + DOCK_PADDING * 2),
       );
       const centre = dockCentre(dock);
       centreOn(centre.x, centre.y, Math.min(ZOOM.max, Math.max(MIN_FIT, fit)));
@@ -191,9 +215,14 @@ export function useMapCamera(): MapCamera {
 
       if (first) {
         const s = ZOOM.start;
+        const at = project(SPAWN.x, SPAWN.y);
         ts.set(s);
-        tx.set(clampAxis(el.clientWidth / 2 - SPAWN.x * s, el.clientWidth, WORLD * s));
-        ty.set(clampAxis(el.clientHeight / 2 - SPAWN.y * s, el.clientHeight, WORLD * s));
+        tx.set(
+          clampAxis(el.clientWidth / 2 - at.x * s, el.clientWidth, BOUNDS.minX * s, BOUNDS.maxX * s),
+        );
+        ty.set(
+          clampAxis(el.clientHeight / 2 - at.y * s, el.clientHeight, BOUNDS.minY * s, BOUNDS.maxY * s),
+        );
         // The springs would otherwise fly in from wherever they started.
         sx.jump(tx.get());
         sy.jump(ty.get());
@@ -332,8 +361,11 @@ export function useMapCamera(): MapCamera {
   useMotionValueEvent(x, "change", () => {
     const s = scale.get();
     if (s === 0) return;
-    const wx = (size.current.w / 2 - x.get()) / s;
-    const wy = (size.current.h / 2 - y.get()) / s;
+    // Screen centre back through the projection, to a place on the map.
+    const { x: wx, y: wy } = unproject(
+      (size.current.w / 2 - x.get()) / s,
+      (size.current.h / 2 - y.get()) / s,
+    );
 
     let nearest = 0;
     let best = Infinity;

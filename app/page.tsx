@@ -1,4 +1,4 @@
-import { MapCanvas } from "@/components/map/MapCanvas";
+import { WorldMap } from "@/components/map/WorldMap";
 import { LiveRoom } from "@/components/live/LiveRoom";
 import { RolePrompt } from "@/components/live/RolePrompt";
 import { DryDock } from "@/components/zones/DryDock";
@@ -10,11 +10,11 @@ export default function HomePage() {
   return (
     <LiveRoom>
       <RolePrompt />
-      <MapCanvas>
+      <WorldMap>
         <DryDock />
         <Shipyard />
         <CustomsOffice />
-      </MapCanvas>
+      </WorldMap>
     </LiveRoom>
   );
 }

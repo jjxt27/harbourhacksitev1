@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useAnimationControls, useMotionValue } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { badIdea } from "@/content/canvas";
 import { ibisSpot } from "@/content/map";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
@@ -110,6 +110,14 @@ export function BinChicken() {
   };
 
   return (
+    // Positioned on the map, then stood upright. Because the billboard cancels
+    // the map's rotation, everything inside it is back in screen space — which
+    // is what makes dragging him feel right instead of sending him off along a
+    // map axis.
+    <div
+      className="iso-entity billboard hidden w-32 md:block"
+      style={{ "--wx": `${ibisSpot.x}px`, "--wy": `${ibisSpot.y}px` } as CSSProperties}
+    >
     <motion.div
       aria-hidden="true"
       drag
@@ -129,10 +137,11 @@ export function BinChicken() {
       onDragStart={() => setHeld(true)}
       onTap={poke}
       data-no-pan=""
-      style={{ x, y, left: ibisSpot.x, top: ibisSpot.y }}
-      // Desktop only. On the stacked mobile layout `touch-none` would swallow
-      // the vertical swipe and trap scrolling wherever he happened to land.
-      className="absolute z-20 hidden w-32 cursor-grab touch-none select-none md:block"
+      style={{ x, y }}
+      // `touch-none` is desktop-only by way of the wrapper: on the stacked
+      // mobile layout it would swallow the vertical swipe and trap scrolling
+      // wherever he happened to land.
+      className="relative z-20 w-32 cursor-grab touch-none select-none"
     >
       {/*
         Four layers, one job each. A motion element can hold exactly one
@@ -212,5 +221,6 @@ export function BinChicken() {
         </motion.div>
       </motion.div>
     </motion.div>
+    </div>
   );
 }
