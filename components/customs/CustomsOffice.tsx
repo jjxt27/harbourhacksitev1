@@ -8,7 +8,7 @@ import { downloadPass, passFilename, renderPass } from "@/lib/passExport";
 import { useDeclaration, validate } from "@/hooks/useDeclaration";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 import { useSound } from "@/hooks/useSound";
-import { Stencil } from "@/components/ui/Stencil";
+import { DeckPanel } from "@/components/map/DeckPanel";
 import { DeclarationForm } from "@/components/customs/DeclarationForm";
 import { CargoLoader } from "@/components/customs/CargoLoader";
 import { BoardingPass } from "@/components/customs/BoardingPass";
@@ -122,15 +122,26 @@ export function CustomsOffice() {
   );
 
   return (
-    <div className="h-full overflow-hidden bg-highlighter px-7 py-8 md:px-10 md:py-9">
-      <header className="mb-7">
+    <>
+      {/* Painted on the loading dock, lying in the ground plane. */}
+      <p
+        aria-hidden="true"
+        className="ground-paint stencil absolute whitespace-nowrap font-display font-black uppercase leading-none tracking-[-0.02em] text-ink opacity-20"
+        style={{ left: 120, top: 300, fontSize: 190 }}
+      >
+        {customs.headline}
+      </p>
+
+      {/* The terminal itself stands up. A declaration form lying in the ground
+          plane is not styled badly, it is unusable — this is exactly the case
+          the billboard exists for. */}
+      <DeckPanel x={110} y={1180} width={1420} className="bg-highlighter">
+      <div className="px-7 py-6">
+      <header className="mb-6">
         <p className="font-mono text-meta uppercase tracking-[0.2em] text-slate">
           {customs.kicker}
         </p>
-        <Stencil faded className="mt-3 text-title leading-[0.88] tracking-[-0.045em]">
-          {customs.headline}
-        </Stencil>
-        <p className="mt-4 max-w-[42ch] -rotate-1 border-2 border-ink bg-paper px-4 py-3 font-hand text-lead leading-snug shadow-hard-sm">
+        <p className="mt-2 max-w-[42ch] -rotate-1 border-2 border-ink bg-paper px-4 py-3 font-hand text-lead leading-snug shadow-hard-sm">
           {customs.subtext}
         </p>
       </header>
@@ -256,7 +267,9 @@ export function CustomsOffice() {
           )}
         </div>
       </div>
-    </div>
+      </div>
+      </DeckPanel>
+    </>
   );
 }
 

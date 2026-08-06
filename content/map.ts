@@ -88,10 +88,15 @@ export const docks: readonly Dock[] = [
     label: "Cockatoo Island",
     bearing: "33°51'S 151°10'E",
     // West, up the river. The island is drawn around this rect.
-    x: 1780,
-    y: 4150,
-    width: 1900,
-    height: 1150,
+    //
+    // Deeper than the other docks because the yard needs it: four rows of
+    // containers, each with a sign standing over it, and signs that are only
+    // a row apart on the ground overlap badly on screen — the tilt compresses
+    // vertical distance to about a third.
+    x: 1750,
+    y: 3990,
+    width: 1800,
+    height: 1420,
   },
   {
     id: "circular-quay",

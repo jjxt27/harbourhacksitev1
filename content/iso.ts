@@ -83,6 +83,28 @@ export function projectedBounds(size: number) {
 export const EXTRUDE_STEP = { x: -1, y: 1 } as const;
 
 /**
+ * Which vertical faces of a box the camera can see.
+ *
+ * Depth after the transform is proportional to (Y − X), so the corner nearest
+ * the viewer is the one with the largest Y and the smallest X. The two faces
+ * touching that corner are the visible pair: the far-Y face and the zero-X
+ * face. Drawing all four would paint two of them over the two that matter.
+ *
+ * Both are lifted out of the ground plane by a quarter turn, and the axis
+ * differs because the edges they hinge on do:
+ *
+ *   front  at y = depth   rotateX(90deg)   — its local +y becomes +z
+ *   left   at x = 0       rotateY(-90deg)  — its local +x becomes +z
+ *
+ * with transform-origin at 0 0 in both cases, so the hinge is the edge itself.
+ */
+export const FACE = {
+  lid: (height: number) => `translateZ(${height}px)`,
+  front: (depth: number) => `translateY(${depth}px) rotateX(90deg)`,
+  left: () => `rotateY(-90deg)`,
+} as const;
+
+/**
  * Cancels the map transform, so a thing stands up and faces the camera.
  *
  * The inverse of two rotations is the two inverses applied in the opposite

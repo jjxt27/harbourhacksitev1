@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, useMemo, type CSSProperties, type ReactNode } from "react";
+import { useMemo, type CSSProperties, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { WORLD, docks } from "@/content/map";
 import { waterBand } from "@/content/geography";
@@ -47,7 +47,11 @@ export function WorldMap({ children }: { children: ReactNode }) {
   const camera = useMapCamera();
   const { viewportRef, x, y, scale, activeDock, goToDockId, pannable, grabbing } = camera;
 
-  const panels = Children.toArray(children);
+  // Not `Children.toArray`. It flattens Fragments, and every dock's contents
+  // are a Fragment of absolutely-placed entities — so the three docks ended up
+  // holding the first three children of the *first* one, and the other two
+  // rendered nothing at all. Taking the array as given keeps one child per dock.
+  const panels: ReactNode[] = Array.isArray(children) ? children : [children];
   const nav = useMemo(() => ({ goToDockId, activeDock }), [goToDockId, activeDock]);
 
   return (

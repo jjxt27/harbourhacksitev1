@@ -4,11 +4,16 @@ import type { Dock as DockRect } from "@/content/map";
 /**
  * A concrete slab, placed by coordinate and pushed down into the harbour.
  *
- * An absolute world entity and nothing else: no wrapper, no column, no flow.
- * The rect comes from content/map.ts and arrives as four custom properties,
- * because the mobile media query has to be able to throw the positioning away
- * and let the slab fall back into normal flow — a custom property loses to a
- * media query cleanly, an inline `left` does not.
+ * The deck and the cargo are siblings, not parent and child, and that is
+ * load-bearing rather than tidy: the deck clips its own edging with
+ * `overflow: hidden`, and any clipping element forces `transform-style` back to
+ * flat for everything inside it. Put a container prism in there and its three
+ * faces collapse into one. So the slab is the ground, the cargo stands beside
+ * it in the same coordinate space, and only the dock itself carries the 3D
+ * context.
+ *
+ * Children are positioned in dock-local world units — `.iso-entity` resolves
+ * `--wx`/`--wy` against whatever it is inside, which here is this.
  *
  * `role="region"` rather than `<section>`: identical semantics for a screen
  * reader — a named landmark — while keeping the element a plain div.
@@ -27,7 +32,7 @@ export function IsoDock({
       id={dock.id}
       role="region"
       aria-label={dock.label}
-      className="iso-entity"
+      className="iso-entity [transform-style:preserve-3d]"
       style={
         {
           "--wx": `${dock.x}px`,
@@ -37,27 +42,32 @@ export function IsoDock({
         } as CSSProperties
       }
     >
-      <div className="slab size-full">
+      <div className="slab absolute inset-0">
         <div className="dock-deck size-full overflow-hidden">
           <div aria-hidden="true" className="hazard h-3.5" />
-
-          <div className="flex items-baseline justify-between gap-x-4 border-b-2 border-ink bg-ink px-5 py-2 text-paper">
-            <p className="font-display text-small font-black uppercase tracking-tight">
-              <span className="mr-2 text-highlighter">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              {dock.label}
-            </p>
-            <p className="font-mono text-micro uppercase tracking-[0.18em] text-highlighter">
-              {dock.bearing}
-            </p>
-          </div>
-
-          <div className="h-[calc(100%-4.6rem)]">{children}</div>
-
+          <div className="flex-1" />
           <div aria-hidden="true" className="hazard h-3.5" />
         </div>
       </div>
+
+      {/* Painted onto the concrete: the dock's number and name, lying flat in
+          the ground plane where a sign painter would have put it. */}
+      <p
+        aria-hidden="true"
+        className="ground-paint stencil absolute left-14 top-10 whitespace-nowrap font-display font-black uppercase leading-none tracking-[0.04em] text-ink opacity-20"
+        style={{ fontSize: 148 }}
+      >
+        {String(index + 1).padStart(2, "0")} {dock.label}
+      </p>
+      <p
+        aria-hidden="true"
+        className="ground-paint absolute left-14 top-52 font-mono uppercase tracking-[0.3em] text-ink opacity-25"
+        style={{ fontSize: 46 }}
+      >
+        {dock.bearing}
+      </p>
+
+      {children}
     </div>
   );
 }

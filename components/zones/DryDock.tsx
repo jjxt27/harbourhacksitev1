@@ -1,44 +1,62 @@
-import { ArrowRight, Move } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { dryDock, site } from "@/content/canvas";
 import { Button } from "@/components/ui/Button";
-import { CriteriaNotes } from "@/components/zones/CriteriaNotes";
-import { PaintedBlock, Stencil } from "@/components/ui/Stencil";
-import { Stamp } from "@/components/ui/Stamp";
-import { HandArrow } from "@/components/art/HandArrow";
-import { PixelBridge } from "@/components/art/PixelBridge";
+import { DeckPanel } from "@/components/map/DeckPanel";
+import { PaintedBlock } from "@/components/ui/Stencil";
 
-/** Zone 1 — the pitch, the criteria, and the arrow that says "keep going". */
+/**
+ * Dock 01 — The Rocks.
+ *
+ * The pitch is sprayed straight onto the concrete, at the size a sign painter
+ * would use on a wharf: it is the biggest thing on the map and it lies flat in
+ * the ground plane, sheared with everything else. That is what makes it read as
+ * paint rather than as a headline.
+ *
+ * Everything a reader has to actually take in — the pitch line, the judging
+ * criteria, the way on to the next dock — stands up on plates.
+ */
 export function DryDock() {
   return (
-    <div className="relative flex h-full flex-col justify-center px-6 pb-16 pt-24 md:px-14 md:pb-10 md:pt-20">
-      <div className="grid gap-10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:items-center md:gap-14">
-        <div>
-          <div className="flex flex-wrap items-center gap-4">
-            <p className="font-mono text-meta uppercase tracking-[0.2em] text-ink/60">
-              {dryDock.kicker}
-            </p>
-            <Stamp>{site.city}</Stamp>
-          </div>
+    <>
+      {/* The headline, in the ground plane. Three lines, hand-placed rather
+          than flowed, because they are paint on a surface and not a paragraph. */}
+      <p
+        aria-hidden="true"
+        className="ground-paint stencil absolute whitespace-nowrap font-display font-black uppercase leading-[0.84] tracking-[-0.03em] text-ink opacity-[0.22]"
+        style={{ left: 90, top: 150, fontSize: 172 }}
+      >
+        Don&apos;t just
+      </p>
+      <p
+        aria-hidden="true"
+        className="ground-paint stencil absolute whitespace-nowrap font-display font-black uppercase leading-[0.84] tracking-[-0.03em] text-ink opacity-[0.22]"
+        style={{ left: 90, top: 300, fontSize: 172 }}
+      >
+        build.
+      </p>
 
-          {/* Sprayed onto the deck. The first two lines are stencilled ink;
-              "Ship." is a painted block with the word knocked out of it,
-              because orange sprayed straight onto concrete is 2.6:1 and fails
-              even the large-text bar. As a fill with ink on top it is 5.7:1. */}
-          <h1 className="mt-6 font-display text-display font-black uppercase leading-[0.82] tracking-[-0.05em]">
-            <span className="stencil block opacity-[0.82]">Don&apos;t just</span>
-            <span className="stencil block opacity-[0.82]">build.</span>
-            <span className="mt-2 block">
-              <PaintedBlock>Ship.</PaintedBlock>
-            </span>
-          </h1>
+      {/* "Ship." is a painted deck marking rather than sprayed type: orange on
+          concrete is 2.6:1 and fails even the large-text bar, but as a fill
+          with ink knocked out of it, it is 5.7:1. */}
+      <div className="absolute" style={{ left: 90, top: 450 }}>
+        <PaintedBlock className="font-display text-[172px] font-black uppercase leading-[0.9] tracking-[-0.03em]">
+          Ship.
+        </PaintedBlock>
+      </div>
 
-          {/* On a clipboard hung on the wall, not floating in space. */}
-          <p className="mt-7 max-w-[40ch] rotate-[0.6deg] border-2 border-ink bg-paper px-5 py-4 font-hand text-lead leading-snug shadow-hard">
-            {dryDock.subtext}
-          </p>
+      <h1 className="sr-only">
+        {dryDock.headline.join(" ")} — {site.name} {site.year}
+      </h1>
 
-          <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
-            <Button toDock={dryDock.cta.dock} size="lg">
+      {/* The pitch, on a board bolted to the deck. */}
+      <DeckPanel x={120} y={860} width={520}>
+        <p className="border-b-2 border-ink bg-ink px-4 py-2 font-mono text-[0.7rem] uppercase tracking-[0.2em] text-highlighter">
+          {dryDock.kicker}
+        </p>
+        <div className="px-4 py-4">
+          <p className="font-hand text-[1.15rem] leading-snug">{dryDock.subtext}</p>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <Button toDock={dryDock.cta.dock} size="md">
               {dryDock.cta.label}
               <ArrowRight aria-hidden="true" className="size-4" strokeWidth={3} />
             </Button>
@@ -47,29 +65,36 @@ export function DryDock() {
             </Button>
           </div>
         </div>
+      </DeckPanel>
 
-        <div>
-          <Stencil as="p" className="mb-4 text-heading leading-tight tracking-[0.02em]">
-            {dryDock.criteriaLabel}
-          </Stencil>
-          <CriteriaNotes />
-
-          <div aria-hidden="true" className="mt-10 hidden md:block">
-            <HandArrow className="h-20 w-[min(30rem,100%)]" />
-            <p className="mt-1 pl-2 font-hand text-lead">keep going →</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Pan hint on desktop, plain scroll hint once the docks stack. */}
-      <p className="mt-10 flex items-center gap-2 font-mono text-meta uppercase tracking-[0.18em] text-ink/60 md:absolute md:bottom-8 md:left-14 md:mt-0">
-        <Move aria-hidden="true" className="size-3.5" />
-        <span className="hidden md:inline">{dryDock.scrollCue}</span>
-        <span className="md:hidden">Scroll down</span>
+      {/* Judged on three things — one note per criterion, pinned to the deck. */}
+      <p
+        aria-hidden="true"
+        className="ground-paint stencil absolute whitespace-nowrap font-display font-black uppercase leading-none text-ink opacity-25"
+        style={{ left: 760, top: 640, fontSize: 58 }}
+      >
+        {dryDock.criteriaLabel}
       </p>
 
-      {/* The bridge carries the eye into the Shipyard. */}
-      <PixelBridge className="pointer-events-none absolute bottom-0 right-[-6%] hidden w-[34rem] opacity-[0.13] md:block" />
-    </div>
+      {dryDock.criteria.map((item, index) => (
+        <DeckPanel
+          key={item.n}
+          x={760 + index * 200}
+          y={880 + index * 60}
+          width={250}
+          className="!bg-highlighter"
+        >
+          <div className="px-3 py-3" style={{ rotate: `${item.rotate}deg` }}>
+            <p className="border-b-2 border-ink/25 pb-1 font-mono text-[0.68rem] uppercase tracking-[0.18em]">
+              {item.n}
+            </p>
+            <p className="mt-2 font-display text-[0.95rem] font-black uppercase leading-tight tracking-tight">
+              {item.title}
+            </p>
+            <p className="mt-1.5 font-hand text-[0.95rem] leading-tight">{item.note}</p>
+          </div>
+        </DeckPanel>
+      ))}
+    </>
   );
 }
