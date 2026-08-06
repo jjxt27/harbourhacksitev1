@@ -5,28 +5,28 @@ import { createContext, useContext, type ReactNode } from "react";
 import { zones } from "@/content/canvas";
 import { useIsDesktop } from "@/hooks/useMediaQuery";
 
-type CanvasNav = {
+type DeckNav = {
   goToZone: (index: number) => void;
   activeZone: number;
 };
 
-const CanvasContext = createContext<CanvasNav>({ goToZone: () => {}, activeZone: 0 });
+const DeckContext = createContext<DeckNav>({ goToZone: () => {}, activeZone: 0 });
 
-export function CanvasProvider({ value, children }: { value: CanvasNav; children: ReactNode }) {
-  return <CanvasContext.Provider value={value}>{children}</CanvasContext.Provider>;
+export function DeckProvider({ value, children }: { value: DeckNav; children: ReactNode }) {
+  return <DeckContext.Provider value={value}>{children}</DeckContext.Provider>;
 }
 
-export const useCanvasNav = () => useContext(CanvasContext);
+export const useDeckNav = () => useContext(DeckContext);
 
 /**
- * A link between zones.
+ * A link from one chapter to another.
  *
- * On desktop it pans the canvas; on mobile, where the zones are a normal
+ * On desktop it pans the deck; on mobile, where the chapters are an ordinary
  * column, it falls through to the browser's own anchor jump. Rendering a real
- * anchor either way means it still works before hydration and shows a target
- * on hover.
+ * anchor either way means it works before hydration and shows a destination on
+ * hover, which a button never does.
  */
-export function ZoneLink({
+export function ChapterLink({
   to,
   className,
   children,
@@ -35,7 +35,7 @@ export function ZoneLink({
   className?: string;
   children: ReactNode;
 }) {
-  const { goToZone } = useCanvasNav();
+  const { goToZone } = useDeckNav();
   const isDesktop = useIsDesktop();
   const index = zones.findIndex((zone) => zone.id === to);
 

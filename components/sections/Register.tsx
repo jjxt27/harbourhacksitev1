@@ -1,9 +1,7 @@
 "use client";
 
-import { Download } from "lucide-react";
 import { useId, useRef, useState } from "react";
-import { manifest, settingSail, site } from "@/content/canvas";
-import { Button } from "@/components/ui/Button";
+import { manifest, register, site } from "@/content/canvas";
 import { ManifestCard, type ManifestData } from "@/components/manifest/ManifestCard";
 import { ManifestForm } from "@/components/manifest/ManifestForm";
 import { usePrefersReducedMotion } from "@/hooks/useMediaQuery";
@@ -12,7 +10,7 @@ const START: ManifestData = {
   name: "",
   role: "Tech",
   skills: [],
-  lookingFor: "Full Team",
+  lookingFor: "A full team",
 };
 
 type Status = "idle" | "pending" | "done" | "error";
@@ -20,25 +18,30 @@ type Status = "idle" | "pending" | "done" | "error";
 const slug = (value: string) =>
   value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "crew";
 
-/** Ceiling on rasterising the card, in ms. */
+/** Ceiling on rasterising the pass, in ms. */
 const EXPORT_TIMEOUT = 12000;
 
 /**
- * Rasterisation can hang rather than reject — a webfont that never resolves,
- * or a tab that is not compositing, leaves the promise pending forever. Without
- * this the button would sit on "Stamping…" with no way back.
+ * Rasterisation can hang rather than reject — a webfont that never resolves, or
+ * a tab that is not compositing, leaves the promise pending forever. Without
+ * this the button would sit on "Issuing" with no way back.
  */
 function withTimeout<T>(work: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
     work,
-    new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("export timed out")), ms),
-    ),
+    new Promise<never>((_, reject) => setTimeout(() => reject(new Error("export timed out")), ms)),
   ]);
 }
 
-/** Zone 3 — fill in the manifest on the left, watch the card build on the right. */
-export function SettingSail() {
+/**
+ * Chapter III — the manifest.
+ *
+ * Form on the left, the pass building live on the right. The pass updates as
+ * you type rather than appearing at the end, because the thing being offered is
+ * the artefact: showing it half-finished is what makes completing it feel worth
+ * doing.
+ */
+export function Register() {
   const [data, setData] = useState<ManifestData>(START);
   const [errors, setErrors] = useState<Partial<Record<"name" | "skills", string>>>({});
   const [status, setStatus] = useState<Status>("idle");
@@ -58,7 +61,7 @@ export function SettingSail() {
     setStatus("idle");
   };
 
-  async function onGenerate() {
+  async function onIssue() {
     const found: typeof errors = {};
     if (!data.name.trim()) found.name = manifest.errors.name;
     if (data.skills.length === 0) found.skills = manifest.errors.skills;
@@ -77,27 +80,17 @@ export function SettingSail() {
       // Loaded on demand: neither library belongs in the initial bundle when
       // most visitors never reach this button.
       const { toPng } = await import("html-to-image");
+      if (document.fonts?.ready) await document.fonts.ready;
+
       const url = await withTimeout(
-        toPng(node, { pixelRatio: 3, cacheBust: true, backgroundColor: "#ffffff" }),
+        toPng(node, { pixelRatio: 3, cacheBust: true, backgroundColor: "#061e3c" }),
         EXPORT_TIMEOUT,
       );
 
       const link = document.createElement("a");
       link.href = url;
-      link.download = `harbourhack-manifest-${slug(data.name)}.png`;
+      link.download = `harbourhack-pass-${slug(data.name)}.png`;
       link.click();
-
-      if (!reduced) {
-        const confetti = (await import("canvas-confetti")).default;
-        confetti({
-          particleCount: 90,
-          spread: 78,
-          startVelocity: 42,
-          origin: { y: 0.72 },
-          colors: ["#ff4f00", "#e2ff31", "#008542", "#0a0a0a"],
-          disableForReducedMotion: true,
-        });
-      }
 
       setStatus("done");
     } catch {
@@ -106,27 +99,38 @@ export function SettingSail() {
   }
 
   return (
-    <div className="flex h-full flex-col justify-center bg-highlighter px-6 py-20 md:px-14 md:py-16">
-      <header className="mb-8">
-        <p className="font-mono text-meta uppercase tracking-[0.2em] text-slate">
-          {settingSail.kicker}
+    <div className="flex h-full flex-col justify-center gap-12 px-6 pb-24 pt-32 sm:px-10 md:px-14 md:pb-28 md:pt-36">
+      <header className="max-w-[34rem]">
+        <p className="eyebrow text-ivory-faint">
+          {register.numeral} — {register.label}
         </p>
-        <h2 className="mt-4 font-display text-title font-black uppercase leading-[0.88] tracking-[-0.045em]">
-          {settingSail.headline}
-        </h2>
-        <p className="mt-4 max-w-[46ch] text-lead leading-snug">{settingSail.subtext}</p>
+        <h2 className="display mt-7 text-display text-ivory">{register.headline}</h2>
+        <p className="mt-6 font-sans text-lead leading-relaxed text-ivory-dim">
+          {register.standfirst}
+        </p>
       </header>
 
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14">
+      <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-20">
         <div>
           <h3 className="sr-only">{manifest.formLabel}</h3>
           <ManifestForm data={data} onChange={update} errors={errors} ids={ids} />
 
-          <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
-            <Button onClick={onGenerate} size="lg" disabled={status === "pending"}>
+          <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-4">
+            <button
+              type="button"
+              onClick={onIssue}
+              disabled={status === "pending"}
+              className="group inline-flex items-baseline gap-3 border-b border-brass pb-1 font-sans text-body font-medium text-ivory transition-colors hover:text-brass disabled:opacity-50"
+            >
               {status === "pending" ? manifest.actionPending : manifest.action}
-              <Download aria-hidden="true" className="size-4" strokeWidth={3} />
-            </Button>
+              <span
+                aria-hidden="true"
+                className="transition-transform duration-500 group-hover:translate-x-1"
+                style={{ transitionTimingFunction: "var(--ease-out)" }}
+              >
+                ↓
+              </span>
+            </button>
 
             {data.name || data.skills.length ? (
               <button
@@ -136,30 +140,34 @@ export function SettingSail() {
                   setErrors({});
                   setStatus("idle");
                 }}
-                className="border-b-2 border-ink pb-0.5 font-mono text-meta uppercase tracking-[0.14em]"
+                className="font-sans text-small text-ivory-faint transition-colors hover:text-ivory"
               >
                 {manifest.reset}
               </button>
             ) : null}
           </div>
 
-          <p aria-live="polite" className="mt-4 font-mono text-meta uppercase tracking-[0.12em]">
+          <p aria-live="polite" className="mt-5 font-sans text-small">
             {status === "done" ? (
-              <span className="text-ink">{manifest.actionDone} — {manifest.shareHint}</span>
+              <span className="text-ferry">
+                {manifest.actionDone}. {manifest.shareHint}
+              </span>
             ) : status === "error" && !errors.name && !errors.skills ? (
               <span className="text-alert">That didn&apos;t save. Try again.</span>
             ) : (
-              <span className="text-slate">{manifest.shareHint}</span>
+              <span className="text-ivory-faint">{manifest.shareHint}</span>
             )}
           </p>
         </div>
 
-        <div className="lg:sticky lg:top-24">
-          <h3 className="mb-3 font-mono text-meta uppercase tracking-[0.18em] text-slate">
+        <div className="lg:sticky lg:top-32">
+          <p className="mb-5 font-sans text-micro font-medium uppercase tracking-[0.28em] text-ivory-faint">
             {manifest.cardLabel}
-          </h3>
-          <ManifestCard ref={cardRef} data={data} />
-          <p className="mt-3 max-w-[20.5rem] font-mono text-meta uppercase tracking-[0.12em] text-slate">
+          </p>
+          <div style={{ boxShadow: reduced ? undefined : "var(--shadow-panel)" }}>
+            <ManifestCard ref={cardRef} data={data} />
+          </div>
+          <p className="mt-5 max-w-[21rem] font-sans text-small text-ivory-faint">
             {site.name} {site.year} · {site.city}
           </p>
         </div>

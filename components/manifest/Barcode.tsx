@@ -3,8 +3,23 @@ import { barcodeBars } from "@/lib/manifest";
 const HEIGHT = 34;
 const GAP = 1;
 
-/** Decorative bars, drawn as rects so they survive the PNG export. */
-export function Barcode({ seed, className = "" }: { seed: string; className?: string }) {
+/**
+ * Decorative bars, drawn as rects so they survive the PNG export.
+ *
+ * `fill` is a literal rather than a token for the same reason: a custom
+ * property can come out unset in the rasteriser's clone, and a barcode that
+ * renders on screen and disappears in the download is the worst version of
+ * this bug — nobody sees it until the file is already posted.
+ */
+export function Barcode({
+  seed,
+  className = "",
+  fill = "#f8f6f0",
+}: {
+  seed: string;
+  className?: string;
+  fill?: string;
+}) {
   const bars = barcodeBars(seed);
   const width = bars.reduce((sum, bar) => sum + bar + GAP, 0);
 
@@ -17,7 +32,7 @@ export function Barcode({ seed, className = "" }: { seed: string; className?: st
       y={0}
       width={bar}
       height={HEIGHT}
-      fill="#0a0a0a"
+      fill={fill}
     />
   ));
 

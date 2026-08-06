@@ -1,9 +1,13 @@
 /**
- * Canvas layout and copy.
+ * Chapter widths and copy.
  *
- * Zone widths are in viewport widths and define the whole track — the pan
- * hook, the minimap and the zone navigation all read them from here, so
- * changing a width in this file moves everything in step.
+ * Widths are in viewport widths and define the whole deck — the pan hook, the
+ * rail and the chapter navigation all read them from here, so changing a width
+ * in this file moves everything in step.
+ *
+ * On register: this reads like a prospectus, not a flyer. Declarative
+ * sentences, no exclamation, no slang, nothing oversold. The one place it is
+ * allowed to be blunt is the tagline, because that is the promise.
  *
  * Unconfirmed programme facts stay visibly TBC. Never invent dates, times,
  * mentors, venues or prizes.
@@ -11,19 +15,20 @@
 
 export type Zone = {
   id: string;
-  /** Shown in the minimap and the zone navigation. */
+  /** Roman numeral shown in the rail and the chapter navigation. */
+  numeral: string;
   label: string;
-  /** Track width, in viewport widths. Mobile ignores this and stacks. */
+  /** Deck width, in viewport widths. Mobile ignores this and stacks. */
   width: number;
 };
 
 export const zones: readonly Zone[] = [
-  { id: "dry-dock", label: "The Dry Dock", width: 1.2 },
-  { id: "shipyard", label: "The Shipyard", width: 1.65 },
-  { id: "setting-sail", label: "Setting Sail", width: 1.15 },
+  { id: "brief", numeral: "I", label: "The Brief", width: 1.35 },
+  { id: "weekend", numeral: "II", label: "The Weekend", width: 1.75 },
+  { id: "register", numeral: "III", label: "The Manifest", width: 1.3 },
 ];
 
-/** Total track width in viewport widths. */
+/** Total deck width in viewport widths. */
 export const TRACK_VW = zones.reduce((sum, zone) => sum + zone.width, 0);
 
 export const site = {
@@ -32,105 +37,110 @@ export const site = {
   city: "Sydney",
   tagline: "Don't just build. Ship.",
   description:
-    "HarbourHack 2026. Sydney's premier go-to-market hackathon for university students. Build it, then go and get real users.",
-  url: "https://harbourhack.vercel.app",
+    "HarbourHack 2026. Sydney's go-to-market hackathon for university students. Build it, then go and find the people who need it.",
+  url: "https://harbourhack.com",
 } as const;
 
-export const dryDock = {
-  kicker: "Zone 01 — The Dry Dock",
+export const brief = {
+  numeral: "I",
+  label: "The Brief",
   headline: ["Don't just", "build.", "Ship."],
-  subtext: `HarbourHack ${site.year}. ${site.city}'s premier GTM hackathon for university students.`,
-  scrollCue: "Scroll to pan the harbour",
-  criteriaLabel: "Judged on three things. That's it.",
-  /** `rotate` scatters the notes; keep it under ~4° or it reads as broken. */
+  standfirst:
+    "A three-day go-to-market hackathon for university students in Sydney. Teams leave with something running, a case for it, and users who have actually signed up.",
+  premise: {
+    label: "The premise",
+    body: "Most student hackathons end at the demo. This one ends at distribution. You will spend as much of the weekend talking to people who might use the thing as you spend building it.",
+  },
+  criteriaLabel: "Judged on three criteria",
+  criteriaNote: "Weighted equally. Nothing else is scored.",
   criteria: [
     {
       n: "01",
-      title: "Live Demo",
-      note: "It has to actually run. In front of people.",
-      tone: "yellow" as const,
-      rotate: -2.5,
+      title: "Live demonstration",
+      note: "The product runs, in front of the room, without a video.",
     },
     {
       n: "02",
-      title: "Pitch Deck",
-      note: "Who it's for, and why they'd switch.",
-      tone: "paper" as const,
-      rotate: 1.8,
+      title: "Commercial case",
+      note: "Who it is for, what they do today, and why they would switch.",
     },
     {
       n: "03",
-      title: "Real User Signups",
-      note: "Actual humans. Not your group chat.",
-      tone: "ferry" as const,
-      rotate: -1.2,
+      title: "Verified signups",
+      note: "Real users who opted in during the weekend. Not your group chat.",
     },
   ],
-  cta: { label: "Get your manifest", zone: "setting-sail" },
-  secondary: { label: "See the weekend", zone: "shipyard" },
+  cta: { label: "Register your interest", zone: "register" },
+  secondary: { label: "Read the programme", zone: "weekend" },
+  panHint: "Scroll to move along the deck",
 } as const;
 
-export const shipyard = {
-  kicker: "Zone 02 — The Shipyard",
-  headline: "The build weekend",
-  subtext: "Three days, three columns, one thing shipped at the end of it.",
+export const weekend = {
+  numeral: "II",
+  label: "The Weekend",
+  headline: "Three days, one thing shipped",
+  standfirst:
+    "Friday evening to Sunday afternoon. The schedule is built so that by Saturday lunchtime you are already in front of users.",
   /** Exact dates are unconfirmed and must render as TBC until verified. */
   dates: "TBC",
   venue: "TBC",
   columns: [
     {
       id: "friday",
-      title: "Friday Night Hustle",
-      time: "TBC",
+      day: "Day one",
+      title: "Friday",
+      summary: "Teams form. Scope narrows.",
       cards: [
-        { title: "Doors + team forming", kind: "session", time: "TBC" },
-        { title: "Cold Emailing 101", kind: "workshop", time: "TBC" },
-        { title: "Pick your one user", kind: "session", time: "TBC" },
+        { title: "Doors, registration, team forming", kind: "session", time: "TBC" },
+        { title: "Workshop — Cold outreach that gets replies", kind: "workshop", time: "TBC" },
+        { title: "Pick one user and write them down", kind: "session", time: "TBC" },
       ],
     },
     {
       id: "saturday",
-      title: "Saturday Grind",
-      time: "TBC",
+      day: "Day two",
+      title: "Saturday",
+      summary: "Build in the morning. Sell from lunchtime.",
       cards: [
-        { title: "Figma Prototyping", kind: "workshop", time: "TBC" },
+        { title: "Workshop — Prototyping in Figma", kind: "workshop", time: "TBC" },
         { title: "Mentor floor walk", kind: "mentor", time: "TBC" },
-        { title: "Ship v1 + start outreach", kind: "session", time: "TBC" },
-        { title: "Landing pages that convert", kind: "workshop", time: "TBC" },
+        { title: "Ship v1 and begin outreach", kind: "session", time: "TBC" },
+        { title: "Workshop — Landing pages that convert", kind: "workshop", time: "TBC" },
       ],
     },
     {
       id: "sunday",
-      title: "Sunday Launch",
-      time: "TBC",
+      day: "Day three",
+      title: "Sunday",
+      summary: "Close the loop. Present the evidence.",
       cards: [
         { title: "Signup push", kind: "session", time: "TBC" },
         { title: "Deck clinic", kind: "workshop", time: "TBC" },
-        { title: "Demo + judging", kind: "session", time: "TBC" },
+        { title: "Demonstrations and judging", kind: "session", time: "TBC" },
       ],
     },
   ],
   mentorsLabel: "Mentors",
-  mentorsNote: "Being confirmed. Names go up as they sign on.",
+  mentorsNote: "Operators and founders from the Sydney ecosystem. Names are published as each confirms.",
   /** Populate with verified people only. Renders TBC slots while empty. */
   mentors: [] as readonly { name: string; role: string; company: string }[],
   mentorSlots: 6,
 } as const;
 
-export const settingSail = {
-  kicker: "Zone 03 — Setting Sail",
-  headline: "Get your manifest",
-  subtext:
-    "Fill this in and we'll generate your crew card. Share it, find a team, board the ship.",
+export const register = {
+  numeral: "III",
+  label: "The Manifest",
+  headline: "Register your interest",
+  standfirst:
+    "Expressions of interest are open. Complete the manifest and we will send you a boarding pass to share, and everything else as it is confirmed.",
 } as const;
 
 export const roles = ["Tech", "Biz", "Design"] as const;
 export type Role = (typeof roles)[number];
 
-export const lookingFor = ["A Dev", "A Marketer", "A Designer", "Full Team"] as const;
+export const lookingFor = ["A developer", "A marketer", "A designer", "A full team"] as const;
 export type LookingFor = (typeof lookingFor)[number];
 
-/** Grouped so the picker reads as a board rather than one long list. */
 export const skills = [
   "React",
   "Next.js",
@@ -149,36 +159,36 @@ export const skills = [
 ] as const;
 export type Skill = (typeof skills)[number];
 
-/** How many skills a manifest can carry. The card is laid out for exactly two. */
+/** How many skills a manifest can carry. The pass is laid out for exactly two. */
 export const MAX_SKILLS = 2;
 
 export const manifest = {
   formLabel: "Manifest details",
-  cardLabel: "Live preview",
+  cardLabel: "Your boarding pass",
   fields: {
-    name: { label: "Name", placeholder: "Who's boarding?" },
-    role: { label: "Role", hint: "Pick the hat you'll wear most of the weekend." },
-    skills: { label: "Top 2 skills", hint: `Choose up to ${MAX_SKILLS}.` },
-    lookingFor: { label: "Looking for", hint: "Goes on the banner. Make it easy for people to find you." },
+    name: { label: "Full name", placeholder: "As you would like it printed" },
+    role: { label: "Discipline", hint: "The hat you will wear for most of the weekend." },
+    skills: { label: "Strengths", hint: `Select up to ${MAX_SKILLS}.` },
+    lookingFor: { label: "Seeking", hint: "Printed on the pass, so teams can find you." },
   },
   errors: {
-    name: "Add a name before you board.",
-    skills: "Pick at least one skill.",
+    name: "A name is required for the manifest.",
+    skills: "Select at least one strength.",
   },
-  action: "Generate & board",
-  actionPending: "Stamping…",
-  actionDone: "Downloaded",
+  action: "Issue boarding pass",
+  actionPending: "Issuing",
+  actionDone: "Issued",
   reset: "Start again",
-  shareHint: "Downloads a PNG. Post it in the Discord or on LinkedIn to find a team.",
+  shareHint: "Downloads a PNG. Post it to find a team before the weekend.",
   card: {
     issuer: "HarbourHack",
     port: "Port of Sydney",
     stamp: "Cleared for boarding",
     manifestLabel: "Manifest no.",
-    skillsLabel: "Cargo",
-    roleLabel: "Class",
-    bannerLabel: "Looking for",
-    footnote: "Non-transferable. Present at the dock.",
+    skillsLabel: "Strengths",
+    roleLabel: "Discipline",
+    bannerLabel: "Seeking",
+    footnote: "Non-transferable. Present on arrival.",
   },
 } as const;
 

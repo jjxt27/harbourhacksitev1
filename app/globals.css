@@ -55,6 +55,9 @@
   --text-hero: clamp(4.25rem, 8.8vw, 8rem);
   --text-display: clamp(2.75rem, 5.4vw, 4.75rem);
   --text-title: clamp(1.9rem, 3vw, 2.75rem);
+  /* Sub-headings: column titles, criteria, the wordmark. One step, not the
+     four ad-hoc values that had appeared by the time this was measured. */
+  --text-subhead: 1.5rem;
   --text-lead: clamp(1.0625rem, 1.35vw, 1.25rem);
   --text-body: 1.0625rem;
   --text-small: 0.9375rem;
@@ -229,6 +232,86 @@ html.booting body { overflow: hidden; }
   height: 100%;
   background: var(--color-brass);
   transition: width 120ms linear;
+}
+
+/* -------------------------------------------------------------- the deck --
+   Desktop: a fixed window onto a wide track, panned along X.
+   Mobile:  the same markup, unhooked — the track becomes a normal column and
+            the document scrolls vertically. Pure CSS, so no hydration branch
+            and no layout flash.
+
+   Chapters are separated by air and a hairline, not by a border. A 2px rule
+   between full-height panels reads as a table; a 1px rule at 12% with three
+   inches of margin either side reads as a page turning.                       */
+
+.deck-window {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: pan-y;
+}
+
+.deck-track {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+}
+
+.deck-chapter {
+  position: relative;
+  flex: none;
+  height: 100%;
+}
+
+.deck-chapter + .deck-chapter::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 12%;
+  width: 1px;
+  background: rgb(248 246 240 / 0.12);
+}
+
+.deck-window[data-grabbing="true"] { cursor: grabbing; }
+.deck-window[data-pannable="true"] { cursor: grab; }
+
+@media (max-width: 767px) {
+  .deck-window {
+    height: auto;
+    overflow: visible;
+    touch-action: auto;
+    cursor: auto !important;
+  }
+  .deck-track {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* The pan transform must not survive into the stacked layout. */
+    transform: none !important;
+  }
+  .deck-chapter {
+    width: 100% !important;
+    height: auto;
+  }
+  .deck-chapter + .deck-chapter::before {
+    left: 1.5rem;
+    right: 1.5rem;
+    top: 0;
+    bottom: auto;
+    width: auto;
+    height: 1px;
+  }
+}
+
+/* A hairline rule, the width of its container. The only divider in the system. */
+@utility hairline {
+  height: 1px;
+  background: rgb(248 246 240 / 0.14);
 }
 
 /* ------------------------------------------------------------- the scene --
