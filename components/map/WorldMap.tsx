@@ -3,7 +3,15 @@
 import { Children, useMemo, type CSSProperties, type ReactNode } from "react";
 import { motion } from "framer-motion";
 import { WORLD, docks } from "@/content/map";
+import { waterBand } from "@/content/geography";
 import { PERSPECTIVE } from "@/content/iso";
+
+const WATER: CSSProperties = {
+  left: waterBand.x,
+  top: waterBand.y,
+  width: waterBand.width,
+  height: waterBand.height,
+};
 import { useMapCamera } from "@/hooks/useMapCamera";
 import { MapProvider } from "@/components/map/MapContext";
 import { IsoDock } from "@/components/map/IsoDock";
@@ -58,9 +66,12 @@ export function WorldMap({ children }: { children: ReactNode }) {
       >
         <motion.div className="iso-camera" style={{ x, y, scale }}>
           <div className="iso-world">
-            {/* Ground, bottom to top: water, then the coastline drawn on it. */}
-            <div aria-hidden="true" className="iso-water" />
-            <div aria-hidden="true" className="iso-swell" />
+            {/* Ground, bottom to top: water, then the coastline drawn on it.
+                Bounded to the strip between the shores — see waterBand. The
+                viewport's own harbour blue covers everything beyond it, which
+                land is sitting on anyway. */}
+            <div aria-hidden="true" className="iso-water" style={WATER} />
+            <div aria-hidden="true" className="iso-swell" style={WATER} />
             <Harbour />
 
             {docks.map((dock, index) => (

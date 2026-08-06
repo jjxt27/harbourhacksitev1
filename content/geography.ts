@@ -80,6 +80,20 @@ export const cockatooIsland = `
   C 1470 5453, 1120 5200, 1100 4620 Z
 `;
 
+/**
+ * The band of the map where water is actually visible.
+ *
+ * Land covers the full width above and below this, so painting the chart grid
+ * across all 10,000px was a hundred million pixels of backing store to show a
+ * strip in the middle. The compositor cannot rasterise tiles that large fast
+ * enough while the camera moves, and the gaps read as the map flickering.
+ *
+ * Bounds come from the shorelines above: the north shore's lowest edge is
+ * y≈3380 and the south shore's highest is y≈5080, with the deepest bay at
+ * y≈6180. This clears both with room to spare.
+ */
+export const waterBand = { x: 0, y: 3100, width: WORLD_SIZE, height: 3200 } as const;
+
 /** Two rocks in the stream. Pure wayfinding — they break up open water. */
 export const islets = [
   "M4530 4640 C 4640 4570, 4790 4590, 4830 4700 C 4870 4810, 4780 4900, 4650 4890 C 4530 4880, 4460 4760, 4530 4640 Z",

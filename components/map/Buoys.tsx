@@ -20,21 +20,19 @@ export function Buoys() {
   const reduced = usePrefersReducedMotion();
 
   return (
-    // `preserve-3d` is not optional on this wrapper. Any element between the
-    // world and a billboard that does not carry it flattens the 3D transform
-    // underneath, and the billboard's rotateX silently collapses — the buoys
-    // measured a third of their height before this was here.
-    <div
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-10 [transform-style:preserve-3d]"
-    >
+    // No wrapper. A grouping div here would be a full-world element — a hundred
+    // million pixels of backing store, and a 3D rendering context between the
+    // world and every billboard inside it, which flattens them unless it also
+    // carries `preserve-3d`. Buoys are siblings of the docks instead.
+    <>
       {buoys.map((buoy, index) => (
         // A buoy is a vertical object, so it stands rather than lies. The
         // billboard wraps the draggable element rather than being on it —
         // `drag` writes `transform` inline and would overwrite it.
         <div
           key={buoy.id}
-          className="iso-entity billboard pointer-events-none hidden md:block"
+          aria-hidden="true"
+          className="iso-entity billboard z-10 hidden md:block"
           style={{ "--wx": `${buoy.x}px`, "--wy": `${buoy.y}px` } as CSSProperties}
         >
         <motion.div
@@ -60,7 +58,7 @@ export function Buoys() {
         </motion.div>
         </div>
       ))}
-    </div>
+    </>
   );
 }
 

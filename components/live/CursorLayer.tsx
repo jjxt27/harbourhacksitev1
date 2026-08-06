@@ -7,8 +7,14 @@ import { HAS_LIVEBLOCKS } from "@/components/live/LiveRoom";
 import { chartBounds } from "@/content/map";
 import { useIsDesktop, usePrefersReducedMotion } from "@/hooks/useMediaQuery";
 
-/** Water either side of the docks that cursors are allowed to wander into. */
-const MARGIN = 700;
+/**
+ * Water either side of the docks that cursors are allowed to wander into.
+ *
+ * Kept tight. This layer is sized in world pixels, so every extra hundred of
+ * margin is another few million pixels of surface for a plane that only ever
+ * holds six small markers.
+ */
+const MARGIN = 260;
 
 /**
  * The cursor plane.
@@ -37,7 +43,10 @@ export function CursorLayer() {
     <div
       ref={layerRef}
       aria-hidden="true"
-      className="pointer-events-none absolute z-30 overflow-hidden [transform-style:preserve-3d]"
+      // No `preserve-3d` here: `overflow: hidden` forces the used value back to
+      // flat regardless, so declaring it would only imply a 3D context that
+      // cannot exist. Cursors are flat markers on the ground and want that.
+      className="pointer-events-none absolute z-30 overflow-hidden"
       style={{
         left: chartBounds.minX - MARGIN,
         top: chartBounds.minY - MARGIN,

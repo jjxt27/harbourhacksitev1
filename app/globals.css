@@ -194,7 +194,10 @@
   overscroll-behavior: none;
   touch-action: none;
   perspective: var(--iso-perspective);
-  transform-style: preserve-3d;
+  /* No `transform-style` here. `overflow: hidden` forces the used value to
+     flat, so declaring preserve-3d would describe something that cannot hold.
+     The perspective still reaches descendants, which is all this needs to do —
+     the 3D context that matters starts at `.iso-camera`. */
 }
 
 /* Pan and zoom, in screen space, above the tilt.
@@ -207,7 +210,21 @@
   top: 0;
   left: 0;
   transform-style: preserve-3d;
-  will-change: transform;
+  /*
+    Deliberately no `will-change: transform`.
+
+    It is the right hint for a small moving element and the wrong one here.
+    `will-change` asks the compositor to promote this subtree into a single
+    layer, and this subtree is the whole map: 10,000px square, which projects
+    to 14,142px wide before zoom and 28,284px at 2x. GPUs cap a texture at
+    16,384px on a side, so past roughly 1.15x zoom the layer cannot be
+    allocated at all and the compositor falls back mid-gesture — which is
+    exactly what a drag that flickers black looks like.
+
+    Without the hint Chrome tiles the content and rasterises only what is on
+    screen. More work per frame in principle, but bounded work, and it never
+    asks for a surface it cannot have.
+  */
 }
 
 /* The map itself: a flat square laid down and tilted back. Origin at the
@@ -223,22 +240,26 @@
   transform-style: preserve-3d;
 }
 
-/* Anything standing on the map, placed by world coordinate and nothing else. */
+/* Anything standing on the map, placed by world coordinate and nothing else.
+   Deliberately NOT `preserve-3d`: an entity's contents are flat HTML, and every
+   extra 3D rendering context is another subtree the compositor has to sort and
+   keep a backing store for. Only elements with 3D *children* need it. */
 .iso-entity {
   position: absolute;
   left: var(--wx);
   top: var(--wy);
-  transform-style: preserve-3d;
 }
 
 /* Stand up and face the camera. Undoes the two map rotations in the opposite
-   order, which is what inverting a pair of rotations requires. */
+   order, which is what inverting a pair of rotations requires.
+
+   This resolves in the *parent's* 3D space, so the billboard itself does not
+   need `preserve-3d` — only whatever sits between it and `.iso-world` does. */
 .billboard {
   transform: rotateZ(45deg) rotateX(-60deg);
   /* Pivot at the base, so a sprite stands on the ground it is placed on
      rather than sinking half its height into it. */
   transform-origin: 50% 100%;
-  transform-style: preserve-3d;
 }
 
 .iso-viewport[data-pannable="true"] { cursor: grab; }
@@ -290,7 +311,6 @@
 
 .iso-water {
   position: absolute;
-  inset: 0;
   background-color: var(--color-harbour);
   background-image:
     linear-gradient(to right, var(--color-harbour-line) 2px, transparent 2px),
@@ -300,7 +320,6 @@
 
 .iso-swell {
   position: absolute;
-  inset: 0;
   background-image: repeating-linear-gradient(
     -22deg,
     transparent 0 92px,

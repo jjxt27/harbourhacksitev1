@@ -39,11 +39,6 @@ export function Harbour() {
           <path d="M120 0H0V120" fill="none" stroke="#0a0a0a" strokeWidth="2" opacity="0.09" />
         </pattern>
 
-        {/* Contour rings just off the shore, the way a chart marks shallows. */}
-        <pattern id="hh-shallows" width="90" height="90" patternUnits="userSpaceOnUse">
-          <circle cx="45" cy="45" r="30" fill="none" stroke="#16304d" strokeWidth="3" />
-        </pattern>
-
         {/* Every landmass at once, so the grid and the shoreline can both be
             clipped to exactly the same outline. */}
         <clipPath id="hh-land-clip">
@@ -53,17 +48,17 @@ export function Harbour() {
         </clipPath>
       </defs>
 
-      {/* Shallows: a band of contour rings sitting just outside the coast,
-          drawn under the land so only the overhang shows. */}
-      <g opacity="0.55">
+      {/* Shallows: a band just outside the coast, drawn under the land so only
+          the overhang shows.
+
+          A flat stroke rather than the contour-ring pattern this used to be.
+          Stroking a pattern fill at 150px along five complex paths is the most
+          expensive operation on the map by a distance — every tile that touches
+          a coastline has to resolve the pattern — and it bought a texture
+          nobody can see at map zoom. */}
+      <g opacity="0.5">
         {landPaths.map((d, index) => (
-          <path
-            key={index}
-            d={d}
-            fill="none"
-            stroke="url(#hh-shallows)"
-            strokeWidth="150"
-          />
+          <path key={index} d={d} fill="none" stroke="#16304d" strokeWidth="150" />
         ))}
       </g>
 
