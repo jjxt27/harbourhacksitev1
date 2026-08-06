@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useMotionValueEvent } from "framer-motion";
 import { chartBounds, docks } from "@/content/map";
+import { landPaths } from "@/content/geography";
 import type { MapCamera } from "@/hooks/useMapCamera";
 
 const BOX = { w: 184, h: 148 };
@@ -63,6 +64,20 @@ export function Chart({ camera }: { camera: MapCamera }) {
           className="relative overflow-hidden bg-harbour"
           style={{ width: BOX.w, height: BOX.h }}
         >
+          {/* The same coastline as the world, at chart scale. Drawing it from
+              the same paths is what makes this a chart of somewhere rather
+              than three squares on a blue field. */}
+          <svg
+            aria-hidden="true"
+            viewBox={`${frame.minX} ${frame.minY} ${frame.maxX - frame.minX} ${frame.maxY - frame.minY}`}
+            className="absolute inset-0 size-full"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            {landPaths.map((d, index) => (
+              <path key={index} d={d} fill="#f5f5f5" stroke="#0a0a0a" strokeWidth="30" />
+            ))}
+          </svg>
+
           <div
             ref={viewRef}
             aria-hidden="true"

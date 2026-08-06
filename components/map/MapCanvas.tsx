@@ -6,6 +6,7 @@ import { WORLD, docks } from "@/content/map";
 import { useMapCamera } from "@/hooks/useMapCamera";
 import { MapProvider } from "@/components/map/MapContext";
 import { Dock } from "@/components/map/Dock";
+import { Harbour } from "@/components/map/Harbour";
 import { Buoys } from "@/components/map/Buoys";
 import { MapChrome } from "@/components/map/MapChrome";
 import { Chart } from "@/components/map/Chart";
@@ -55,6 +56,8 @@ export function MapCanvas({ children }: { children: ReactNode }) {
         <div aria-hidden="true" className="map-swell" />
 
         <motion.div className="map-world" style={{ x, y, scale }}>
+          {/* The ground. Everything below stands on this. */}
+          <Harbour />
           <Buoys />
 
           {docks.map((dock, index) => (

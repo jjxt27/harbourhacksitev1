@@ -20,7 +20,7 @@ export const site = {
 } as const;
 
 export const dryDock = {
-  kicker: "Dock 01 — The Dry Dock",
+  kicker: "Dock 01 — The Rocks",
   headline: ["Don't just", "build.", "Ship."],
   subtext: `HarbourHack ${site.year}. ${site.city}'s premier GTM hackathon for university students.`,
   scrollCue: "Drag the water to pan the harbour",
@@ -49,8 +49,8 @@ export const dryDock = {
       rotate: -1.2,
     },
   ],
-  cta: { label: "Clear customs", dock: "customs" },
-  secondary: { label: "See the weekend", dock: "shipyard" },
+  cta: { label: "Clear customs", dock: "circular-quay" },
+  secondary: { label: "See the weekend", dock: "cockatoo-island" },
 } as const;
 
 /**
@@ -67,7 +67,7 @@ export const badIdea = {
 } as const;
 
 export const shipyard = {
-  kicker: "Dock 02 — The Shipyard",
+  kicker: "Dock 02 — Cockatoo Island",
   headline: "The build weekend",
   subtext: "Three days, three columns, one thing shipped at the end of it.",
   /** Exact dates are unconfirmed and must render as TBC until verified. */

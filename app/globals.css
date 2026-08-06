@@ -22,6 +22,18 @@
   --color-ferry: #008542;
   --color-highlighter: #e2ff31;
 
+  /* Concrete. The land the whole site stands on — a shade lighter than
+     --color-grid, so a poured dock slab still reads as an object sitting on
+     the ground rather than as more of the ground. */
+  --color-land: #f5f5f5;
+
+  /* The two industrial fills that join orange on the containers.
+       industrial 5.5:1 with paper on it — paper only, ink fails at 3.4:1
+       cargo      8.2:1 with paper on it
+     Orange stays ink-on-fill at 5.7:1. Three fills, three fixed foregrounds. */
+  --color-industrial: #0055ff;
+  --color-cargo: #2c5545;
+
   /* The water. Everything between the docks sits on this. */
   --color-harbour: #0b192c;
   /* Chart lines over the water — light enough to read as a grid, dark enough

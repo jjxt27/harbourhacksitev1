@@ -71,7 +71,7 @@ export type ContainerId = Container["id"];
 export const MAX_CARGO = 3;
 
 export const customs = {
-  kicker: "Dock 03 — The Customs Office",
+  kicker: "Dock 03 — Circular Quay Terminal",
   headline: "Clear customs",
   subtext:
     "Declare who you are, load your cargo, and the crane prints your boarding pass.",
