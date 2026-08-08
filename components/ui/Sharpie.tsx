@@ -56,7 +56,7 @@ export function Sharpie({ children, className, always = false }: SharpieProps) {
           generator.ellipse(width / 2, height / 2, width - 3 - index * 5, height - 4 - index * 4, {
             roughness: 2.3,
             bowing: 1.7,
-            stroke: "#0b5fd0",
+            stroke: "#1a5da8",
             strokeWidth: 2.6,
             seed,
           }),

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/Button";
 import { StickyNote } from "@/components/ui/StickyNote";
 import { Stamp } from "@/components/ui/Stamp";
 import { HandArrow } from "@/components/art/HandArrow";
-import { PixelBridge } from "@/components/art/PixelBridge";
 
 /** Zone 1 — the argument, the criteria, and the arrow that says "keep going". */
 export function DryDock() {
@@ -39,7 +38,7 @@ export function DryDock() {
                   inline, the mark's box is sized by the font's default line
                   height, which at display size overflows ~25px above its own
                   line and clips the descenders of "build." above it. */}
-              <mark className="inline-block bg-highlighter px-2.5 pb-1 leading-[0.82] text-ink">
+              <mark className="inline-block bg-apricot px-2.5 pb-1 leading-[0.82] text-ink">
                 Ship.
               </mark>
             </span>
@@ -65,7 +64,7 @@ export function DryDock() {
           </p>
           <p className="mt-3 text-body leading-snug text-ink/80">{dryDock.hook.body}</p>
           <p className="mt-4 font-display text-body font-black uppercase tracking-tight">
-            <mark className="inline-block bg-highlighter px-1.5 text-ink">
+            <mark className="inline-block bg-apricot px-1.5 text-ink">
               {dryDock.hook.turn}
             </mark>
           </p>
@@ -112,9 +111,6 @@ export function DryDock() {
         <span className="hidden md:inline">{dryDock.scrollCue}</span>
         <span className="md:hidden">Scroll down</span>
       </p>
-
-      {/* The bridge carries the eye into the Shipyard. */}
-      <PixelBridge className="pointer-events-none absolute bottom-0 right-[-6%] hidden w-[34rem] opacity-[0.13] md:block" />
     </div>
   );
 }

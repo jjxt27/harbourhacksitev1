@@ -68,7 +68,7 @@ export function RolePrompt() {
                 ref={index === 0 ? firstRef : undefined}
                 type="button"
                 onClick={() => setRole(option)}
-                className="press grid gap-2 border-2 border-ink bg-paper px-4 py-4 text-left hover:bg-highlighter"
+                className="press grid gap-2 border-2 border-ink bg-paper px-4 py-4 text-left hover:bg-apricot"
               >
                 <Icon aria-hidden="true" className="size-6" strokeWidth={2.5} />
                 <span className="font-display text-lead font-black uppercase tracking-tight">

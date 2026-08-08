@@ -1,14 +1,15 @@
 import type { ReactNode } from "react";
 
-type Tone = "yellow" | "harbour" | "ferry" | "paper";
+type Tone = "apricot" | "harbour" | "ember" | "paper";
 
 const TONES: Record<Tone, string> = {
-  // Each tone carries the foreground that clears AA on it: ink on the light
-  // grounds at 17.5:1 and up, paper on the two saturated ones at 5.9:1 and
-  // 4.7:1. A note never picks its text colour by eye.
-  yellow: "bg-highlighter text-ink",
+  // Each tone carries the foreground that clears AA on it, and the two
+  // saturated inks disagree about which one that is: paper on harbour is
+  // 5.62:1 while paper on ember is 2.70:1 and fails, so ember takes ink at
+  // 5.56:1 instead. A note never picks its text colour by eye.
+  apricot: "bg-apricot text-ink",
   harbour: "bg-harbour text-paper",
-  ferry: "bg-ferry text-paper",
+  ember: "bg-ember text-ink",
   paper: "bg-paper text-ink",
 };
 
@@ -25,7 +26,7 @@ type StickyNoteProps = {
 /** A square of paper someone stuck on the wall. Hard shadow, no radius. */
 export function StickyNote({
   children,
-  tone = "yellow",
+  tone = "apricot",
   rotate = 0,
   className = "",
   tag,

@@ -9,8 +9,9 @@ import { zones } from "@/content/canvas";
 
 /**
  * `harbour` is the conversion action. `ink` is secondary. `paper` is tertiary.
- * White on harbour blue is 5.9:1, so unlike the orange this replaced, the fill
- * carries its own label at body size without a size or weight caveat.
+ * Paper on harbour blue is 5.62:1, so the fill carries its own label at body
+ * size with no caveat about weight. Ember is deliberately not a variant: at
+ * 2.70:1 on cream it can hold display type and fills, never a control label.
  */
 type Variant = "harbour" | "ink" | "paper";
 

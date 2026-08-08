@@ -1,6 +1,8 @@
-# HarbourHack — canvas branch
+# HarbourHack — harbour-pixel branch
 
-A boundless, pannable canvas for **HarbourHack 2026**, Sydney's go-to-market hackathon for university students. Part multiplayer whiteboard, part digital maritime chart, styled as Industrial Brutalism: stark white, 2px black borders, hard offset shadows, zero radius.
+A boundless, pannable canvas for **HarbourHack 2026**, Sydney's go-to-market hackathon for university students. Part multiplayer whiteboard, part digital maritime chart, opening on a screen-printed plate of the harbour that counts itself in.
+
+The look is risograph: six inks sampled from one photograph of the Coathanger at dusk, printed on cream, with tone carried by a visible dot screen rather than by mixing. The hard-edged rules from the brutalist branch survive intact — 2px borders, offset solid shadows, zero radius, nothing blurs.
 
 > This branch is a **separate design** from `main`, which holds the chat-thread site. They share nothing but the repo.
 
@@ -19,11 +21,45 @@ npm run dev
 | Step | State |
 |---|---|
 | 1. Dependencies, Tailwind, fonts, tokens | Done |
-| 2. Layout, grid + topographic ground, pan logic, mobile fallback, minimap | Done |
+| 2. Layout, screened ground, pan logic, mobile fallback, minimap | Done |
 | 3. Industrial Brutalism component kit | Done |
 | 4. Zone 1 and Zone 2 content | Done |
 | 5. Shipping Manifest card generator | Done |
 | 6. Liveblocks cursors + ghost fallback | Done |
+| 7. Risograph palette, dot screen, intro plate | Done |
+
+## The intro plate
+
+`components/intro/IntroGate.tsx` holds a full-screen plate over the canvas and then gets out of the way. It is a count-in, not a splash: three figures the programme actually has — four days, two weeks, three things judged — arrive in sequence and count up to themselves, then the wordmark and a way in.
+
+**It does not dismiss itself on a timer.** An intro that vanishes while someone is still reading cannot be argued with. Escape, the button, and a click anywhere all do the same thing.
+
+Three things the gate has to get right, all of them keyboard problems:
+
+- **The canvas is `inert` while the plate is up.** The plate is opaque and fixed, so without this Tab lands on controls three layers down and invisible. Inert takes the whole canvas out of the tab order *and* out of the accessibility tree until it is actually on screen.
+- **Escape dismisses**, because the plate is the only thing between a keyboard visitor and the registration form.
+- **A fragment in the URL skips it.** Arriving at `#setting-sail` means someone was sent to the form. That is read through `useHasHash` — the same external-store shape as a media query, so the server reports `false`, React hydrates against that, and re-renders once with the real answer.
+
+Under `prefers-reduced-motion` the plate arrives finished: every row present, every figure at its final value. `CountUp` gets there by running its normal loop with a zero-length duration rather than branching, so there is only one code path to keep correct.
+
+**Portrait inverts the backdrop.** Cropping a 16:9 drawing to fill a 375 × 812 window scales it by height and leaves about a quarter of its width on screen — the empty middle of the sky, with the bridge and the palms both cut away. So below 768px the plate stops being a backdrop and reorders itself into the column as a band at its own ratio, sitting above the notice instead of behind it. Pure CSS, like the rest of the mobile switch.
+
+## The drawing
+
+`components/art/PixelHarbour.tsx` generates the harbour on a 240 × 135 grid. Every shape is rasterised the way a sprite is: for each row, work out which cells the shape covers, then emit one rect per run of adjacent cells. An SVG polygon with the same vertices would render a clean hypotenuse; this gives stair steps, which is the point.
+
+Run-length encoding is what makes it affordable. The naive version is 32,400 rects and a third of a megabyte; here the flat fields are a handful of rects and only the structures pay per cell. Two things follow from that:
+
+- **Flat fields and gradients are `<pattern>` fills, not cells.** A value between cobalt and cream is cobalt dots over cream at 25%, 50% or 75%, from a Bayer 4 × 4 threshold map. Clouds are drawn twice — a screened skirt with a solid core inside it — which buys a broken dither edge for two shapes instead of per-cell rects.
+- **Scattered single cells are the expensive thing**, because none of them merge. The lawn speckle runs every second row for that reason; at full density it was a fifth of the drawing's bytes for a texture nobody can point at.
+
+Nothing is random without a seed, so the server and the client draw the same picture and hydration has nothing to disagree about. The `silhouette` variant is the same structures in one ink, used at 16% behind the canvas — the site sits on the drawing rather than next to it.
+
+### Using a photograph instead
+
+Set `intro.photo` in `content/intro.ts` to a path under `public/` and the plate becomes that photograph, quantised to the same six inks by `components/art/Dither.tsx`. Two steps, in this order: downsample to a few hundred pixels wide, *then* ordered-dither to the palette. Quantising first would let the browser average the inks back into colours that are not in the palette, and the result would be a slightly posterised photo rather than a screen print.
+
+It reads pixels back out of a canvas, so the source has to be same-origin — a file in `public/`, not a remote URL.
 
 ## The canvas
 
@@ -46,7 +82,9 @@ Below 768px the layout switch is **pure CSS**: the track becomes a normal block 
 
 ### The ground
 
-A fixed grid with a seamless topographic tile over it (`public/topo.svg`, generated so its contours meet at the tile edges). It drifts at a fraction of the canvas speed for parallax, and holds still under reduced motion.
+A fixed chart grid, the dot screen over it, and the harbour silhouette pinned along the bottom. Two parallax rates, both slower than the content — the screen drifts a little and the skyline barely moves, so the ground reads as distance rather than as a second layer travelling with you. Both hold still under reduced motion.
+
+The dot screen (`screen-dots`) is two radial-gradient fields at the same pitch, offset half a tile from each other and inked differently, which is what a two-colour press does when the plates are a fraction out of register. One field alone reads as a polka dot; two slightly-off fields read as print.
 
 ## The component kit
 
@@ -54,7 +92,7 @@ A fixed grid with a seamless topographic tile over it (`public/topo.svg`, genera
 
 **`Sharpie`** is the marker circle that appears around a button on hover or focus. Rough.js generates it from **fixed seeds**, so the same button always gets the same scribble — regenerating on every mouse-over reads as noise rather than as a drawing. It is decorative and `aria-hidden`; the child keeps its own focus ring.
 
-`components/art/` holds the two drawn pieces. `HandArrow` is a static path, so it server-renders and never shifts. `PixelBridge` is generated: the arch is a sine, the hangers hang off wherever it lands, and the whole thing is emitted as one path rather than 400 rects. Changing `COLS` or `ARCH_RISE` re-draws a coherent bridge.
+`components/art/` holds the drawn pieces: `HandArrow` (a static path, so it server-renders and never shifts), `BinChicken`, `PixelHarbour` and `Dither`.
 
 ## Cursors
 
@@ -78,18 +116,28 @@ The **Tech / Biz prompt** appears once, on pointer devices, and stores the choic
 
 ## Colour
 
-| Token | Value | Contrast on white |
-|---|---|---|
-| `ink` | `#0A0A0A` | 19.6:1 |
-| `navy` | `#061E3C` | 15.8:1 |
-| `harbour` | `#0B5FD0` | 5.9:1 — fine for body text |
-| `alert` | `#C63200` | 5.4:1 — error text |
-| `ferry` | `#008542` | 4.7:1 — fine for body text |
-| `highlighter` | `#E2FF31` | 17.5:1 with ink on top |
+Six inks, sampled from the photograph. Every ratio below is computed, not estimated — the script that produces them is the one thing to re-run if a value changes.
 
-Harbour blue replaced International Orange, which was 3.3:1 and could never carry text. Nothing in this palette now fails AA on a ground it is actually used on. The one rule that carries over is that the accent is a fill, never an edge — every component's outline is a 2px ink border, so no boundary depends on the accent.
+| Token | Value | On cream `#FBEAD7` | Notes |
+|---|---|---|---|
+| `paper` | `#FBEAD7` | — | The ground. Cream, not white. |
+| `paper-off` | `#F5DCC2` | — | The chart ground behind the canvas. |
+| `ink` | `#08192E` | 15.02:1 | Navy-black. There is no true black in the photo or here. |
+| `navy` | `#0E3C72` | 9.36:1 | For the one card that outranks the others. |
+| `harbour` | `#1A5DA8` | 5.62:1 | The text-safe accent: fills, borders, body copy. |
+| `alert` | `#9C1B10` | 6.93:1 | Errors. Kept clearly apart from ember. |
+| `slate` | `#5A5245` | 6.55:1 | Metadata. Passes on cream, cream-off *and* apricot. |
+| `apricot` | `#F6BE85` | 1.41:1 | A field, not a text colour. Always carries ink on top (10.62:1). |
+| `ember` | `#E2711D` | **2.70:1** | Display type and fills only. Never body text. |
+| `sky` | `#4E8AC4` | — | Decorative. The mid-tone the screen resolves to. Never text. |
 
-The one trap: **ink on harbour blue is 3.4:1 and fails.** Anything filled `bg-harbour` takes `text-paper`, not `text-ink` — the reverse of the old orange rule.
+Three traps, all of them the inverse of an obvious guess:
+
+1. **Anything `bg-harbour` or `bg-navy` takes `text-paper`**, never `text-ink` — ink on harbour is 2.67:1.
+2. **Anything `bg-ember` takes `text-ink`**, never `text-paper` — paper on ember is 2.70:1. This is the opposite of the rule above, and it is why the sticky-note and cursor palettes both carry their foreground alongside their background rather than letting a caller pick by eye.
+3. **`text-harbour` is fine on cream and fails on apricot** (3.98:1). On the apricot ground in zone three, metadata is `slate` or `navy`.
+
+Ember inherits the rule the old International Orange had: one ink is allowed to shout, and it does it at display size with ink on top. What carries over unchanged is that the accent is a fill, never an edge — every outline is a 2px ink border, so no boundary depends on a colour.
 
 ## Content
 

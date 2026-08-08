@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#08192e",
   // The canvas owns horizontal movement; pinch-zoom stays available.
   width: "device-width",
   initialScale: 1,
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <a
           href="#setting-sail"
-          className="press sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-highlighter focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase"
+          className="press sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-apricot focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase"
         >
           Skip to registration
         </a>

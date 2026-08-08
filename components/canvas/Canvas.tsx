@@ -9,6 +9,7 @@ import { ZoneNav } from "@/components/canvas/ZoneNav";
 import { CanvasProvider } from "@/components/canvas/CanvasContext";
 import { CursorLayer } from "@/components/live/CursorLayer";
 import { BinChicken } from "@/components/art/BinChicken";
+import { PixelHarbour } from "@/components/art/PixelHarbour";
 
 /**
  * The pannable harbour.
@@ -22,15 +23,22 @@ export function Canvas({ children }: { children: ReactNode }) {
     useCanvasPan();
 
   const panels = Children.toArray(children);
-  // The ground drifts at a fraction of the canvas speed, so the chart reads as
-  // being further away than the content sitting on it.
-  const topoX = useTransform(progress, [0, 1], [0, -220]);
+  // Two rates, both slower than the content: the dot screen drifts a little and
+  // the skyline barely moves, so the ground reads as distance rather than as a
+  // second layer travelling with you.
+  const screenX = useTransform(progress, [0, 1], [0, -220]);
+  const harbourX = useTransform(progress, [0, 1], [0, -90]);
   const nav = useMemo(() => ({ goToZone, activeZone }), [goToZone, activeZone]);
 
   return (
     <CanvasProvider value={nav}>
       <div className="ground" aria-hidden="true">
-        <motion.div className="ground-topo" style={{ x: topoX }} />
+        {/* The same drawing as the intro plate, in one ink and turned down far
+            enough to sit under live text. */}
+        <motion.div className="ground-harbour" style={{ x: harbourX }}>
+          <PixelHarbour variant="silhouette" className="h-[46vh] w-[130vw] min-w-[1100px]" />
+        </motion.div>
+        <motion.div className="ground-screen screen-dots" style={{ x: screenX }} />
       </div>
 
       <ZoneNav activeZone={activeZone} goToZone={goToZone} />

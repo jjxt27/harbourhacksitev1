@@ -80,7 +80,7 @@ export function SettingSail() {
       // most visitors never reach this button.
       const { toPng } = await import("html-to-image");
       const url = await withTimeout(
-        toPng(node, { pixelRatio: 3, cacheBust: true, backgroundColor: "#ffffff" }),
+        toPng(node, { pixelRatio: 3, cacheBust: true, backgroundColor: "#fbead7" }),
         EXPORT_TIMEOUT,
       );
 
@@ -96,7 +96,7 @@ export function SettingSail() {
           spread: 78,
           startVelocity: 42,
           origin: { y: 0.72 },
-          colors: ["#0b5fd0", "#e2ff31", "#008542", "#0a0a0a"],
+          colors: ["#1a5da8", "#f6be85", "#e2711d", "#08192e"],
           disableForReducedMotion: true,
         });
       }
@@ -108,7 +108,7 @@ export function SettingSail() {
   }
 
   return (
-    <div className="flex h-full flex-col justify-center bg-highlighter px-6 py-20 md:px-14 md:py-10">
+    <div className="flex h-full flex-col justify-center bg-apricot px-6 py-20 md:px-14 md:py-10">
       <header className="mb-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
         <div>
           <p className="font-mono text-meta uppercase tracking-[0.2em] text-slate">
@@ -128,8 +128,8 @@ export function SettingSail() {
         same line and the reader pans instead of scrolling.
       */}
       <div className="grid gap-8 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)_auto_minmax(0,0.7fr)] xl:gap-10">
-        {/* Paper cards, not sticky notes — the zone ground is already
-            highlighter, and yellow on yellow has no edge. */}
+        {/* Paper cards, not sticky notes — the zone ground is already apricot,
+            and a note in the same ink as the wall behind it has no edge. */}
         <section aria-labelledby="questions">
           <h3
             id="questions"

@@ -86,7 +86,7 @@ export function ManifestCard({
               data.skills.map((skill) => (
                 <li
                   key={skill}
-                  className="border-2 border-ink bg-highlighter px-1.5 py-0.5 text-meta font-bold uppercase tracking-tight"
+                  className="border-2 border-ink bg-apricot px-1.5 py-0.5 text-meta font-bold uppercase tracking-tight"
                 >
                   {skill}
                 </li>
@@ -114,8 +114,8 @@ export function ManifestCard({
         </span>
       </div>
 
-      {/* Paper on harbour, not ink: the old orange banner took ink at 5.9:1,
-          but ink on this blue is 3.4:1 and would fail. */}
+      {/* Paper on harbour, not ink: ink on this blue is 2.67:1 and would fail.
+          The ember fill on the same card takes the opposite foreground. */}
       <div className="bg-harbour px-4 py-3">
         <p className="font-mono text-micro uppercase tracking-[0.18em] text-paper">
           {copy.bannerLabel}

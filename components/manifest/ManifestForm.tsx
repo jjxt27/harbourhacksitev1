@@ -112,7 +112,7 @@ export function ManifestForm({ data, onChange, errors, ids }: ManifestFormProps)
                   aria-describedby={errors.skills ? ids.skillsError : undefined}
                   className="peer sr-only"
                 />
-                <span className={`${CHOICE} peer-checked:bg-highlighter peer-checked:text-ink`}>
+                <span className={`${CHOICE} peer-checked:bg-apricot peer-checked:text-ink`}>
                   {skill}
                 </span>
               </label>

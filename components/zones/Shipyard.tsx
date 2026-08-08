@@ -6,7 +6,7 @@ import { Tbc } from "@/components/ui/Stamp";
 
 /** Card kinds get a glyph and a fill, so the board is scannable at a glance. */
 const KINDS = {
-  workshop: { icon: GraduationCap, label: "Workshop", fill: "bg-highlighter" },
+  workshop: { icon: GraduationCap, label: "Workshop", fill: "bg-apricot" },
   mentor: { icon: Wrench, label: "Mentor", fill: "bg-harbour text-paper" },
   session: { icon: null, label: "Session", fill: "bg-paper" },
 } as const;

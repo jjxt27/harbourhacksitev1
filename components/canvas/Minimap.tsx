@@ -41,7 +41,7 @@ export function Minimap({ progress, activeZone, goToZone }: MinimapProps) {
             style={{ flexGrow: zone.width }}
             aria-current={activeZone === index ? "true" : undefined}
             className={`group relative mr-1 flex min-w-0 items-end border-2 border-ink px-1.5 py-1 text-left transition-colors last:mr-0 ${
-              activeZone === index ? "bg-highlighter" : "bg-paper-off hover:bg-grid"
+              activeZone === index ? "bg-apricot" : "bg-paper-off hover:bg-grid"
             }`}
           >
             <span className="truncate font-mono text-micro uppercase tracking-[0.12em]">

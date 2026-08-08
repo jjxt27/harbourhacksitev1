@@ -25,7 +25,7 @@ export function ZoneNav({ activeZone, goToZone }: ZoneNavProps) {
         className="press pointer-events-auto border-2 border-ink bg-ink px-3 py-2 font-display text-small font-black uppercase tracking-tight text-paper"
       >
         {site.name}
-        <span className="ml-2 font-mono text-meta font-normal tracking-[0.14em] text-highlighter">
+        <span className="ml-2 font-mono text-meta font-normal tracking-[0.14em] text-apricot">
           {site.year}
         </span>
       </a>
@@ -39,7 +39,7 @@ export function ZoneNav({ activeZone, goToZone }: ZoneNavProps) {
                 onClick={() => goToZone(index)}
                 aria-current={activeZone === index ? "true" : undefined}
                 className={`px-3.5 py-2 font-mono text-meta uppercase tracking-[0.16em] transition-colors ${
-                  activeZone === index ? "bg-ink text-paper" : "hover:bg-highlighter"
+                  activeZone === index ? "bg-ink text-paper" : "hover:bg-apricot"
                 }`}
               >
                 <span className="mr-1.5 opacity-60">0{index + 1}</span>

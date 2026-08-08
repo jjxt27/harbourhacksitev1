@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-/** Container-stencil HH on jet black. Mirrors --color-ink / --color-harbour. */
+/** Container-stencil HH on navy-black, with the ember rule under it. */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -15,15 +15,15 @@ export default function Icon() {
           position: "relative",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0a0a0a",
-          color: "#ffffff",
+          background: "#08192e",
+          color: "#fbead7",
           fontSize: 28,
           fontWeight: 800,
           letterSpacing: -2,
         }}
       >
         HH
-        <div style={{ position: "absolute", left: 0, bottom: 0, width: 64, height: 7, background: "#0b5fd0" }} />
+        <div style={{ position: "absolute", left: 0, bottom: 0, width: 64, height: 7, background: "#e2711d" }} />
       </div>
     ),
     size,

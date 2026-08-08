@@ -1,49 +1,58 @@
 @import "tailwindcss";
 
 /*
-  HarbourHack — Industrial Brutalism
-  ==================================
-  Stark white ground, jet black structure, three loud accents. Everything is
-  hard-edged: 2px black borders, offset solid shadows, zero border-radius.
-  Nothing on this site blurs, fades to grey, or rounds a corner.
+  HarbourHack — Risograph Harbour
+  ==============================
+  The palette is sampled from one photograph: a two-colour separation of the
+  Coathanger at dusk, cobalt and ember, printed on cream with a visible dot
+  screen. Six inks and nothing between them. That constraint is the whole
+  design — a duotone print has no greys to hide in, so every value has to be
+  carried by hue or by dot density.
 
-  The accent is harbour blue, where this once used International Orange. The
-  swap is not only a hue change: orange was 3.3:1 on white and could never
-  carry text, so every use had to be audited. Harbour blue is 5.9:1, which
-  means a filled button can hold white text at body size and the accent can be
-  read as well as seen. The rule that survives is the one about fills — a 2px
-  ink border still draws every edge, so no component's outline depends on the
-  accent at all.
+  What carries over from the brutalist branch: hard edges, 2px ink borders,
+  offset solid shadows, zero radius, nothing blurs. What changes: the ground is
+  cream rather than white, structure is navy-black rather than jet, and images
+  are quantised to these six inks rather than reproduced.
+
+  The accent split is deliberate. Harbour blue is 5.62:1 on cream, so it can
+  carry text and a filled button. Ember is 2.70:1 and can never carry text on
+  cream — it is a fill and a display colour with ink on top, which is the same
+  rule the old International Orange had. Nothing about that rule is nostalgia:
+  a print this warm needs one ink that is allowed to shout.
 */
 
 @theme {
-  --color-paper: #ffffff;
-  --color-paper-off: #f9f9f9;
-  --color-grid: #e5e5e5;
-  --color-ink: #0a0a0a;
-  /* Solid mid-grey for metadata. Solid rather than an opacity modifier so it
-     survives the manifest card's PNG export unchanged. 5.3:1 on white. */
-  --color-slate: #6b6b6b;
+  /* The cream. Sampled from the lit edge of the cloud. */
+  --color-paper: #fbead7;
+  --color-paper-off: #f5dcc2;
+  /* Grid rule. Decorative — it draws the chart, it never carries meaning. */
+  --color-grid: #e8cfae;
 
-  /* Harbour blue. The conversion colour: fills, borders, and text. */
-  --color-harbour: #0b5fd0;
-  /* The navy off the real intro at harbourhack.com. The deep end of the same
-     water — used for the one card that has to outrank the others. */
-  --color-navy: #061e3c;
-  --color-ferry: #008542;
-  --color-highlighter: #e2ff31;
-  /* The text-safe red: 5.4:1 on white and 4.8:1 on highlighter, so errors read
-     on every ground we use. Kept distinct from harbour blue on purpose —
-     nothing that reports a problem should share a colour with the CTA. */
-  --color-alert: #c63200;
+  /* Navy-black. The photograph has no true black in it and neither does this. */
+  --color-ink: #08192e;
+  /* Solid, not an opacity modifier, so it survives the manifest PNG export.
+     Warm slate: the neutral a cobalt/ember press actually produces. */
+  --color-slate: #5a5245;
+
+  /* Harbour blue. The text-safe accent: fills, borders, and body copy. */
+  --color-harbour: #1a5da8;
+  /* The deep end of the same water. For the one card that outranks the rest. */
+  --color-navy: #0e3c72;
+  /* Ember. Large display type, fills and borders — never body text. */
+  --color-ember: #e2711d;
+  /* The lit ink. Highlight fields and marks, always with ink on top. */
+  --color-apricot: #f6be85;
+  /* Brick red, kept clearly apart from ember so a problem never reads as an
+     accent. Passes on cream, cream-off and apricot. */
+  --color-alert: #9c1b10;
+
+  /* Decorative only: the mid-tone the dot screen resolves to. Never text. */
+  --color-sky: #4e8ac4;
 
   /*
-    The type scale. Eight steps, and nothing between them.
-
-    Sizes used to drift — 16, 17, 18, 20 all appeared as "body", which reads as
-    slippage rather than intent. A step you cannot perceive is not a decision.
-    Mono is floored at 10px: below that, uppercase at 0.16em tracking stops
-    being fine detail and becomes texture.
+    The type scale. Eight steps, and nothing between them. A step you cannot
+    perceive is not a decision. Mono is floored at 10px: below that, uppercase
+    at 0.16em tracking stops being fine detail and becomes texture.
   */
   --text-display: clamp(3.1rem, 8.5vw, 8.5rem);
   --text-title: clamp(2.3rem, 4.6vw, 4.6rem);
@@ -53,6 +62,9 @@
   --text-small: 0.875rem;
   --text-meta: 0.6875rem;
   --text-micro: 0.625rem;
+
+  /* Counters are set in the mono at display size, so it needs its own step. */
+  --text-tally: clamp(2.6rem, 7vw, 6rem);
 
   --font-display: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
@@ -67,22 +79,28 @@
 }
 
 /*
-  Contrast, measured against white:
-    ink        19.6:1  — anything
-    navy       15.8:1  — anything, and white on navy is the same
-    harbour     5.9:1  — anything, including body text, and white on harbour
-                         is the same 5.9:1 because the ratio is symmetric
-    alert       5.4:1  — the red for error text
-    ferry       4.7:1  — passes AA for body text
-    highlighter 17.5:1 with ink on top — sticky notes are always ink-on-yellow.
+  Measured contrast. Every figure below is computed, not estimated.
 
-  Against the highlighter field in zone three:
-    ink        17.5:1   harbour  5.2:1   alert  4.8:1   slate  4.7:1
-    navy       14.0:1
+  On paper #fbead7        On paper-off #f5dcc2   On apricot #f6be85
+    ink      15.02:1        ink      13.37:1       ink      10.62:1
+    navy      9.36:1        navy      8.33:1       navy      6.62:1
+    alert     6.93:1        alert     6.17:1       alert     4.90:1
+    slate     6.55:1        slate     5.83:1       slate     4.63:1
+    harbour   5.62:1        harbour   5.01:1       harbour   3.98:1  ← large only
+    ember     2.70:1        ember     2.40:1       ember     1.91:1  ← never text
 
-  There is no colour here that fails AA on a ground it is actually used on,
-  which is new. The old palette had one that did, and every component using it
-  needed a note explaining the workaround.
+  On harbour #1a5da8      On navy #0e3c72        On ink #08192e
+    paper     5.62:1        paper     9.36:1       paper    15.02:1
+    ink       2.67:1 ✗      ember     3.47:1       apricot  10.62:1
+                            (large display only)   ember     5.56:1
+  On ember #e2711d
+    ink       5.56:1        paper     2.70:1 ✗
+
+  Three traps, all of them the inverse of an obvious guess:
+    1. Anything `bg-harbour` or `bg-navy` takes `text-paper`, never `text-ink`.
+    2. Anything `bg-ember` takes `text-ink`, never `text-paper`.
+    3. `text-harbour` is fine on cream and fails on apricot. On an apricot
+       ground, metadata is `text-slate` or `text-navy`.
 
   Hard shadows are punctuation. They belong on things that lift — buttons,
   sticky notes, board cards, the minimap — and not on the containers around
@@ -119,7 +137,7 @@
   a { color: inherit; text-decoration: none; }
   img, svg { display: block; max-width: 100%; }
 
-  ::selection { background: var(--color-highlighter); color: var(--color-ink); }
+  ::selection { background: var(--color-apricot); color: var(--color-ink); }
 
   :focus-visible {
     outline: 3px solid var(--color-harbour);
@@ -146,6 +164,29 @@
     transform: translate(2px, 2px);
     box-shadow: var(--shadow-hard-sm);
   }
+}
+
+/* The same press, for controls sitting on an ink ground — where an ink shadow
+   would be invisible and the lift would be lost. */
+@utility press-inverse {
+  box-shadow: 4px 4px 0 var(--color-paper);
+  transition: transform 90ms var(--ease-canvas), box-shadow 90ms var(--ease-canvas);
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-paper);
+  }
+}
+
+/* Counters must not reflow as digits change. */
+@utility tally {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Anything upscaled from a small raster keeps its pixels square. */
+@utility pixelated {
+  image-rendering: pixelated;
 }
 
 /* ------------------------------------------------------------- the canvas --
@@ -203,10 +244,31 @@
   }
 }
 
+/* --------------------------------------------------------------- the screen --
+   The dot screen off the photograph, as a background layer.
+
+   Two radial-gradient fields at the same pitch, offset half a tile from each
+   other and inked differently, which is what a two-colour press actually does
+   when the plates are a fraction out of register. One field alone reads as a
+   polka dot; two slightly-off fields read as print.
+
+   `--screen-pitch` sets the dot spacing and `--screen-dot` the radius, so a
+   surface can be screened coarse or fine without new rules.                  */
+
+@utility screen-dots {
+  --screen-pitch: 6px;
+  --screen-dot: 1.1px;
+  background-image:
+    radial-gradient(circle at 50% 50%, var(--color-harbour) var(--screen-dot), transparent calc(var(--screen-dot) + 0.5px)),
+    radial-gradient(circle at 50% 50%, var(--color-ember) var(--screen-dot), transparent calc(var(--screen-dot) + 0.5px));
+  background-size: var(--screen-pitch) var(--screen-pitch);
+  background-position: 0 0, calc(var(--screen-pitch) / 2) calc(var(--screen-pitch) / 2);
+}
+
 /* ------------------------------------------------------------- background --
-   A fixed grid with topographic contours over it. Fixed rather than parented
-   to the track, so the ground stays put while the content moves across it —
-   the contours get their own slower parallax instead.                        */
+   A fixed chart grid under the dot screen. Fixed rather than parented to the
+   track, so the ground stays put while the content moves across it — the
+   screen gets its own slower parallax instead.                               */
 
 .ground {
   position: fixed;
@@ -220,20 +282,110 @@
   background-size: 48px 48px;
 }
 
-.ground-topo {
+.ground-screen {
   position: absolute;
   inset: -10% -20%;
-  background-image: url("/topo.svg");
-  background-size: 1400px auto;
-  background-repeat: repeat;
-  opacity: 0.5;
+  opacity: 0.34;
   will-change: transform;
 }
 
-@media (max-width: 767px) {
-  .ground { position: fixed; }
+/* The harbour itself, pinned along the bottom of the ground and lightly inked.
+   It is the same drawing the intro uses at full strength — the site sits on the
+   photograph rather than next to it. */
+.ground-harbour {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  opacity: 0.16;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ground-topo { transform: none !important; }
+  .ground-screen,
+  .ground-harbour { transform: none !important; }
+}
+
+/* ------------------------------------------------------------- the intro --
+   A full-bleed plate that counts itself in, then hands over to the canvas.
+   Fixed and above everything, dismissed by the button, a click, or Escape.   */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-ink);
+  transition: opacity 520ms var(--ease-canvas), transform 520ms var(--ease-canvas);
+}
+
+/* Leaving: the plate lifts off the top like a sheet pulled off the press. */
+.intro[data-leaving="true"] {
+  opacity: 0;
+  transform: translateY(-3%);
+  pointer-events: none;
+}
+
+.intro-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* The art fills the plate and is allowed to crop — it is a backdrop, and on a
+   landscape window the composition survives losing its edges. */
+.intro-plate > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*
+  Portrait is the opposite problem. Cropping a 16:9 drawing to fill a 375 × 812
+  window scales it by height, which leaves about a quarter of its width on
+  screen — the empty middle of the sky, with the bridge and the palms both cut
+  away. So on a narrow window the plate stops being a backdrop and joins the
+  column as a band at its own ratio: the whole harbour, uncropped, sitting on
+  top of the notice rather than behind it.
+*/
+@media (max-width: 767px) {
+  .intro-plate {
+    position: static;
+    /* Ordered past the masthead and the gap, so the band lands directly above
+       the notice instead of leaving a dead strip of ink between them. */
+    order: 1;
+  }
+  .intro-plate > * {
+    height: auto;
+  }
+  .intro-notice {
+    order: 2;
+  }
+}
+
+/* A feed row arrives, it does not fade in place. */
+.intro-row {
+  opacity: 0;
+  transform: translateY(0.6rem);
+  transition: opacity 260ms var(--ease-canvas), transform 260ms var(--ease-canvas);
+}
+
+.intro-row[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro,
+  .intro-row {
+    transition: none;
+  }
+  /* Nothing arrives and nothing counts. Reduced motion gets the finished
+     plate: every row present, every figure at its final value. */
+  .intro-row {
+    opacity: 1;
+    transform: none;
+  }
 }

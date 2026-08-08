@@ -79,7 +79,7 @@ export const dryDock = {
       n: "01",
       title: "Live demo",
       note: "It has to actually run. In front of the room, no video.",
-      tone: "yellow" as const,
+      tone: "apricot" as const,
       rotate: -2.5,
     },
     {
@@ -93,7 +93,7 @@ export const dryDock = {
       n: "03",
       title: "Verified signups",
       note: "Real users who opted in. Not your group chat.",
-      tone: "ferry" as const,
+      tone: "ember" as const,
       rotate: -1.2,
     },
   ],

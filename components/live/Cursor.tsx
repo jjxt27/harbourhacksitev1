@@ -4,11 +4,13 @@ import type { CursorRole } from "@/content/canvas";
 
 /** Each colour carries its own foreground so labels never lose contrast. */
 export const CURSOR_COLOURS = [
-  // Ink on harbour blue is only 3.4:1 — this one takes paper, not ink.
-  { bg: "#0b5fd0", fg: "#ffffff" },
-  { bg: "#008542", fg: "#ffffff" },
-  { bg: "#0a0a0a", fg: "#e2ff31" },
-  { bg: "#e2ff31", fg: "#0a0a0a" },
+  // The two saturated inks want opposite foregrounds and neither is a guess:
+  // paper on harbour is 5.62:1, paper on ember is 2.70:1 and fails, so ember
+  // takes ink at 5.56:1 instead.
+  { bg: "#1a5da8", fg: "#fbead7" },
+  { bg: "#e2711d", fg: "#08192e" },
+  { bg: "#08192e", fg: "#f6be85" },
+  { bg: "#f6be85", fg: "#08192e" },
 ] as const;
 
 type CursorProps = {
@@ -39,7 +41,7 @@ export function Cursor({ handle, role, colour, x, y, ref }: CursorProps) {
         <path
           d="M5 3l14 8.5-6.2 1.6L10.6 20 5 3z"
           fill={colour.bg}
-          stroke="#0a0a0a"
+          stroke="#08192e"
           strokeWidth="1.6"
           strokeLinejoin="round"
         />

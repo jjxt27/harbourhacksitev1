@@ -17,7 +17,7 @@ export function Barcode({ seed, className = "" }: { seed: string; className?: st
       y={0}
       width={bar}
       height={HEIGHT}
-      fill="#0a0a0a"
+      fill="#08192e"
     />
   ));
 

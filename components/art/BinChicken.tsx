@@ -76,36 +76,36 @@ export function BinChicken() {
       }
     >
       {squawk !== null ? (
-        <span className="absolute -top-9 left-6 whitespace-nowrap border-2 border-ink bg-highlighter px-2 py-1 font-hand text-base leading-none shadow-hard-sm">
+        <span className="absolute -top-9 left-6 whitespace-nowrap border-2 border-ink bg-apricot px-2 py-1 font-hand text-base leading-none shadow-hard-sm">
           {SQUAWKS[squawk]}
         </span>
       ) : null}
 
-      <svg viewBox="0 0 130 150" className="w-full drop-shadow-[3px_3px_0_#0a0a0a]">
-        <g stroke="#0a0a0a" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg viewBox="0 0 130 150" className="w-full drop-shadow-[3px_3px_0_#08192e]">
+        <g stroke="#08192e" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
           {/* Legs */}
           <path d="M63 110 58 134M79 110 84 134" fill="none" />
           <path d="M50 134h14M76 134h14" fill="none" />
 
           {/* Tail plumes */}
-          <path d="M100 76c12-4 22-8 27-3 4 5-6 12-18 16z" fill="#0a0a0a" />
+          <path d="M100 76c12-4 22-8 27-3 4 5-6 12-18 16z" fill="#08192e" />
 
           {/* Body */}
-          <ellipse cx="70" cy="88" rx="36" ry="26" fill="#ffffff" />
+          <ellipse cx="70" cy="88" rx="36" ry="26" fill="#fbead7" />
           {/* Wing */}
           <path d="M52 82c14-8 34-8 44 2-10 12-32 14-44 4z" fill="#f9f9f9" />
 
           {/* Neck and head — bare black skin, the bird's tell. */}
           <path d="M50 74c-6-12-8-24-6-34" fill="none" strokeWidth="11" />
-          <circle cx="43" cy="34" r="10.5" fill="#0a0a0a" />
+          <circle cx="43" cy="34" r="10.5" fill="#08192e" />
 
           {/* The bill: long, downcurved, unmistakable. */}
           <path d="M35 39c-8 6-15 17-20 30" fill="none" strokeWidth="6" />
 
           {/* Startup cap */}
-          <path d="M31 28a12 9 0 0 1 24 0z" fill="#0b5fd0" />
-          <path d="M31 28 15 31l1 5 16-3z" fill="#0b5fd0" />
-          <circle cx="43" cy="18" r="2.5" fill="#0b5fd0" />
+          <path d="M31 28a12 9 0 0 1 24 0z" fill="#1a5da8" />
+          <path d="M31 28 15 31l1 5 16-3z" fill="#1a5da8" />
+          <circle cx="43" cy="18" r="2.5" fill="#1a5da8" />
         </g>
       </svg>
     </motion.div>
