@@ -12,9 +12,9 @@ export function Stamp({
     <span
       aria-hidden="true"
       style={{ rotate: `${rotate}deg` }}
-      className={`inline-block border-[3px] border-orange px-3 py-1.5 font-display text-meta font-black uppercase tracking-[0.2em] text-orange opacity-80 ${className}`}
+      className={`inline-block border-[3px] border-harbour px-3 py-1.5 font-display text-meta font-black uppercase tracking-[0.2em] text-harbour opacity-80 ${className}`}
     >
-      <span className="block border-y border-orange/60 py-0.5">{children}</span>
+      <span className="block border-y border-harbour/60 py-0.5">{children}</span>
     </span>
   );
 }

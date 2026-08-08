@@ -6,6 +6,14 @@
   Stark white ground, jet black structure, three loud accents. Everything is
   hard-edged: 2px black borders, offset solid shadows, zero border-radius.
   Nothing on this site blurs, fades to grey, or rounds a corner.
+
+  The accent is harbour blue, where this once used International Orange. The
+  swap is not only a hue change: orange was 3.3:1 on white and could never
+  carry text, so every use had to be audited. Harbour blue is 5.9:1, which
+  means a filled button can hold white text at body size and the accent can be
+  read as well as seen. The rule that survives is the one about fills — a 2px
+  ink border still draws every edge, so no component's outline depends on the
+  accent at all.
 */
 
 @theme {
@@ -17,12 +25,16 @@
      survives the manifest card's PNG export unchanged. 5.3:1 on white. */
   --color-slate: #6b6b6b;
 
-  /* Shipping-container orange. Large text, fills and borders only — see below. */
-  --color-orange: #ff4f00;
+  /* Harbour blue. The conversion colour: fills, borders, and text. */
+  --color-harbour: #0b5fd0;
+  /* The navy off the real intro at harbourhack.com. The deep end of the same
+     water — used for the one card that has to outrank the others. */
+  --color-navy: #061e3c;
   --color-ferry: #008542;
   --color-highlighter: #e2ff31;
-  /* Orange is not legible as small text. This is the text-safe red: 5.4:1 on
-     white and 4.8:1 on highlighter, so errors read on every ground we use. */
+  /* The text-safe red: 5.4:1 on white and 4.8:1 on highlighter, so errors read
+     on every ground we use. Kept distinct from harbour blue on purpose —
+     nothing that reports a problem should share a colour with the CTA. */
   --color-alert: #c63200;
 
   /*
@@ -57,17 +69,20 @@
 /*
   Contrast, measured against white:
     ink        19.6:1  — anything
-    alert       5.4:1  — the red for error text. Use this, not orange.
+    navy       15.8:1  — anything, and white on navy is the same
+    harbour     5.9:1  — anything, including body text, and white on harbour
+                         is the same 5.9:1 because the ratio is symmetric
+    alert       5.4:1  — the red for error text
     ferry       4.7:1  — passes AA for body text
-    orange      3.3:1  — FAILS AA for body text. Only ever use it for text at
-                         24px+/19px-bold, for borders, or as a fill with ink on
-                         top. Never for paragraphs.
     highlighter 17.5:1 with ink on top — sticky notes are always ink-on-yellow.
 
   Against the highlighter field in zone three:
-    ink        17.5:1   alert  4.8:1   slate  4.7:1
-    orange     2.9:1   — fill only there, and always inside a 2px ink border,
-                         so the component's edge never depends on it.
+    ink        17.5:1   harbour  5.2:1   alert  4.8:1   slate  4.7:1
+    navy       14.0:1
+
+  There is no colour here that fails AA on a ground it is actually used on,
+  which is new. The old palette had one that did, and every component using it
+  needed a note explaining the workaround.
 
   Hard shadows are punctuation. They belong on things that lift — buttons,
   sticky notes, board cards, the minimap — and not on the containers around
@@ -107,7 +122,7 @@
   ::selection { background: var(--color-highlighter); color: var(--color-ink); }
 
   :focus-visible {
-    outline: 3px solid var(--color-orange);
+    outline: 3px solid var(--color-harbour);
     outline-offset: 2px;
   }
 }

@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 
-type Tone = "yellow" | "orange" | "ferry" | "paper";
+type Tone = "yellow" | "harbour" | "ferry" | "paper";
 
 const TONES: Record<Tone, string> = {
-  // Ink on highlighter is 17.5:1. Ink on orange and ferry both clear AA too,
-  // which is why notes never use white text.
+  // Each tone carries the foreground that clears AA on it: ink on the light
+  // grounds at 17.5:1 and up, paper on the two saturated ones at 5.9:1 and
+  // 4.7:1. A note never picks its text colour by eye.
   yellow: "bg-highlighter text-ink",
-  orange: "bg-orange text-paper",
+  harbour: "bg-harbour text-paper",
   ferry: "bg-ferry text-paper",
   paper: "bg-paper text-ink",
 };

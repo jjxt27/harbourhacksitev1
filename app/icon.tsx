@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-/** Container-stencil HH on jet black. Mirrors --color-ink / --color-orange. */
+/** Container-stencil HH on jet black. Mirrors --color-ink / --color-harbour. */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -23,7 +23,7 @@ export default function Icon() {
         }}
       >
         HH
-        <div style={{ position: "absolute", left: 0, bottom: 0, width: 64, height: 7, background: "#ff4f00" }} />
+        <div style={{ position: "absolute", left: 0, bottom: 0, width: 64, height: 7, background: "#0b5fd0" }} />
       </div>
     ),
     size,

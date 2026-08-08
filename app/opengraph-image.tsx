@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { site } from "@/content/canvas";
+import { dates, site } from "@/content/canvas";
 
 export const alt = `${site.name} ${site.year} — ${site.tagline}`;
 export const size = { width: 1200, height: 630 };
@@ -31,8 +31,13 @@ export default function OpengraphImage() {
             <span style={{ background: "#e2ff31", padding: "0 14px" }}>Ship.</span>
           </span>
         </div>
-        <div style={{ display: "flex", fontSize: 26, color: "#0a0a0a", borderTop: "4px solid #0a0a0a", paddingTop: 22 }}>
-          Sydney&apos;s GTM hackathon for university students
+        {/* The dates earn their place on a share card — they are the one fact
+            someone needs before they decide whether to keep reading. */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 26, borderTop: "4px solid #0a0a0a", paddingTop: 22 }}>
+          <span>Sydney&apos;s GTM hackathon for university students</span>
+          <span style={{ background: "#0b5fd0", color: "#ffffff", padding: "8px 14px", letterSpacing: 1 }}>
+            {dates.short}
+          </span>
         </div>
       </div>
     ),

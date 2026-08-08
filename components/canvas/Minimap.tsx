@@ -54,7 +54,7 @@ export function Minimap({ progress, activeZone, goToZone }: MinimapProps) {
         <motion.div
           aria-hidden="true"
           style={{ left, width: `${viewportFraction * 100}%` }}
-          className="pointer-events-none absolute inset-y-1.5 border-2 border-orange bg-orange/15"
+          className="pointer-events-none absolute inset-y-1.5 border-2 border-harbour bg-harbour/15"
         />
       </div>
     </aside>

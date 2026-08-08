@@ -27,7 +27,9 @@ npm run dev
 
 ## The canvas
 
-`components/canvas/Canvas.tsx` renders one child per zone, matched in order against `zones` in `content/canvas.ts`. That list is the single source of truth — the track width, the minimap proportions and the zone navigation all derive from it, so changing a width there moves everything together. The track is currently 4× viewport width.
+`components/canvas/Canvas.tsx` renders one child per zone, matched in order against `zones` in `content/canvas.ts`. That list is the single source of truth — the track width, the minimap proportions and the zone navigation all derive from it, so changing a width there moves everything together. The track is currently 5.2× viewport width.
+
+**A zone is exactly one screen tall and clips what does not fit**, so vertical space inside one is a fixed budget rather than something a reader can scroll into. When a zone gains content it buys the room sideways — zone one runs the argument across three columns, zone three puts the questions, the form, the card and the partner block on one line. All three fit with nothing clipped from 1280×800 up; below about 700px of viewport height the last 50–60px of zones two and three are cut off.
 
 `hooks/useCanvasPan.ts` does the movement:
 
@@ -74,20 +76,28 @@ The **Tech / Biz prompt** appears once, on pointer devices, and stores the choic
 
 `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY` is inlined into the client bundle and readable by anyone who opens the page. That is what a `pk_` key is for. The secret `sk_` key must never be given a `NEXT_PUBLIC_` prefix.
 
-## Colour, and one constraint
+## Colour
 
 | Token | Value | Contrast on white |
 |---|---|---|
 | `ink` | `#0A0A0A` | 19.6:1 |
+| `navy` | `#061E3C` | 15.8:1 |
+| `harbour` | `#0B5FD0` | 5.9:1 — fine for body text |
+| `alert` | `#C63200` | 5.4:1 — error text |
 | `ferry` | `#008542` | 4.7:1 — fine for body text |
-| `orange` | `#FF4F00` | **3.3:1 — fails AA for body text** |
 | `highlighter` | `#E2FF31` | 17.5:1 with ink on top |
 
-International Orange is for large display type, borders and fills with ink over them. Never paragraphs.
+Harbour blue replaced International Orange, which was 3.3:1 and could never carry text. Nothing in this palette now fails AA on a ground it is actually used on. The one rule that carries over is that the accent is a fill, never an edge — every component's outline is a 2px ink border, so no boundary depends on the accent.
 
-## Before launch
+The one trap: **ink on harbour blue is 3.4:1 and fails.** Anything filled `bg-harbour` takes `text-paper`, not `text-ink` — the reverse of the old orange rule.
 
-Dates, times, mentors, venue and prizes are all `TBC` in `content/canvas.ts` and render as visible TBC chips. Do not replace them with plausible-looking placeholders — fill them in when they are real.
+## Content
+
+The site's copy is the other half of `EOI_BRIEF.md`, which is the document that gets emailed to students and prospective partners. When a fact changes it changes in both.
+
+**Confirmed:** the dates — 23, 24 and 25 October 2026 for the build weekend, then pitch night on Friday 30 October. They live in `dates` in `content/canvas.ts` and everything else derives from that one object.
+
+**Still `TBC`:** times, venue, mentors, prizes, and the partner contact address. These render as visible TBC chips. Do not replace them with plausible-looking placeholders — fill them in when they are real.
 
 ## Checks
 

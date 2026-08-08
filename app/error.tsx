@@ -20,7 +20,7 @@ export default function ErrorPage({ error, reset }: { error: Error & { digest?: 
         <button
           type="button"
           onClick={reset}
-          className="press mt-8 border-2 border-ink bg-orange px-5 py-3 font-display text-sm font-black uppercase tracking-wide text-paper"
+          className="press mt-8 border-2 border-ink bg-harbour px-5 py-3 font-display text-sm font-black uppercase tracking-wide text-paper"
         >
           Retry
         </button>

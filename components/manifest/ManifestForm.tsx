@@ -13,7 +13,7 @@ import {
 import type { ManifestData } from "@/components/manifest/ManifestCard";
 
 const CHOICE =
-  "block cursor-pointer border-2 border-ink bg-paper px-3 py-2 text-center font-display text-meta font-black uppercase tracking-tight transition-transform peer-checked:bg-ink peer-checked:text-paper peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-orange peer-disabled:cursor-not-allowed peer-disabled:opacity-40 hover:-translate-y-0.5";
+  "block cursor-pointer border-2 border-ink bg-paper px-3 py-2 text-center font-display text-meta font-black uppercase tracking-tight transition-transform peer-checked:bg-ink peer-checked:text-paper peer-focus-visible:outline-[3px] peer-focus-visible:outline-offset-2 peer-focus-visible:outline-harbour peer-disabled:cursor-not-allowed peer-disabled:opacity-40 hover:-translate-y-0.5";
 
 type ManifestFormProps = {
   data: ManifestData;
@@ -58,7 +58,7 @@ export function ManifestForm({ data, onChange, errors, ids }: ManifestFormProps)
           autoComplete="name"
           aria-invalid={Boolean(errors.name)}
           aria-describedby={errors.name ? ids.nameError : undefined}
-          className="mt-2.5 w-full border-2 border-ink bg-paper px-3.5 py-3 font-display text-lead font-bold outline-none placeholder:font-normal placeholder:text-slate focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-orange aria-[invalid=true]:border-alert"
+          className="mt-2.5 w-full border-2 border-ink bg-paper px-3.5 py-3 font-display text-lead font-bold outline-none placeholder:font-normal placeholder:text-slate focus-visible:outline-[3px] focus-visible:outline-offset-2 focus-visible:outline-harbour aria-[invalid=true]:border-alert"
         />
         {errors.name ? (
           <p id={ids.nameError} className="mt-2 font-mono text-meta uppercase tracking-[0.1em] text-alert">
@@ -142,7 +142,7 @@ export function ManifestForm({ data, onChange, errors, ids }: ManifestFormProps)
                 onChange={() => onChange({ lookingFor: option as LookingFor })}
                 className="peer sr-only"
               />
-              <span className={`${CHOICE} peer-checked:bg-orange peer-checked:text-paper`}>
+              <span className={`${CHOICE} peer-checked:bg-harbour peer-checked:text-paper`}>
                 {option}
               </span>
             </label>

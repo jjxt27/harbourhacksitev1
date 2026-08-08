@@ -13,7 +13,7 @@ export default function NotFound() {
         <p className="mt-4 text-lg leading-snug">This page never made it out of dry dock.</p>
         <Link
           href="/"
-          className="press mt-8 inline-block border-2 border-ink bg-orange px-5 py-3 font-display text-sm font-black uppercase tracking-wide text-paper"
+          className="press mt-8 inline-block border-2 border-ink bg-harbour px-5 py-3 font-display text-sm font-black uppercase tracking-wide text-paper"
         >
           Back to the canvas
         </Link>

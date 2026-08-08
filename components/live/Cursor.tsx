@@ -4,7 +4,8 @@ import type { CursorRole } from "@/content/canvas";
 
 /** Each colour carries its own foreground so labels never lose contrast. */
 export const CURSOR_COLOURS = [
-  { bg: "#ff4f00", fg: "#0a0a0a" },
+  // Ink on harbour blue is only 3.4:1 — this one takes paper, not ink.
+  { bg: "#0b5fd0", fg: "#ffffff" },
   { bg: "#008542", fg: "#ffffff" },
   { bg: "#0a0a0a", fg: "#e2ff31" },
   { bg: "#e2ff31", fg: "#0a0a0a" },

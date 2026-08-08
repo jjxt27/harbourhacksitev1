@@ -5,8 +5,20 @@
  * hook, the minimap and the zone navigation all read them from here, so
  * changing a width in this file moves everything in step.
  *
- * Unconfirmed programme facts stay visibly TBC. Never invent dates, times,
- * mentors, venues or prizes.
+ * On voice: written the way an operator talks, not the way a prospectus does.
+ * Short sentences, concrete nouns, and a point of view. "Judged on three
+ * things" rather than "three criteria, weighted equally" — the second is more
+ * precise and nobody has ever said it out loud.
+ *
+ * The line it does not cross is overselling. No exclamation marks, no
+ * superlatives, no invented numbers. Confidence comes from being specific.
+ *
+ * This file is the site's half of EOI_BRIEF.md. When a fact moves, it moves in
+ * both — the brief is what gets emailed and this is what gets read.
+ *
+ * Unconfirmed programme facts stay visibly TBC. Never invent times, mentors,
+ * venues or prizes. The dates below are confirmed; nothing else about the
+ * schedule is.
  */
 
 export type Zone = {
@@ -18,9 +30,9 @@ export type Zone = {
 };
 
 export const zones: readonly Zone[] = [
-  { id: "dry-dock", label: "The Dry Dock", width: 1.2 },
-  { id: "shipyard", label: "The Shipyard", width: 1.65 },
-  { id: "setting-sail", label: "Setting Sail", width: 1.15 },
+  { id: "dry-dock", label: "The Dry Dock", width: 1.6 },
+  { id: "shipyard", label: "The Shipyard", width: 2.1 },
+  { id: "setting-sail", label: "Setting Sail", width: 1.5 },
 ];
 
 /** Total track width in viewport widths. */
@@ -32,83 +44,144 @@ export const site = {
   city: "Sydney",
   tagline: "Don't just build. Ship.",
   description:
-    "HarbourHack 2026. Sydney's premier go-to-market hackathon for university students. Build it, then go and get real users.",
-  url: "https://harbourhack.vercel.app",
+    "HarbourHack 2026. Sydney's go-to-market hackathon for university students. Build it across 23–25 October, then go and get real users before pitch night on the 30th.",
+  url: "https://harbourhack.com",
+} as const;
+
+/**
+ * The confirmed dates. Four days across two weeks — three of them consecutive
+ * and the fourth a week later, which is the whole point of the format and the
+ * one thing about it that needs saying twice.
+ */
+export const dates = {
+  short: "23–25 + 30 Oct 2026",
+  long: "23, 24, 25 and 30 October 2026",
+  buildWeekend: "23–25 October",
+  pitchNight: "Friday 30 October",
 } as const;
 
 export const dryDock = {
   kicker: "Zone 01 — The Dry Dock",
   headline: ["Don't just", "build.", "Ship."],
-  subtext: `HarbourHack ${site.year}. ${site.city}'s premier GTM hackathon for university students.`,
+  /** No dates here — they are stamped in the kicker row directly above. */
+  subtext: `${site.city}'s go-to-market hackathon for university students.`,
+  /** The argument, in the fewest words it survives in. */
+  hook: {
+    heading: "Every hackathon ends the same way",
+    body: "Forty hours, a demo that works on the second attempt, a prize. On Monday the repo goes quiet and nobody opens it again. The part that would have made it real — finding someone who actually wants it — never got scored, so nobody did it.",
+    turn: "So we scored it.",
+  },
   scrollCue: "Scroll to pan the harbour",
   criteriaLabel: "Judged on three things. That's it.",
   /** `rotate` scatters the notes; keep it under ~4° or it reads as broken. */
   criteria: [
     {
       n: "01",
-      title: "Live Demo",
-      note: "It has to actually run. In front of people.",
+      title: "Live demo",
+      note: "It has to actually run. In front of the room, no video.",
       tone: "yellow" as const,
       rotate: -2.5,
     },
     {
       n: "02",
-      title: "Pitch Deck",
-      note: "Who it's for, and why they'd switch.",
+      title: "Commercial case",
+      note: "Who it's for, what they do today, and why they'd switch.",
       tone: "paper" as const,
       rotate: 1.8,
     },
     {
       n: "03",
-      title: "Real User Signups",
-      note: "Actual humans. Not your group chat.",
+      title: "Verified signups",
+      note: "Real users who opted in. Not your group chat.",
       tone: "ferry" as const,
       rotate: -1.2,
     },
   ],
+  criteriaNote: "Two of the three have nothing to do with how well you code. That's deliberate.",
   cta: { label: "Get your manifest", zone: "setting-sail" },
   secondary: { label: "See the weekend", zone: "shipyard" },
 } as const;
 
+/**
+ * Day cards.
+ *
+ * `gapAfter` marks the week between the build weekend and pitch night. It is a
+ * real hole in the programme rather than a spacing decision, so the board draws
+ * it instead of closing it up.
+ */
 export const shipyard = {
   kicker: "Zone 02 — The Shipyard",
-  headline: "The build weekend",
-  subtext: "Three days, three columns, one thing shipped at the end of it.",
-  /** Exact dates are unconfirmed and must render as TBC until verified. */
-  dates: "TBC",
+  headline: "Four days, two weeks",
+  subtext:
+    "A build weekend, a week to keep selling, then a pitch night in front of the room.",
+  dates: dates.long,
+  /** Venue is unconfirmed and must render as TBC until it isn't. */
   venue: "TBC",
   columns: [
     {
       id: "friday",
-      title: "Friday Night Hustle",
+      day: "Day one",
+      title: "Kickoff",
+      date: "Fri 23 Oct",
       time: "TBC",
+      gapAfter: false,
       cards: [
         { title: "Doors + team forming", kind: "session", time: "TBC" },
-        { title: "Cold Emailing 101", kind: "workshop", time: "TBC" },
+        { title: "Cold emailing 101", kind: "workshop", time: "TBC" },
         { title: "Pick your one user", kind: "session", time: "TBC" },
       ],
     },
     {
       id: "saturday",
-      title: "Saturday Grind",
+      day: "Day two",
+      title: "Build session one",
+      date: "Sat 24 Oct",
       time: "TBC",
+      gapAfter: false,
       cards: [
-        { title: "Figma Prototyping", kind: "workshop", time: "TBC" },
+        { title: "Figma prototyping", kind: "workshop", time: "TBC" },
         { title: "Mentor floor walk", kind: "mentor", time: "TBC" },
         { title: "Ship v1 + start outreach", kind: "session", time: "TBC" },
-        { title: "Landing pages that convert", kind: "workshop", time: "TBC" },
       ],
     },
     {
       id: "sunday",
-      title: "Sunday Launch",
+      day: "Day three",
+      title: "Build session two",
+      date: "Sun 25 Oct",
       time: "TBC",
+      gapAfter: true,
       cards: [
+        { title: "Landing pages that convert", kind: "workshop", time: "TBC" },
         { title: "Signup push", kind: "session", time: "TBC" },
         { title: "Deck clinic", kind: "workshop", time: "TBC" },
-        { title: "Demo + judging", kind: "session", time: "TBC" },
       ],
     },
+    {
+      id: "pitch",
+      day: "Day four",
+      title: "Pitch night",
+      date: "Fri 30 Oct",
+      time: "TBC",
+      gapAfter: false,
+      cards: [
+        { title: "Live demonstrations", kind: "session", time: "TBC" },
+        { title: "Judging + results", kind: "session", time: "TBC" },
+      ],
+    },
+  ],
+  gapLabel: "The week between",
+  gapNote: {
+    heading: "The gap is the point",
+    body: "A team that has only ever shown its product to a judging panel hasn't shipped anything — it has performed. Put a week between v1 and the stage and the only way to walk in with signups is to go out and get them.",
+  },
+  takeawaysLabel: "What you walk out with",
+  takeaways: [
+    "A product that runs. Not a mockup with a fake login.",
+    "A case you can defend to someone who isn't your friend.",
+    "Users who said yes because you asked them properly.",
+    "Four workshops of the stuff no degree covers.",
+    "A team, if you arrived without one.",
   ],
   mentorsLabel: "Mentors",
   mentorsNote: "Being confirmed. Names go up as they sign on.",
@@ -122,6 +195,51 @@ export const settingSail = {
   headline: "Get your manifest",
   subtext:
     "Fill this in and we'll generate your crew card. Share it, find a team, board the ship.",
+  /** The objections, answered where someone can act on the answer. */
+  questionsLabel: "Reasonable questions",
+  questions: [
+    {
+      q: "I've never shipped anything.",
+      a: "Good — that's the gap this closes. You'll ship in the first thirty-six hours whether it's ready or not, because you can't get signups for a thing nobody can use.",
+    },
+    {
+      q: "I don't have an idea.",
+      a: "Most people don't, and the ones who arrive with a precious one usually do worse. Friday night is for narrowing to a single user.",
+    },
+    {
+      q: "I'm not technical.",
+      a: "Two of the three criteria are yours. A team that can build but can't sell loses to a team that can do both.",
+    },
+    {
+      q: "Do I need a team?",
+      a: "No. Register alone, say what you're strong at, and your card goes out so people can find you before the doors open.",
+    },
+  ],
+} as const;
+
+/**
+ * The partner block.
+ *
+ * A callout, not a pitch — students are the audience on this canvas, and the
+ * full argument lives in EOI_BRIEF.md, which is what gets sent to anyone who
+ * asks. No audience numbers here: this is the first HarbourHack, so any figure
+ * would be invented.
+ */
+export const partners = {
+  label: "Partners",
+  heading: "Early enough to shape it",
+  body: "The programme isn't fixed yet, which is the useful part of coming in now. Five places a partner fits:",
+  slots: [
+    "Workshop slot",
+    "Mentor floor",
+    "Judging panel",
+    "Prize category",
+    "Venue",
+  ],
+  note: "We're not quoting attendance numbers for a first-year event. Ask and we'll walk you through the projection and the reasoning behind it.",
+  /** No contact address is confirmed yet. Renders as TBC rather than a guess. */
+  contact: "TBC",
+  action: "Get the brief",
 } as const;
 
 export const roles = ["Tech", "Biz", "Design"] as const;

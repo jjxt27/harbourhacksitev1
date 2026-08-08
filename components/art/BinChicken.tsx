@@ -63,7 +63,10 @@ export function BinChicken() {
         }
       }}
       onTap={poke}
-      style={{ x, y, left: "calc(100vw - 7rem)", top: "52vh" }}
+      // Perched in the empty band under zone one's middle column. He is
+      // draggable and his position is remembered, so this is only where he
+      // starts — but he should not start on top of anything readable.
+      style={{ x, y, left: "62vw", top: "70vh" }}
       // Desktop only. On the stacked mobile layout `touch-none` would swallow
       // the vertical swipe and trap scrolling wherever he happened to land.
       className="absolute z-20 hidden w-32 cursor-grab touch-none select-none md:block"
@@ -100,9 +103,9 @@ export function BinChicken() {
           <path d="M35 39c-8 6-15 17-20 30" fill="none" strokeWidth="6" />
 
           {/* Startup cap */}
-          <path d="M31 28a12 9 0 0 1 24 0z" fill="#ff4f00" />
-          <path d="M31 28 15 31l1 5 16-3z" fill="#ff4f00" />
-          <circle cx="43" cy="18" r="2.5" fill="#ff4f00" />
+          <path d="M31 28a12 9 0 0 1 24 0z" fill="#0b5fd0" />
+          <path d="M31 28 15 31l1 5 16-3z" fill="#0b5fd0" />
+          <circle cx="43" cy="18" r="2.5" fill="#0b5fd0" />
         </g>
       </svg>
     </motion.div>

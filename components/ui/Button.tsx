@@ -8,13 +8,14 @@ import { useIsDesktop } from "@/hooks/useMediaQuery";
 import { zones } from "@/content/canvas";
 
 /**
- * `orange` is the conversion action. `ink` is secondary. `paper` is tertiary.
- * Orange text on white would fail AA, so orange is only ever a fill here.
+ * `harbour` is the conversion action. `ink` is secondary. `paper` is tertiary.
+ * White on harbour blue is 5.9:1, so unlike the orange this replaced, the fill
+ * carries its own label at body size without a size or weight caveat.
  */
-type Variant = "orange" | "ink" | "paper";
+type Variant = "harbour" | "ink" | "paper";
 
 const VARIANTS: Record<Variant, string> = {
-  orange: "bg-orange text-paper",
+  harbour: "bg-harbour text-paper",
   ink: "bg-ink text-paper",
   paper: "bg-paper text-ink",
 };
@@ -42,7 +43,7 @@ type ButtonProps = {
 
 export function Button({
   children,
-  variant = "orange",
+  variant = "harbour",
   size = "md",
   href,
   toZone,

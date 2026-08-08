@@ -108,17 +108,19 @@ export function ManifestCard({
 
         <span
           aria-hidden="true"
-          className="absolute right-3 top-2 rotate-[-11deg] border-[3px] border-orange px-2 py-1 text-center font-display text-micro font-black uppercase leading-tight tracking-[0.14em] text-orange"
+          className="absolute right-3 top-2 rotate-[-11deg] border-[3px] border-harbour px-2 py-1 text-center font-display text-micro font-black uppercase leading-tight tracking-[0.14em] text-harbour"
         >
-          <span className="block border-y border-orange py-0.5">{copy.stamp}</span>
+          <span className="block border-y border-harbour py-0.5">{copy.stamp}</span>
         </span>
       </div>
 
-      <div className="bg-orange px-4 py-3">
-        <p className="font-mono text-micro uppercase tracking-[0.18em] text-ink">
+      {/* Paper on harbour, not ink: the old orange banner took ink at 5.9:1,
+          but ink on this blue is 3.4:1 and would fail. */}
+      <div className="bg-harbour px-4 py-3">
+        <p className="font-mono text-micro uppercase tracking-[0.18em] text-paper">
           {copy.bannerLabel}
         </p>
-        <p className="mt-0.5 text-[1.6rem] font-black uppercase leading-none tracking-[-0.03em] text-ink">
+        <p className="mt-0.5 text-[1.6rem] font-black uppercase leading-none tracking-[-0.03em] text-paper">
           {data.lookingFor}
         </p>
       </div>
