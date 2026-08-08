@@ -12,22 +12,18 @@ export type ManifestData = {
 
 /** Long names get a smaller setting rather than being allowed to overflow. */
 function nameSize(name: string) {
-  if (name.length > 20) return "text-[1.5rem]";
-  if (name.length > 13) return "text-[2rem]";
-  return "text-[2.6rem]";
+  if (name.length > 20) return "text-lead";
+  if (name.length > 13) return "text-[1.6rem]";
+  return "text-[2.1rem]";
 }
 
 /**
- * The boarding pass.
+ * The boarding card. A shipping label with a tech badge's manners.
  *
- * Every colour is a literal hex and every graphic is inline SVG, because this
- * node is rasterised by html-to-image — a CSS custom property resolves fine on
- * screen and can come out unset in the clone, and an opacity modifier is
- * exactly the sort of thing that survives here and vanishes in the export.
- *
- * It is a printed document rather than a screen component, so it keeps its own
- * type sizes: this is the one artefact on the site that leaves it, and it has
- * to hold together at 3x on someone else's timeline.
+ * Every colour here is a solid token and every graphic is inline SVG, because
+ * this node is rasterised by html-to-image — an opacity modifier or a webfont
+ * barcode is exactly the sort of thing that survives on screen and disappears
+ * in the export.
  */
 export function ManifestCard({
   data,
@@ -44,113 +40,92 @@ export function ManifestCard({
   return (
     <div
       ref={ref}
-      className="w-[21rem] shrink-0 font-sans"
-      style={{ background: "#061e3c", border: "1px solid rgba(248,246,240,0.22)" }}
+      className="w-[20.5rem] shrink-0 border-2 border-ink bg-paper font-display"
     >
-      <div
-        className="flex items-baseline justify-between px-6 pb-4 pt-5"
-        style={{ borderBottom: "1px solid rgba(248,246,240,0.14)" }}
-      >
-        <span
-          className="font-display text-[1.3rem] font-bold leading-none"
-          style={{ color: "#f8f6f0", letterSpacing: "-0.03em" }}
-        >
-          {copy.issuer}
-        </span>
-        <span
-          className="text-[0.6rem] font-medium uppercase"
-          style={{ color: "#8d99ac", letterSpacing: "0.28em" }}
-        >
-          {site.year}
-        </span>
+      <div className="flex items-baseline justify-between bg-ink px-4 py-2.5 text-paper">
+        <span className="text-small font-black uppercase tracking-tight">{copy.issuer}</span>
+        <span className="font-mono text-micro uppercase tracking-[0.18em]">{site.year}</span>
       </div>
 
-      <div
-        className="flex items-center justify-between px-6 py-3 text-[0.6rem] font-medium uppercase"
-        style={{ color: "#8d99ac", letterSpacing: "0.2em", borderBottom: "1px solid rgba(248,246,240,0.14)" }}
-      >
+      <div className="flex items-center justify-between border-b-2 border-ink px-4 py-1.5 font-mono text-micro uppercase tracking-[0.14em] text-slate">
         <span>{copy.port}</span>
-        <span style={{ color: "#c8a24a" }}>{number}</span>
+        <span>
+          {copy.manifestLabel} <span className="text-ink">{number}</span>
+        </span>
       </div>
 
-      <div className="px-6 pb-6 pt-7">
+      <div className="px-4 pb-4 pt-5">
+        <p className="font-mono text-micro uppercase tracking-[0.18em] text-slate">Passenger</p>
         <p
-          className="text-[0.6rem] font-medium uppercase"
-          style={{ color: "#8d99ac", letterSpacing: "0.28em" }}
-        >
-          Passenger
-        </p>
-        <p
-          className={`mt-3 font-display font-bold ${nameSize(shown)}`}
-          style={{
-            color: name ? "#f8f6f0" : "#8d99ac",
-            letterSpacing: "-0.035em",
-            lineHeight: 0.9,
-            overflowWrap: "anywhere",
-          }}
+          className={`mt-1.5 font-black uppercase leading-[0.92] tracking-[-0.03em] ${nameSize(shown)} ${
+            name ? "text-ink" : "text-slate"
+          }`}
+          style={{ overflowWrap: "anywhere" }}
         >
           {shown}
         </p>
       </div>
 
-      <div className="grid grid-cols-2" style={{ borderTop: "1px solid rgba(248,246,240,0.14)" }}>
-        <div className="px-6 py-4" style={{ borderRight: "1px solid rgba(248,246,240,0.14)" }}>
-          <p
-            className="text-[0.6rem] font-medium uppercase"
-            style={{ color: "#8d99ac", letterSpacing: "0.28em" }}
-          >
+      {/* Perforation. */}
+      <div aria-hidden="true" className="border-t-2 border-dashed border-ink" />
+
+      <div className="grid grid-cols-[auto_1fr]">
+        <div className="border-r-2 border-ink px-4 py-3">
+          <p className="font-mono text-micro uppercase tracking-[0.18em] text-slate">
             {copy.roleLabel}
           </p>
-          <p className="mt-2 font-display text-[1.15rem] font-semibold" style={{ color: "#f8f6f0" }}>
-            {data.role}
-          </p>
+          <p className="mt-1.5 text-body font-black uppercase tracking-tight">{data.role}</p>
         </div>
 
-        <div className="px-6 py-4">
-          <p
-            className="text-[0.6rem] font-medium uppercase"
-            style={{ color: "#8d99ac", letterSpacing: "0.28em" }}
-          >
+        <div className="px-4 py-3">
+          <p className="font-mono text-micro uppercase tracking-[0.18em] text-slate">
             {copy.skillsLabel}
           </p>
-          <p
-            className="mt-2 font-display text-[1.15rem] font-semibold leading-tight"
-            style={{ color: data.skills.length ? "#f8f6f0" : "#8d99ac" }}
-          >
-            {data.skills.length > 0 ? data.skills.join(" · ") : "—"}
-          </p>
+          <ul className="mt-1.5 flex flex-wrap gap-1.5">
+            {data.skills.length > 0 ? (
+              data.skills.map((skill) => (
+                <li
+                  key={skill}
+                  className="border-2 border-ink bg-highlighter px-1.5 py-0.5 text-meta font-bold uppercase tracking-tight"
+                >
+                  {skill}
+                </li>
+              ))
+            ) : (
+              <li className="text-small font-bold uppercase tracking-tight text-slate">
+                Empty hold
+              </li>
+            )}
+          </ul>
         </div>
       </div>
 
-      <div className="px-6 py-4" style={{ borderTop: "1px solid rgba(248,246,240,0.14)" }}>
-        <p
-          className="text-[0.6rem] font-medium uppercase"
-          style={{ color: "#8d99ac", letterSpacing: "0.28em" }}
+      <div className="relative border-y-2 border-ink px-4 py-3.5">
+        <Barcode seed={`${number}|${shown}`} className="h-9 w-full" />
+        <p className="mt-1.5 font-mono text-micro uppercase tracking-[0.3em] text-slate">
+          {number}
+        </p>
+
+        <span
+          aria-hidden="true"
+          className="absolute right-3 top-2 rotate-[-11deg] border-[3px] border-orange px-2 py-1 text-center font-display text-micro font-black uppercase leading-tight tracking-[0.14em] text-orange"
         >
+          <span className="block border-y border-orange py-0.5">{copy.stamp}</span>
+        </span>
+      </div>
+
+      <div className="bg-orange px-4 py-3">
+        <p className="font-mono text-micro uppercase tracking-[0.18em] text-ink">
           {copy.bannerLabel}
         </p>
-        <p className="mt-2 font-display text-[1.6rem] font-bold leading-none" style={{ color: "#c8a24a", letterSpacing: "-0.03em" }}>
+        <p className="mt-0.5 text-[1.6rem] font-black uppercase leading-none tracking-[-0.03em] text-ink">
           {data.lookingFor}
         </p>
       </div>
 
-      <div className="px-6 pb-5 pt-4" style={{ borderTop: "1px solid rgba(248,246,240,0.14)" }}>
-        <Barcode seed={`${number}|${shown}`} className="h-8 w-full" />
-        <div className="mt-4 flex items-baseline justify-between gap-4">
-          <p
-            className="text-[0.58rem] font-medium uppercase"
-            style={{ color: "#8d99ac", letterSpacing: "0.2em" }}
-          >
-            {copy.footnote}
-          </p>
-          <p
-            className="whitespace-nowrap text-[0.58rem] font-medium uppercase"
-            style={{ color: "#c8a24a", letterSpacing: "0.2em" }}
-          >
-            {copy.stamp}
-          </p>
-        </div>
-      </div>
+      <p className="border-t-2 border-ink px-4 py-2 font-mono text-micro uppercase tracking-[0.16em] text-slate">
+        {copy.footnote}
+      </p>
     </div>
   );
 }

@@ -1,123 +1,101 @@
 @import "tailwindcss";
 
 /*
-  HarbourHack — Harbour Night
-  ===========================
-  Taken from the live intro at harbourhack.com, not invented alongside it: the
-  ground is #061e3c, the ink is a warm #f8f6f0, the display face is Cormorant
-  Garamond set tight and the labels are Inter set very wide. The site behind the
-  intro has to look like the same evening.
-
-  Everything the previous direction insisted on is now inverted, and it is worth
-  being explicit so nobody half-migrates a component:
-
-    hard 4px offset shadows      →  soft, low, atmospheric
-    zero border-radius            →  still mostly square, but by restraint
-    heavy grotesque display       →  a serif, at 0.84 line-height
-    stark white ground            →  night, with the light coming off the water
-    International Orange accent   →  brass, used sparingly and never as a shout
+  HarbourHack — Industrial Brutalism
+  ==================================
+  Stark white ground, jet black structure, three loud accents. Everything is
+  hard-edged: 2px black borders, offset solid shadows, zero border-radius.
+  Nothing on this site blurs, fades to grey, or rounds a corner.
 */
 
 @theme {
-  /* The two colours the brand is actually made of. */
-  --color-night: #061e3c;
-  --color-ivory: #f8f6f0;
+  --color-paper: #ffffff;
+  --color-paper-off: #f9f9f9;
+  --color-grid: #e5e5e5;
+  --color-ink: #0a0a0a;
+  /* Solid mid-grey for metadata. Solid rather than an opacity modifier so it
+     survives the manifest card's PNG export unchanged. 5.3:1 on white. */
+  --color-slate: #6b6b6b;
 
-  /* Depths of the same navy, for layering. Sampled up and down from the
-     ground rather than mixed with grey, so nothing ever goes muddy. */
-  --color-night-deep: #030f20;
-  --color-night-soft: #0b2b52;
-  --color-night-lift: #123a68;
-
-  /* Ivory at fixed steps rather than opacity modifiers, so a value can be
-     checked for contrast once and trusted everywhere it appears. */
-  --color-ivory-dim: #cfcabb;   /* 9.4:1 on night  — secondary text */
-  --color-ivory-faint: #8d99ac; /* 4.9:1 on night  — metadata, the floor */
-
-  /* Brass. The one warm accent, off the sandstone and the ferry lights.
-     6.2:1 on night, so unlike the old orange it is legible as text. */
-  --color-brass: #c8a24a;
-  --color-brass-deep: #8a6b25;
-
-  /* Harbour green, for confirmations. 5.1:1 on night. */
-  --color-ferry: #4bb98a;
-  /* Error red that survives the dark ground: 5.6:1 on night. */
-  --color-alert: #ff7b6b;
+  /* Shipping-container orange. Large text, fills and borders only — see below. */
+  --color-orange: #ff4f00;
+  --color-ferry: #008542;
+  --color-highlighter: #e2ff31;
+  /* Orange is not legible as small text. This is the text-safe red: 5.4:1 on
+     white and 4.8:1 on highlighter, so errors read on every ground we use. */
+  --color-alert: #c63200;
 
   /*
-    Type. Two families and nothing else.
+    The type scale. Eight steps, and nothing between them.
 
-    Cormorant is a display face — it has a high contrast and a small x-height,
-    and it falls apart under about 24px. It is never used for body copy here.
-    Inter carries everything that has to be read at size, and the label style
-    is Inter at 0.42em tracking, straight off the intro.
+    Sizes used to drift — 16, 17, 18, 20 all appeared as "body", which reads as
+    slippage rather than intent. A step you cannot perceive is not a decision.
+    Mono is floored at 10px: below that, uppercase at 0.16em tracking stops
+    being fine detail and becomes texture.
   */
-  --text-hero: clamp(4.25rem, 8.8vw, 8rem);
-  --text-display: clamp(2.75rem, 5.4vw, 4.75rem);
-  --text-title: clamp(1.9rem, 3vw, 2.75rem);
-  /* Sub-headings: column titles, criteria, the wordmark. One step, not the
-     four ad-hoc values that had appeared by the time this was measured. */
-  --text-subhead: 1.5rem;
-  --text-lead: clamp(1.0625rem, 1.35vw, 1.25rem);
+  --text-display: clamp(3.1rem, 8.5vw, 8.5rem);
+  --text-title: clamp(2.3rem, 4.6vw, 4.6rem);
+  --text-heading: 1.875rem;
+  --text-lead: 1.25rem;
   --text-body: 1.0625rem;
-  --text-small: 0.9375rem;
-  --text-label: 0.8125rem;
-  --text-micro: 0.6875rem;
+  --text-small: 0.875rem;
+  --text-meta: 0.6875rem;
+  --text-micro: 0.625rem;
 
-  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+  --font-hand: var(--font-kalam), "Comic Sans MS", cursive;
 
-  /*
-    Shadows are atmosphere now, not punctuation. Low, wide and tinted with the
-    deep navy rather than black — a pure black shadow on a navy ground reads as
-    a hole, a navy one reads as depth.
-  */
-  --shadow-lift: 0 0.75rem 2.5rem rgb(3 15 32 / 0.5);
-  --shadow-panel: 0 1.5rem 4rem rgb(3 15 32 / 0.6);
-  --shadow-type: 0 0.08em 0.36em rgb(0 18 42 / 0.28);
+  /* Hard shadows. There are no soft ones. */
+  --shadow-hard-sm: 2px 2px 0 var(--color-ink);
+  --shadow-hard: 4px 4px 0 var(--color-ink);
+  --shadow-hard-lg: 6px 6px 0 var(--color-ink);
 
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-canvas: cubic-bezier(0.22, 0.68, 0, 1);
 }
 
 /*
-  Contrast, all measured against --color-night (#061e3c):
-    ivory        14.6:1  — anything
-    ivory-dim     9.4:1  — anything
-    brass         6.2:1  — anything, including body copy
-    alert         5.6:1  — error text
-    ferry         5.1:1  — confirmations
-    ivory-faint   4.9:1  — passes AA, but it is the floor. Nothing dimmer.
+  Contrast, measured against white:
+    ink        19.6:1  — anything
+    alert       5.4:1  — the red for error text. Use this, not orange.
+    ferry       4.7:1  — passes AA for body text
+    orange      3.3:1  — FAILS AA for body text. Only ever use it for text at
+                         24px+/19px-bold, for borders, or as a fill with ink on
+                         top. Never for paragraphs.
+    highlighter 17.5:1 with ink on top — sticky notes are always ink-on-yellow.
 
-  There is no colour in this palette that fails AA on the ground it sits on,
-  which is the point of fixing the steps rather than reaching for opacity: an
-  opacity modifier makes a new, unmeasured colour every time it is used.
+  Against the highlighter field in zone three:
+    ink        17.5:1   alert  4.8:1   slate  4.7:1
+    orange     2.9:1   — fill only there, and always inside a 2px ink border,
+                         so the component's edge never depends on it.
+
+  Hard shadows are punctuation. They belong on things that lift — buttons,
+  sticky notes, board cards, the minimap — and not on the containers around
+  them. When everything is raised, nothing reads as raised.
 */
 
 @layer base {
   * {
     box-sizing: border-box;
+    border-color: var(--color-ink);
   }
 
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-behavior: smooth;
-    background: var(--color-night);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
+    /* The canvas manages its own panning; the document never scrolls sideways. */
+    overflow-x: hidden;
   }
 
   body {
     margin: 0;
-    background: var(--color-night);
-    color: var(--color-ivory);
-    font-family: var(--font-sans);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    /* So anything without an explicit size still lands on a scale step,
+       rather than inheriting the browser default of 16px. */
     font-size: var(--text-body);
-    line-height: 1.6;
+    font-synthesis-weight: none;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
 
   h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
@@ -126,11 +104,11 @@
   a { color: inherit; text-decoration: none; }
   img, svg { display: block; max-width: 100%; }
 
-  ::selection { background: var(--color-brass); color: var(--color-night-deep); }
+  ::selection { background: var(--color-highlighter); color: var(--color-ink); }
 
   :focus-visible {
-    outline: 2px solid var(--color-brass);
-    outline-offset: 3px;
+    outline: 3px solid var(--color-orange);
+    outline-offset: 2px;
   }
 }
 
@@ -145,115 +123,32 @@
   white-space: nowrap;
 }
 
-/* The label style, straight off the intro: Inter 600, uppercase, 0.42em. */
-@utility eyebrow {
-  font-family: var(--font-sans);
-  font-size: var(--text-label);
-  font-weight: 600;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
-  line-height: 1.3;
+/* A button that physically depresses. Shadow shrinks as it moves. */
+@utility press {
+  box-shadow: var(--shadow-hard);
+  transition: transform 90ms var(--ease-canvas), box-shadow 90ms var(--ease-canvas);
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-hard-sm);
+  }
 }
 
-/* Display type as the intro sets it. */
-@utility display {
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 0.84;
-  text-wrap: balance;
-  text-shadow: var(--shadow-type);
-}
-
-/* ------------------------------------------------------------------ boot --
-   The intro gate.
-
-   `html.booting` is set by an inline script before first paint, so the page
-   underneath never flashes. Everything about it is failsafe: the class is also
-   removed by a timeout in that same script, so a JavaScript error cannot leave
-   a reader staring at a locked page, and the whole thing is skipped outright
-   under reduced motion.                                                       */
-
-html.booting body { overflow: hidden; }
-
-.boot {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 2rem;
-  padding: clamp(1.5rem, 5vw, 3.5rem);
-  background: var(--color-night);
-  transition: transform 560ms var(--ease-out), opacity 560ms var(--ease-out);
-}
-
-.boot[data-phase="lifting"] {
-  transform: translateY(-101%);
-  opacity: 0;
-}
-
-.boot-stack {
-  display: grid;
-  place-items: center;
-}
-
-.boot-count,
-.boot-mark {
-  grid-area: 1 / 1;
-  transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out);
-}
-
-.boot-mark {
-  opacity: 0;
-  transform: translateY(0.75rem);
-}
-
-.boot[data-phase="mark"] .boot-count,
-.boot[data-phase="lifting"] .boot-count {
-  opacity: 0;
-  transform: translateY(-0.75rem);
-}
-
-.boot[data-phase="mark"] .boot-mark,
-.boot[data-phase="lifting"] .boot-mark {
-  opacity: 1;
-  transform: none;
-}
-
-.boot-rule {
-  height: 1px;
-  background: rgb(248 246 240 / 0.16);
-  overflow: hidden;
-}
-
-.boot-rule span {
-  display: block;
-  height: 100%;
-  background: var(--color-brass);
-  transition: width 120ms linear;
-}
-
-/* -------------------------------------------------------------- the deck --
-   Desktop: a fixed window onto a wide track, panned along X.
+/* ------------------------------------------------------------- the canvas --
+   Desktop: a fixed viewport window with a wide track panned along X.
    Mobile:  the same markup, unhooked — the track becomes a normal column and
-            the document scrolls vertically. Pure CSS, so no hydration branch
-            and no layout flash.
+            the document scrolls vertically. The switch is pure CSS, so there
+            is no hydration branch and no layout flash.                       */
 
-   Chapters are separated by air and a hairline, not by a border. A 2px rule
-   between full-height panels reads as a table; a 1px rule at 12% with three
-   inches of margin either side reads as a page turning.                       */
-
-.deck-window {
+.canvas-window {
   position: relative;
   width: 100%;
-  height: 100svh;
   overflow: hidden;
+  height: 100svh;
   overscroll-behavior: none;
   touch-action: pan-y;
 }
 
-.deck-track {
+.canvas-track {
   display: flex;
   align-items: stretch;
   height: 100%;
@@ -261,97 +156,69 @@ html.booting body { overflow: hidden; }
   will-change: transform;
 }
 
-.deck-chapter {
+.canvas-zone {
   position: relative;
   flex: none;
   height: 100%;
+  border-right: 2px solid var(--color-ink);
 }
 
-.deck-chapter + .deck-chapter::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 12%;
-  bottom: 12%;
-  width: 1px;
-  background: rgb(248 246 240 / 0.12);
-}
-
-.deck-window[data-grabbing="true"] { cursor: grabbing; }
-.deck-window[data-pannable="true"] { cursor: grab; }
+.canvas-window[data-grabbing="true"] { cursor: grabbing; }
+.canvas-window[data-pannable="true"] { cursor: grab; }
 
 @media (max-width: 767px) {
-  .deck-window {
+  .canvas-window {
     height: auto;
     overflow: visible;
     touch-action: auto;
     cursor: auto !important;
   }
-  .deck-track {
+  .canvas-track {
     display: block;
     width: 100%;
     height: auto;
     /* The pan transform must not survive into the stacked layout. */
     transform: none !important;
   }
-  .deck-chapter {
+  .canvas-zone {
     width: 100% !important;
     height: auto;
-  }
-  .deck-chapter + .deck-chapter::before {
-    left: 1.5rem;
-    right: 1.5rem;
-    top: 0;
-    bottom: auto;
-    width: auto;
-    height: 1px;
+    border-right: 0;
+    border-bottom: 2px solid var(--color-ink);
   }
 }
 
-/* A hairline rule, the width of its container. The only divider in the system. */
-@utility hairline {
-  height: 1px;
-  background: rgb(248 246 240 / 0.14);
-}
+/* ------------------------------------------------------------- background --
+   A fixed grid with topographic contours over it. Fixed rather than parented
+   to the track, so the ground stays put while the content moves across it —
+   the contours get their own slower parallax instead.                        */
 
-/* ------------------------------------------------------------- the scene --
-   The painted harbour behind everything.
-
-   Fixed rather than scrolled: the water stays put and the content travels over
-   it, which is what makes the page feel like one continuous evening instead of
-   a stack of sections.                                                        */
-
-.scene {
+.ground {
   position: fixed;
   inset: 0;
-  z-index: -2;
+  z-index: 0;
   pointer-events: none;
-  background: var(--color-night);
+  background-color: var(--color-paper-off);
+  background-image:
+    linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
-/* Vignette, in the same two directions the intro uses. */
-.scene-veil {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgb(6 30 60 / 0.02) 20%, rgb(6 30 60 / 0.15) 63%, rgb(6 30 60 / 0.54) 100%),
-    linear-gradient(0deg, rgb(6 30 60 / 0.88) 0%, rgb(6 30 60 / 0.34) 34%, rgb(6 30 60 / 0.03) 68%);
+.ground-topo {
+  position: absolute;
+  inset: -10% -20%;
+  background-image: url("/topo.svg");
+  background-size: 1400px auto;
+  background-repeat: repeat;
+  opacity: 0.5;
+  will-change: transform;
 }
 
-/* Paper grain over the whole page. One fixed layer, so it costs a screenful
-   and never scrolls — grain that moves with the content reads as dirt on the
-   artwork rather than as tooth in the paper. */
-.scene-grain {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.4;
-  mix-blend-mode: overlay;
+@media (max-width: 767px) {
+  .ground { position: fixed; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scene-drift { transform: none !important; }
+  .ground-topo { transform: none !important; }
 }
