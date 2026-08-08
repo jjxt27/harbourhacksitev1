@@ -38,11 +38,7 @@ export function IntroFeed({ step, onDismiss, leaving }: IntroFeedProps) {
       aria-label="HarbourHack 2026"
     >
       <div className="intro-plate">
-        {intro.photo ? (
-          <Dither src={intro.photo} className="size-full object-cover" />
-        ) : (
-          <PixelHarbour />
-        )}
+        {intro.photo ? <Dither src={intro.photo} /> : <PixelHarbour />}
       </div>
 
       {/* Top rail. Present immediately — it is the masthead, not a reveal. */}
@@ -56,7 +52,7 @@ export function IntroFeed({ step, onDismiss, leaving }: IntroFeedProps) {
       </div>
 
       {/* The art shows through here. It gets whatever height is left over. */}
-      <div className="min-h-14 flex-1" />
+      <div className="intro-gap min-h-14 flex-1" />
 
       <div className="intro-notice relative z-10 border-t-2 border-paper bg-ink px-5 pb-6 pt-5 md:px-10 md:pb-8 md:pt-6">
         <p className="font-mono text-meta uppercase tracking-[0.22em] text-apricot">

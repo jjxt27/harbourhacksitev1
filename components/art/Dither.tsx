@@ -74,7 +74,7 @@ type DitherProps = {
   className?: string;
 };
 
-export function Dither({ src, cols = 260, className = "" }: DitherProps) {
+export function Dither({ src, cols = 300, className = "" }: DitherProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

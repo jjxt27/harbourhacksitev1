@@ -24,12 +24,20 @@ export type Tally = {
 
 export const intro = {
   /**
-   * Set this to a path under /public to use a photograph as the plate. It is
-   * quantised to the six inks and screened in the browser, so any photo comes
-   * out matching the palette — see components/art/Dither.tsx. Left null, the
-   * plate is the generated drawing in components/art/PixelHarbour.tsx.
+   * The plate.
+   *
+   * A path under /public is quantised to the six inks and screened in the
+   * browser, so the photograph comes out printed on the same press as
+   * everything else rather than sitting on top of it — see
+   * components/art/Dither.tsx. Set to null, the plate falls back to the
+   * generated drawing in components/art/PixelHarbour.tsx.
+   *
+   * The file is 600px wide on purpose. The dither downsamples to 300 before it
+   * quantises, so anything larger is thrown away — and the source is itself a
+   * fine dot screen, which has to be averaged into smooth tone before being
+   * re-screened or the two patterns fight each other.
    */
-  photo: null as string | null,
+  photo: "/harbour.jpg" as string | null,
 
   port: "Port of Sydney",
   dateStamp: dates.short,

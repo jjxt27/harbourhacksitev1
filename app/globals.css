@@ -343,6 +343,16 @@
 }
 
 /*
+  The photograph is portrait and the plate is not, so covering a wide window
+  shows roughly a third of its height. Centred, that band lands on the deck and
+  the palm trunks; pulled up to 40% it lands on the arch and the palm crowns,
+  which is the part of the frame worth keeping.
+*/
+.intro-plate > canvas {
+  object-position: 50% 40%;
+}
+
+/*
   Portrait is the opposite problem. Cropping a 16:9 drawing to fill a 375 × 812
   window scales it by height, which leaves about a quarter of its width on
   screen — the empty middle of the sky, with the bridge and the palms both cut
@@ -353,12 +363,31 @@
 @media (max-width: 767px) {
   .intro-plate {
     position: static;
-    /* Ordered past the masthead and the gap, so the band lands directly above
-       the notice instead of leaving a dead strip of ink between them. */
+    /* Ordered past the masthead, so the band lands directly above the notice
+       instead of leaving a dead strip of ink between them. */
     order: 1;
+    /*
+      The band takes whatever the masthead and the notice leave, rather than a
+      fixed slice of the viewport. A fixed 40vh fits a 812px phone and overflows
+      a 667px one — and an intro that has scrolled its own button off the bottom
+      is worse than a shallow picture.
+    */
+    flex: 1 1 0;
+    min-height: 0;
   }
-  .intro-plate > * {
+  /* Nothing to reserve: the plate is in the column now. */
+  .intro-gap {
+    display: none;
+  }
+  /* The drawing is 16:9 and can take its natural height, up to the band. */
+  .intro-plate > svg {
     height: auto;
+    max-height: 100%;
+  }
+  /* The photograph is portrait, so it fills the band and keeps cropping —
+     biased up to hold the arch rather than the trunks. */
+  .intro-plate > canvas {
+    object-position: 50% 32%;
   }
   .intro-notice {
     order: 2;

@@ -55,11 +55,15 @@ Run-length encoding is what makes it affordable. The naive version is 32,400 rec
 
 Nothing is random without a seed, so the server and the client draw the same picture and hydration has nothing to disagree about. The `silhouette` variant is the same structures in one ink, used at 16% behind the canvas — the site sits on the drawing rather than next to it.
 
-### Using a photograph instead
+### The photograph
 
-Set `intro.photo` in `content/intro.ts` to a path under `public/` and the plate becomes that photograph, quantised to the same six inks by `components/art/Dither.tsx`. Two steps, in this order: downsample to a few hundred pixels wide, *then* ordered-dither to the palette. Quantising first would let the browser average the inks back into colours that are not in the palette, and the result would be a slightly posterised photo rather than a screen print.
+`intro.photo` points at `public/harbour.jpg`, and that is what the plate currently shows: the source image put through the same press by `components/art/Dither.tsx`. Point it somewhere else, or set it to `null`, and the generated drawing takes over — the drawing is the fallback, not a placeholder.
 
-It reads pixels back out of a canvas, so the source has to be same-origin — a file in `public/`, not a remote URL.
+Two steps, in this order: downsample to 300 pixels wide, *then* ordered-dither to the palette. Order matters twice over. Quantising first would let the browser average the inks back into colours that are not in the palette, and the result would be a posterised photo rather than a screen print. And the source is itself a fine dot screen — it has to be averaged into smooth tone before being re-screened, or the two patterns fight and the picture turns to noise.
+
+The file is 600px wide for the same reason: the dither throws away anything above 2× its grid, so a 3.6MB original buys nothing. It reads pixels back out of a canvas, so the source has to be same-origin — a file in `public/`, not a remote URL.
+
+**The photograph is portrait and the plate is not.** On a wide window it covers and crops to about a third of its height, pulled up to 40% so the band lands on the arch and the palm crowns rather than the deck and the trunks. Below 768px the plate joins the column and takes whatever height the masthead and the notice leave, rather than a fixed slice of the viewport — a fixed 40vh fits an 812px phone and pushes the button off a 667px one.
 
 ## The canvas
 
