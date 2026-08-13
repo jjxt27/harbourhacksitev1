@@ -5,10 +5,17 @@ import { StickyNote } from "@/components/ui/StickyNote";
 import { Stamp } from "@/components/ui/Stamp";
 import { HandArrow } from "@/components/art/HandArrow";
 
-/** Zone 1 — the argument, the criteria, and the arrow that says "keep going". */
+/**
+ * Zone 1 — the argument, the criteria, and the arrow that says "keep going".
+ *
+ * Top padding is floored at 4rem rather than tracking the rhythm all the way
+ * down: the zone navigation is fixed chrome about 56px tall, and the kicker
+ * sliding under it is the same failure as being clipped by the window, just at
+ * the other edge.
+ */
 export function DryDock() {
   return (
-    <div className="relative flex h-full flex-col justify-center px-6 pb-16 pt-24 md:px-14 md:pb-10 md:pt-20">
+    <div className="zone-body zone-rhythm relative px-6 pb-16 pt-24 md:px-14 md:pb-[var(--zone-pad-y)] md:pt-[max(4rem,calc(var(--zone-pad-y)*2))]">
       {/*
         Three columns, not two: the headline, then the argument, then what the
         argument produces. On a canvas you pan through rather than scroll, the
@@ -16,7 +23,7 @@ export function DryDock() {
         columns put the whole argument in one 615px stack, which overflowed a
         595px viewport and ran under the fixed zone nav.
       */}
-      <div className="grid gap-10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.72fr)_minmax(0,0.95fr)] md:items-center md:gap-12">
+      <div className="grid gap-10 @6xl/zone:grid-cols-[minmax(0,1.05fr)_minmax(0,0.72fr)_minmax(0,0.95fr)] @6xl/zone:items-center @6xl/zone:gap-12">
         <div>
           <div className="flex flex-wrap items-center gap-4">
             <p className="font-mono text-meta uppercase tracking-[0.2em] text-ink/60">

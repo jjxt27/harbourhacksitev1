@@ -108,7 +108,7 @@ export function SettingSail() {
   }
 
   return (
-    <div className="flex h-full flex-col justify-center bg-apricot px-6 py-20 md:px-14 md:py-10">
+    <div className="zone-body zone-rhythm bg-apricot px-6 py-20 md:px-14 md:py-[var(--zone-pad-y)]">
       <header className="mb-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
         <div>
           <p className="font-mono text-meta uppercase tracking-[0.2em] text-slate">
@@ -126,8 +126,15 @@ export function SettingSail() {
         tall and clips the overflow, so this one buys its space sideways: the
         objections, the form, the card and the partner block all sit on the
         same line and the reader pans instead of scrolling.
+
+        The tiers are measured against the zone, not the window. This zone is
+        1.5 windows wide, so it clears 1152px of its own — and earns its four
+        columns — from a 768px window upward. Keyed to the window instead, as
+        `xl:` was, the columns stayed shut until 1280px and every tablet and
+        half-screen window in between got one 2000px-tall stack in a zone that
+        clips at the window's height. That took the form with it.
       */}
-      <div className="grid gap-8 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)_auto_minmax(0,0.7fr)] xl:gap-10">
+      <div className="grid gap-8 @2xl/zone:grid-cols-2 @6xl/zone:grid-cols-[minmax(0,0.8fr)_minmax(0,1fr)_auto_minmax(0,0.7fr)] @6xl/zone:gap-10">
         {/* Paper cards, not sticky notes — the zone ground is already apricot,
             and a note in the same ink as the wall behind it has no edge. */}
         <section aria-labelledby="questions">
@@ -196,7 +203,7 @@ export function SettingSail() {
         </div>
 
         {/*
-          Partners get a callout, not a pitch. Students are the audience on this
+          Partners get a callout, not a pitch. Builders are the audience on this
           canvas; the full argument is in EOI_BRIEF.md and goes out by email.
         */}
         <Panel label={partners.label} tone="paper" className="self-start shadow-hard">

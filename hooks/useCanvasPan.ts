@@ -125,6 +125,25 @@ export function useCanvasPan(): CanvasPan {
 
     const onWheel = (event: WheelEvent) => {
       if (event.ctrlKey) return; // leave pinch-zoom alone
+
+      // A zone too tall for a short window scrolls before the canvas pans.
+      // Someone winding the wheel down a zone that visibly continues past the
+      // bottom of the window is reaching for the rest of it, not asking to
+      // travel to the next zone — and the pan is what would take it away. Once
+      // the zone is against its end the wheel goes back to panning, so the
+      // canvas never traps the reader inside one zone.
+      if (event.deltaY !== 0 && Math.abs(event.deltaY) >= Math.abs(event.deltaX)) {
+        const zone = (event.target as Element | null)?.closest?.(".canvas-zone");
+        if (zone) {
+          const room = zone.scrollHeight - zone.clientHeight;
+          const goingDown = event.deltaY > 0;
+          const canScroll = goingDown
+            ? zone.scrollTop < room - 1
+            : zone.scrollTop > 1;
+          if (room > 1 && canScroll) return; // let the browser scroll the zone
+        }
+      }
+
       const delta =
         Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
       if (delta === 0) return;

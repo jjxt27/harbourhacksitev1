@@ -16,7 +16,7 @@ type Kind = keyof typeof KINDS;
 /** Zone 2 — the four days as an industrial Kanban board. */
 export function Shipyard() {
   return (
-    <div className="flex h-full flex-col justify-center gap-6 px-6 py-20 md:gap-7 md:px-14 md:py-10">
+    <div className="zone-body zone-rhythm gap-6 px-6 py-20 md:gap-[var(--zone-gap)] md:px-14 md:py-[var(--zone-pad-y)]">
       <header className="flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="font-mono text-meta uppercase tracking-[0.2em] text-ink/60">
@@ -44,10 +44,15 @@ export function Shipyard() {
 
       {/*
         Four days, with the week between drawn rather than closed up. The gap
-        gets an `auto` column on desktop so it takes only the width of its rule;
-        once the board stacks it becomes a labelled horizontal divider.
+        gets an `auto` column on the board so it takes only the width of its
+        rule; once the board stacks it becomes a labelled horizontal divider.
+
+        Measured against the zone rather than the window — this zone is 2.1
+        windows wide, so it clears the 1280px the board needs at every window
+        size that pans. The divider below switches on the same tier, or it draws
+        itself horizontally across a board that is already in columns.
       */}
-      <div className="grid items-start gap-5 md:grid-cols-[repeat(3,minmax(0,1fr))_auto_minmax(0,1fr)]">
+      <div className="grid items-start gap-5 @7xl/zone:grid-cols-[repeat(3,minmax(0,1fr))_auto_minmax(0,1fr)]">
         {shipyard.columns.map((column) => (
           <Fragment key={column.id}>
             <Panel
@@ -89,13 +94,13 @@ export function Shipyard() {
             {column.gapAfter ? (
               <div
                 aria-hidden="true"
-                className="flex items-center justify-center gap-3 py-1 md:h-full md:flex-col md:py-4"
+                className="flex items-center justify-center gap-3 py-1 @7xl/zone:h-full @7xl/zone:flex-col @7xl/zone:py-4"
               >
-                <span className="h-0 flex-1 border-t-2 border-dashed border-ink/40 md:h-auto md:w-0 md:border-l-2 md:border-t-0" />
-                <span className="whitespace-nowrap font-mono text-micro uppercase tracking-[0.18em] text-ink/60 md:[writing-mode:vertical-rl]">
+                <span className="h-0 flex-1 border-t-2 border-dashed border-ink/40 @7xl/zone:h-auto @7xl/zone:w-0 @7xl/zone:border-l-2 @7xl/zone:border-t-0" />
+                <span className="whitespace-nowrap font-mono text-micro uppercase tracking-[0.18em] text-ink/60 @7xl/zone:[writing-mode:vertical-rl]">
                   {shipyard.gapLabel}
                 </span>
-                <span className="h-0 flex-1 border-t-2 border-dashed border-ink/40 md:h-auto md:w-0 md:border-l-2 md:border-t-0" />
+                <span className="h-0 flex-1 border-t-2 border-dashed border-ink/40 @7xl/zone:h-auto @7xl/zone:w-0 @7xl/zone:border-l-2 @7xl/zone:border-t-0" />
               </div>
             ) : null}
           </Fragment>
@@ -107,7 +112,7 @@ export function Shipyard() {
         zone is exactly one screen tall and clips what does not fit, so vertical
         space here is a fixed budget, not something that can be scrolled into.
       */}
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 @7xl/zone:grid-cols-3">
         <section aria-labelledby="gap-note" className="border-l-4 border-ink pl-4">
           <h3
             id="gap-note"
@@ -142,7 +147,7 @@ export function Shipyard() {
             {shipyard.mentorsNote}
           </p>
 
-          <ul className="mt-3 grid grid-cols-2 gap-2.5 lg:grid-cols-3">
+          <ul className="mt-3 grid grid-cols-2 gap-2.5 @7xl/zone:grid-cols-3">
             {shipyard.mentors.length > 0
               ? shipyard.mentors.map((mentor) => (
                   <li key={mentor.name} className="border-2 border-ink bg-paper p-2.5 shadow-hard-sm">

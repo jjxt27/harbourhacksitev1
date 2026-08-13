@@ -217,10 +217,107 @@
   flex: none;
   height: 100%;
   border-right: 2px solid var(--color-ink);
+  /*
+    A zone answers layout questions about itself.
+
+    Zones are 1.5–2.1× the window wide, so a viewport-keyed breakpoint inside
+    one is asking the wrong box. At a 1024px window the Setting Sail zone is
+    1536px across and has room for its four columns, but `xl:` reads the window,
+    stays shut, and the columns collapse into a single stack roughly 2000px tall
+    inside a 768px-tall zone that clips. Every screen between 768px and 1279px
+    wide lost half that zone — the registration form included.
+
+    `container-type: inline-size` makes the zone a query container, so the rules
+    below ask how wide the *zone* is. The answer is right at every window size
+    without anyone having to keep a breakpoint and a zone width in sync by hand.
+  */
+  container-type: inline-size;
+  container-name: zone;
+  /*
+    The last resort, and the only one that cannot be out-argued by content.
+
+    Widening the columns and tightening the rhythm both buy height, but neither
+    is unbounded: at a 625px window — a 1366×768 laptop once the browser has
+    taken its chrome — the manifest form alone is taller than the space the zone
+    has to give, and no amount of gap-trimming changes that. A zone that clips
+    what it cannot fit makes the shortfall unreachable.
+
+    So a zone that overruns scrolls. On a window with room this never engages
+    and nothing about the pan changes; where the budget genuinely runs out the
+    reader gets the rest of the zone instead of a guillotined edge. The wheel
+    handler in useCanvasPan yields to it before panning, and touch already gets
+    it free from `touch-action: pan-y` on the window.
+
+    `clip` rather than `hidden` on the cross axis: it is the same clipping
+    without making the zone a horizontally scrollable box, which would let a
+    stray wide child give a zone its own competing scroll offset.
+  */
+  overflow-y: auto;
+  overflow-x: clip;
+  overscroll-behavior-y: contain;
 }
 
 .canvas-window[data-grabbing="true"] { cursor: grabbing; }
 .canvas-window[data-pannable="true"] { cursor: grab; }
+
+/*
+  The body of a zone: centred until centring would cost something.
+
+  Plain `justify-content: center` splits any overflow between both ends, so a
+  zone 80px too tall for the window loses 40px off the top as well as 40px off
+  the bottom — and the top is where the kicker and the headline live. Losing the
+  heading of a section nobody can scroll is the worst available outcome.
+
+  `safe center` centres while the content fits and falls back to flex-start the
+  moment it does not, so an overrun costs the bottom of the zone rather than
+  both ends of it. Combined with the short-window rhythm below, the overrun it
+  is protecting against should not arise — this is the behaviour when it does.
+*/
+.zone-body {
+  display: flex;
+  /* `min-height`, not `height`: the body fills a zone it fits in and grows past
+     one it does not, which is what gives the zone something to scroll and keeps
+     the closing padding underneath the last row rather than on top of it. */
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: safe center;
+}
+
+/*
+  Vertical rhythm, as a budget that shrinks with the window.
+
+  A zone is exactly one window tall and clips what does not fit, so vertical
+  space is fixed rather than scrollable. The layout was drawn against an 800px
+  window; a 1366×768 laptop shows about 625px once the browser has taken its
+  chrome, and at that height zones two and three ran over. The padding and the
+  gaps are the first things to give, because they are the only things on the
+  plate that carry no information.
+
+  Two tiers rather than a continuous clamp: a value you cannot perceive is not a
+  decision, which is the same reason the type scale has eight steps and nothing
+  between them.
+*/
+@media (min-width: 768px) {
+  .zone-rhythm {
+    --zone-pad-y: 2.5rem;
+    --zone-gap: 1.75rem;
+  }
+  /* A 1024×768 tablet in landscape, and anything shorter than the 800px the
+     layout was drawn against. */
+  @media (max-height: 860px) {
+    .zone-rhythm {
+      --zone-pad-y: 1.5rem;
+      --zone-gap: 1.25rem;
+    }
+  }
+  /* A 1366×768 laptop once the browser has taken its chrome, and 1280×720. */
+  @media (max-height: 700px) {
+    .zone-rhythm {
+      --zone-pad-y: 1rem;
+      --zone-gap: 0.875rem;
+    }
+  }
+}
 
 @media (max-width: 767px) {
   .canvas-window {
@@ -241,6 +338,9 @@
     height: auto;
     border-right: 0;
     border-bottom: 2px solid var(--color-ink);
+    /* The column scrolls as one document here. A per-zone scroll box inside a
+       page that already scrolls is two nested scrollers and a trap. */
+    overflow: visible;
   }
 }
 

@@ -69,7 +69,27 @@ The file is 600px wide for the same reason: the dither throws away anything abov
 
 `components/canvas/Canvas.tsx` renders one child per zone, matched in order against `zones` in `content/canvas.ts`. That list is the single source of truth — the track width, the minimap proportions and the zone navigation all derive from it, so changing a width there moves everything together. The track is currently 5.2× viewport width.
 
-**A zone is exactly one screen tall and clips what does not fit**, so vertical space inside one is a fixed budget rather than something a reader can scroll into. When a zone gains content it buys the room sideways — zone one runs the argument across three columns, zone three puts the questions, the form, the card and the partner block on one line. All three fit with nothing clipped from 1280×800 up; below about 700px of viewport height the last 50–60px of zones two and three are cut off.
+**A zone buys room sideways before it buys it downward** — zone one runs the argument across three columns, zone three puts the questions, the form, the card and the partner block on one line. Vertical space is a budget; the reader pans rather than scrolls.
+
+### Zone layout is a container query, not a media query
+
+**A rule inside a zone asks how wide the zone is, never how wide the window is.** The zone is a `container-type: inline-size` query container and its contents use Tailwind's `@6xl/zone:`-style variants.
+
+This is not a preference. A zone is 1.5–2.1 windows wide, so the two questions have different answers, and a `md:`/`xl:` breakpoint inside a zone is asking about a box the content is not in. That mistake cost zone three every window between 768px and 1279px wide: `xl:` waited for a 1280px *window* while the zone had been 1152px wide since 768px, so the four columns stayed shut, collapsed into one stack about 2000px tall, and the zone clipped it. At 1024×768 that was 532px gone off each end, the registration form included, with no way to reach it.
+
+The mobile switch stays a media query — that is genuinely a question about the window, because it decides whether the canvas pans at all. **Mode is a media query; layout is a container query.**
+
+### When the budget runs out anyway
+
+Three things in order, because no one of them is enough:
+
+- **The rhythm tightens.** `--zone-pad-y` and `--zone-gap` step down at 860px and 700px of window height. Padding and gaps go first — they are the only things on the plate carrying no information.
+- **`justify-content: safe center`.** Plain `center` splits an overrun between both ends, so a zone 80px too tall loses 40px off the *top*, which is where the kicker and the headline are. `safe center` falls back to flex-start the moment it stops fitting.
+- **The zone scrolls.** At a 625px window the manifest form alone is taller than the space available, and no amount of gap-trimming changes that. A zone that overruns gets `overflow-y: auto` rather than making the shortfall unreachable.
+
+The wheel handler yields to that scroll before panning: a zone with room left scrolls, and once it is against its end the wheel goes back to panning, so the canvas never traps the reader inside one zone. Focus does it for free — the browser scrolls a focused control into view, which is what keeps the form keyboard-reachable.
+
+Nothing is unreachable at any size from 1920×1080 down to 1280×500, 768×1024 and 375×667.
 
 `hooks/useCanvasPan.ts` does the movement:
 
