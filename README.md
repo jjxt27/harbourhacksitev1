@@ -1,6 +1,6 @@
 # HarbourHack — harbour-pixel branch
 
-A boundless, pannable canvas for **HarbourHack 2026**, Sydney's go-to-market hackathon for university students. Part multiplayer whiteboard, part digital maritime chart, opening on a screen-printed plate of the harbour that counts itself in.
+A boundless, pannable canvas for **HarbourHack 2026**, Sydney's go-to-market hackathon, open to anyone who wants to build. Part multiplayer whiteboard, part digital maritime chart, opening on a screen-printed plate of the harbour that counts itself in.
 
 The look is risograph: six inks sampled from one photograph of the Coathanger at dusk, printed on cream, with tone carried by a visible dot screen rather than by mixing. The hard-edged rules from the brutalist branch survive intact — 2px borders, offset solid shadows, zero radius, nothing blurs.
 
@@ -165,7 +165,7 @@ Ember inherits the rule the old International Orange had: one ink is allowed to 
 
 ## Content
 
-The site's copy is the other half of `EOI_BRIEF.md`, which is the document that gets emailed to students and prospective partners. When a fact changes it changes in both.
+The site's copy is the other half of `EOI_BRIEF.md`, which is the document that gets emailed to prospective entrants and partners. When a fact changes it changes in both.
 
 **Confirmed:** the dates — 23, 24 and 25 October 2026 for the build weekend, then pitch night on Friday 30 October. They live in `dates` in `content/canvas.ts` and everything else derives from that one object.
 

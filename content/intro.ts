@@ -62,7 +62,7 @@ export const intro = {
   wordmark: site.name,
   year: site.year,
   tagline: site.tagline,
-  standfirst: `${site.city}'s go-to-market hackathon for university students.`,
+  standfirst: `${site.city}'s go-to-market hackathon. Open to anyone who wants to build.`,
 
   enter: "Enter the harbour",
   dismissHint: "Click anywhere, or press Escape",

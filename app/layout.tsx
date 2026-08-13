@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: { default: `${site.name} ${site.year} — ${site.tagline}`, template: `%s — ${site.name}` },
   description: site.description,
   applicationName: site.name,
-  keywords: ["hackathon", "go-to-market", "students", "startup", site.city],
+  keywords: ["hackathon", "go-to-market", "builders", "startup", site.city],
   openGraph: {
     type: "website",
     locale: "en_AU",

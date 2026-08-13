@@ -44,7 +44,7 @@ export const site = {
   city: "Sydney",
   tagline: "Don't just build. Ship.",
   description:
-    "HarbourHack 2026. Sydney's go-to-market hackathon for university students. Build it across 23–25 October, then go and get real users before pitch night on the 30th.",
+    "HarbourHack 2026. Sydney's go-to-market hackathon, open to anyone who wants to build. Ship it across 23–25 October, then go and get real users before pitch night on the 30th.",
   url: "https://harbourhack.com",
 } as const;
 
@@ -64,7 +64,7 @@ export const dryDock = {
   kicker: "Zone 01 — The Dry Dock",
   headline: ["Don't just", "build.", "Ship."],
   /** No dates here — they are stamped in the kicker row directly above. */
-  subtext: `${site.city}'s go-to-market hackathon for university students.`,
+  subtext: `${site.city}'s go-to-market hackathon. Open to anyone who wants to build.`,
   /** The argument, in the fewest words it survives in. */
   hook: {
     heading: "Every hackathon ends the same way",
@@ -180,7 +180,7 @@ export const shipyard = {
     "A product that runs. Not a mockup with a fake login.",
     "A case you can defend to someone who isn't your friend.",
     "Users who said yes because you asked them properly.",
-    "Four workshops of the stuff no degree covers.",
+    "Four workshops of the stuff nobody sits you down and teaches.",
     "A team, if you arrived without one.",
   ],
   mentorsLabel: "Mentors",
@@ -220,7 +220,7 @@ export const settingSail = {
 /**
  * The partner block.
  *
- * A callout, not a pitch — students are the audience on this canvas, and the
+ * A callout, not a pitch — builders are the audience on this canvas, and the
  * full argument lives in EOI_BRIEF.md, which is what gets sent to anyone who
  * asks. No audience numbers here: this is the first HarbourHack, so any figure
  * would be invented.

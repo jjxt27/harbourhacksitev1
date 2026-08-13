@@ -2,13 +2,13 @@
 
 **Status: draft. Cleared for public and sponsor sharing once the open items at the end are filled in.**
 
-Sydney · 23–25 and 30 October 2026 · University students · [harbourhack.com](https://harbourhack.com)
+Sydney · 23–25 and 30 October 2026 · Open to anyone · [harbourhack.com](https://harbourhack.com)
 
 ---
 
 ## Don't just build. Ship.
 
-HarbourHack is a go-to-market hackathon for university students in Sydney. Teams leave with something running, a case for it, and users who have actually signed up.
+HarbourHack is a go-to-market hackathon in Sydney, open to anyone who wants to build. Teams leave with something running, a case for it, and users who have actually signed up.
 
 Most student hackathons end at the demo. This one ends at distribution. You will spend as much of the weekend talking to people who might use the thing as you spend building it.
 
@@ -58,7 +58,7 @@ Three criteria, weighted equally. Nothing else is scored.
 
 ## Who it's for
 
-University students in three broad disciplines — **Tech**, **Biz**, **Design**. You can arrive with a full team or arrive alone; the Friday kickoff is set aside for teams to form. Registration asks what you're strong at and what you're looking for, so people can find each other before the doors open.
+Anyone who wants to build, across three broad disciplines — **Tech**, **Biz**, **Design**. Students, people working, people between things, people who have never entered one of these before. You can arrive with a full team or arrive alone; the Friday kickoff is set aside for teams to form. Registration asks what you're strong at and what you're looking for, so people can find each other before the doors open.
 
 ## Mentors
 
@@ -80,11 +80,11 @@ Expressions of interest are open at [harbourhack.com](https://harbourhack.com). 
 
 *For reposting, socials, and society newsletters. ~95 words.*
 
-> HarbourHack 2026 is a go-to-market hackathon for university students in Sydney, running 23–25 October with a finalist pitch night on 30 October. Most student hackathons end at the demo — this one ends at distribution. You'll spend as much of the weekend talking to people who might use your product as you spend building it, then a week to keep selling before you pitch. Judging is three things, weighted equally: a live demonstration with no video, a commercial case, and verified signups from real users. Register your interest at harbourhack.com.
+> HarbourHack 2026 is a go-to-market hackathon in Sydney, open to anyone who wants to build, running 23–25 October with a finalist pitch night on 30 October. Most student hackathons end at the demo — this one ends at distribution. You'll spend as much of the weekend talking to people who might use your product as you spend building it, then a week to keep selling before you pitch. Judging is three things, weighted equally: a live demonstration with no video, a commercial case, and verified signups from real users. Register your interest at harbourhack.com.
 
 ## One-liner
 
-> HarbourHack 2026 — Sydney's go-to-market hackathon for university students. 23–25 and 30 October. Don't just build. Ship.
+> HarbourHack 2026 — Sydney's go-to-market hackathon, open to anyone who wants to build. 23–25 and 30 October. Don't just build. Ship.
 
 ---
 
@@ -103,7 +103,7 @@ Do not fill these with plausible-looking placeholders. They go in when they're r
 | Prizes | TBC |
 | Cost to attend | Not yet decided |
 | Team size limits | Not yet decided |
-| Eligibility beyond "university students" | Not yet decided |
+| Eligibility | **Confirmed — open to anyone** |
 | Application deadline / capacity | Not yet decided |
 | Contact address for enquiries and partners | Not yet decided |
 

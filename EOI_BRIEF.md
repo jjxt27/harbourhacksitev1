@@ -8,12 +8,12 @@
 
 ## Don't just build. Ship.
 
-Sydney · 23, 24, 25 and 30 October 2026 · University students
+Sydney · 23, 24, 25 and 30 October 2026 · Open to anyone
 
 | | |
 |---|---|
 | **What** | A go-to-market hackathon |
-| **Who** | University students — tech, business, design |
+| **Who** | Anyone who wants to build — tech, business, design |
 | **When** | Build weekend 23–25 October, pitch night 30 October |
 | **Where** | Sydney · venue TBC |
 | **Cost** | TBC |
@@ -45,8 +45,8 @@ Two of those three have nothing to do with how well you code. That's deliberate.
 
 - **A product that runs.** Not a mockup, not a video, not a Figma prototype with a fake login.
 - **A case you can defend.** Who it's for, what it replaces, why they'd pay or switch.
-- **Users who said yes.** People outside your degree, your group chat and your family, who signed up because you asked them properly.
-- **Four workshops of craft nobody teaches you.** Cold outreach that gets replies. Prototyping in Figma. Landing pages that convert. A deck clinic before you go on stage.
+- **Users who said yes.** People outside your group chat and your family, who signed up because you asked them properly.
+- **Four workshops of craft nobody sits you down and teaches.** Cold outreach that gets replies. Prototyping in Figma. Landing pages that convert. A deck clinic before you go on stage.
 - **A team.** Come alone if you like — Friday night is built for finding people.
 
 ## The format, and why it's shaped like this
@@ -114,9 +114,9 @@ It takes a minute. You'll get a boarding pass to share, and everything else — 
 
 ## The room you've been trying to hire from
 
-The complaint about graduate hires is always the same: they can build, but they can't find the customer, can't write the email, can't hold the conversation. Those aren't personality traits. They're skills nobody taught them, because no assessment they'd ever sat rewarded them.
+The complaint about junior hires is always the same: they can build, but they can't find the customer, can't write the email, can't hold the conversation. Those aren't personality traits. They're skills nobody taught them, because no assessment they'd ever sat rewarded them.
 
-HarbourHack is a weekend that rewards nothing else. Every team in the room on 30 October will have shipped a product, gone out and asked strangers to use it, and come back to explain what happened. You'll be watching students do the exact thing you interview for and rarely get to observe.
+HarbourHack is a weekend that rewards nothing else. Every team in the room on 30 October will have shipped a product, gone out and asked strangers to use it, and come back to explain what happened. You'll be watching people do the exact thing you interview for and rarely get to observe.
 
 ## Where a partner fits
 
@@ -152,6 +152,7 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 | Dates | **Confirmed** — 23, 24, 25 and 30 October 2026 |
 | Format — four days across two weeks | **Confirmed** |
 | Judging criteria | **Confirmed** |
+| Eligibility | **Confirmed** — open to anyone |
 | Venue | TBC |
 | Session times | TBC |
 | Whether all teams pitch on 30 October, or only finalists | TBC |
@@ -168,7 +169,7 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 
 **One-liner**
 
-> HarbourHack 2026 — Sydney's go-to-market hackathon for university students. 23–25 and 30 October. Don't just build. Ship.
+> HarbourHack 2026 — Sydney's go-to-market hackathon, open to anyone who wants to build. 23–25 and 30 October. Don't just build. Ship.
 
 **Fifty words — for a society newsletter or an Instagram caption**
 
@@ -176,7 +177,7 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 
 **A hundred words — for a post or a mailout**
 
-> HarbourHack 2026 is a go-to-market hackathon for university students in Sydney, running 23–25 October with a pitch night on 30 October.
+> HarbourHack 2026 is a go-to-market hackathon in Sydney, open to anyone who wants to build, running 23–25 October with a pitch night on 30 October.
 >
 > Most student hackathons end at the demo. This one ends at distribution. You'll spend as much of the weekend talking to people who might use your product as you spend building it — then you get a week to keep selling before you go on stage.
 >
@@ -188,7 +189,7 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 
 > Subject: HarbourHack 2026 — ⟨the specific thing you want from them⟩
 >
-> ⟨Name⟩ — I'm ⟨role⟩ at HarbourHack, a go-to-market hackathon for Sydney university students running 23–25 and 30 October.
+> ⟨Name⟩ — I'm ⟨role⟩ at HarbourHack, a go-to-market hackathon in Sydney running 23–25 and 30 October, open to anyone who wants to build.
 >
 > It's built around one idea: teams are scored on whether real users signed up, not on the demo. ⟨One sentence on why this company specifically — a product they'd recognise the problem in, a hiring pipeline, a workshop only they could teach.⟩
 >

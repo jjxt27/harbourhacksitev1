@@ -34,7 +34,7 @@ export default function OpengraphImage() {
         {/* The dates earn their place on a share card — they are the one fact
             someone needs before they decide whether to keep reading. */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 26, borderTop: "4px solid #08192e", paddingTop: 22 }}>
-          <span>Sydney&apos;s GTM hackathon for university students</span>
+          <span>Sydney&apos;s GTM hackathon · open to anyone</span>
           <span style={{ background: "#1a5da8", color: "#fbead7", padding: "8px 14px", letterSpacing: 1 }}>
             {dates.short}
           </span>
