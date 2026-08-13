@@ -4,9 +4,9 @@ import { dates, site } from "@/content/canvas";
  * The intro plate.
  *
  * A count-in, not a splash screen. Everything it counts is a fact the site
- * already states somewhere else — four days, two weeks, three criteria — and
- * the figures are derived from `dates` and the criteria list rather than typed
- * again here. If the programme changes shape, this counts the new shape.
+ * already states somewhere else — seven days, three of them for selling, three
+ * things judged — and the figures follow the programme rather than being
+ * invented here. If the programme changes shape, this counts the new shape.
  *
  * The rule from content/canvas.ts holds: nothing unconfirmed appears. There is
  * no countdown clock, no attendance figure and no prize total, because none of
@@ -43,13 +43,19 @@ export const intro = {
   dateStamp: dates.short,
   manifestLabel: "Sailing notice",
 
+  /*
+    The second figure used to be "2 — Weeks", which described a programme with a
+    real hole in the middle. There is no hole now: the selling days moved inside
+    it, so the count that carries the shape is how many of the seven are set
+    aside for getting it in front of people.
+  */
   tallies: [
-    { value: 4, pad: 2, label: "Days", note: dates.long },
+    { value: 7, pad: 2, label: "Days", note: dates.long },
     {
-      value: 2,
+      value: 3,
       pad: 2,
-      label: "Weeks",
-      note: "A build weekend, then a week to go and get real users.",
+      label: "For selling",
+      note: "No workshops, no ceremony. Three days to find real users.",
     },
     {
       value: 3,

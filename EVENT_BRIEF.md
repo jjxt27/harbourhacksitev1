@@ -2,7 +2,7 @@
 
 **Status: draft. Cleared for public and sponsor sharing once the open items at the end are filled in.**
 
-Sydney · 23–25 and 30 October 2026 · Open to anyone · [harbourhack.com](https://harbourhack.com)
+Sydney · 23–28 and 30 October 2026 · Open to anyone · [harbourhack.com](https://harbourhack.com)
 
 ---
 
@@ -10,20 +10,21 @@ Sydney · 23–25 and 30 October 2026 · Open to anyone · [harbourhack.com](htt
 
 HarbourHack is a go-to-market hackathon in Sydney, open to anyone who wants to build. Teams leave with something running, a case for it, and users who have actually signed up.
 
-Most student hackathons end at the demo. This one ends at distribution. You will spend as much of the weekend talking to people who might use the thing as you spend building it.
+Most student hackathons end at the demo. This one ends at distribution. Three of the seven days carry no workshops at all — they exist so you can put it in front of people and come back with what happened.
 
 ## The format
 
-Four days across two weeks. A build weekend, then a week to keep selling, then a pitch night in front of the room.
+Seven days, three of them for selling. A kickoff, a build weekend, three days to get it in front of real people, then a pitch night in front of the room.
 
-| | Date | Session |
+| | Date | Focus |
 |---|---|---|
-| Day one | Friday 23 October | **Kickoff.** Teams form. Scope narrows. |
-| Day two | Saturday 24 October | **Build session one.** Build in the morning, sell from lunchtime. |
-| Day three | Sunday 25 October | **Build session two.** Close the loop on v1. |
-| Day four | Friday 30 October | **Finalist pitch night.** Live demonstrations and judging. |
+| Day one | Friday 23 October | **Kickoff.** Teams form. Scope narrows. Workshops run. |
+| Days two–three | Sat 24 – Sun 25 October | **Build focus.** Workshops run. Ship v1 and begin outreach. |
+| Days four–six | Mon 26 – Wed 28 October | **Ship focus.** No workshops. Chase signups, act on feedback. |
+| | Thursday 29 October | *off* |
+| Day seven | Friday 30 October | **Finalist pitch night.** Live demonstrations and judging. |
 
-Splitting the pitch off from the build weekend is the point of the format. A team that has only ever shown its product to a judging panel has not shipped anything; a team with a week between v1 and the stage has to go and find real users, and the pitch is where they show what came back.
+The back half is the point of the format. A team that has only ever shown its product to a judging panel has not shipped anything — it has performed. Most hackathons end at the demo and leave the selling to whoever still has the energy on Monday; here it is scheduled. Monday to Wednesday carry no sessions and no ceremony, and the pitch is where teams report what happened when they asked real people.
 
 **Friday 23 October — Kickoff**
 - Doors, registration, team forming
@@ -39,6 +40,11 @@ Splitting the pitch off from the build weekend is the point of the format. A tea
 - Workshop — Landing pages that convert
 - Signup push
 - Deck clinic
+
+**Monday 26 – Wednesday 28 October — Ship focus**
+- No workshops and no scheduled sessions
+- Get it in front of real users, chase verified signups, act on what comes back
+- Whether the room is open, whether these days run remotely, or both, is TBC
 
 **Friday 30 October — Finalist pitch night**
 - Live demonstrations
@@ -80,11 +86,11 @@ Expressions of interest are open at [harbourhack.com](https://harbourhack.com). 
 
 *For reposting, socials, and society newsletters. ~95 words.*
 
-> HarbourHack 2026 is a go-to-market hackathon in Sydney, open to anyone who wants to build, running 23–25 October with a finalist pitch night on 30 October. Most student hackathons end at the demo — this one ends at distribution. You'll spend as much of the weekend talking to people who might use your product as you spend building it, then a week to keep selling before you pitch. Judging is three things, weighted equally: a live demonstration with no video, a commercial case, and verified signups from real users. Register your interest at harbourhack.com.
+> HarbourHack 2026 is a go-to-market hackathon in Sydney, open to anyone who wants to build, running 23–28 October with a finalist pitch night on 30 October. Most student hackathons end at the demo — this one ends at distribution. You’ll build across the opening weekend, then spend Monday to Wednesday with no workshops and one job: getting it in front of real people. Judging is three things, weighted equally: a live demonstration with no video, a commercial case, and verified signups from real users. Register your interest at harbourhack.com.
 
 ## One-liner
 
-> HarbourHack 2026 — Sydney's go-to-market hackathon, open to anyone who wants to build. 23–25 and 30 October. Don't just build. Ship.
+> HarbourHack 2026 — Sydney's go-to-market hackathon, open to anyone who wants to build. 23–28 and 30 October. Don't just build. Ship.
 
 ---
 
@@ -94,7 +100,7 @@ Do not fill these with plausible-looking placeholders. They go in when they're r
 
 | Item | Status |
 |---|---|
-| Dates | **Confirmed — 23, 24, 25 and 30 October 2026** |
+| Dates | **Confirmed — 23–28 and 30 October 2026** |
 | Venue | TBC |
 | Session times | TBC |
 | How finalists are selected between 25 and 30 October | TBC |

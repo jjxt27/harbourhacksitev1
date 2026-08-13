@@ -30,7 +30,7 @@ npm run dev
 
 ## The intro plate
 
-`components/intro/IntroGate.tsx` holds a full-screen plate over the canvas and then gets out of the way. It is a count-in, not a splash: three figures the programme actually has — four days, two weeks, three things judged — arrive in sequence and count up to themselves, then the wordmark and a way in.
+`components/intro/IntroGate.tsx` holds a full-screen plate over the canvas and then gets out of the way. It is a count-in, not a splash: three figures the programme actually has — seven days, three of them for selling, three things judged — arrive in sequence and count up to themselves, then the wordmark and a way in.
 
 **It does not dismiss itself on a timer.** An intro that vanishes while someone is still reading cannot be argued with. Escape, the button, and a click anywhere all do the same thing.
 
@@ -229,7 +229,9 @@ Ember inherits the rule the old International Orange had: one ink is allowed to 
 
 The site's copy is the other half of `EOI_BRIEF.md`, which is the document that gets emailed to prospective entrants and partners. When a fact changes it changes in both.
 
-**Confirmed:** the dates — 23, 24 and 25 October 2026 for the build weekend, then pitch night on Friday 30 October. They live in `dates` in `content/canvas.ts` and everything else derives from that one object.
+**Confirmed:** the dates — kickoff Friday 23 October 2026, build focus across the 24th and 25th, ship focus from the 26th to the 28th, then pitch night on Friday 30 October. They live in `dates` in `content/canvas.ts` and everything else derives from that one object.
+
+The shape carries the argument, so it is worth stating once: **the three ship days are the point.** Monday to Wednesday run no workshops and no sessions — they exist so teams can put v1 in front of real people and act on what comes back, which is the thing most hackathons leave to whoever still has the energy on Monday. The board draws them as one phase with an honest note rather than three columns padded with sessions that do not exist, and Thursday the 29th is drawn as the one day off rather than closed up.
 
 **Still `TBC`:** times, venue, mentors, prizes, and the partner contact address. These render as visible TBC chips. Do not replace them with plausible-looking placeholders — fill them in when they are real.
 

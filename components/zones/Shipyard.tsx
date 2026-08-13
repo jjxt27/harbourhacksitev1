@@ -13,7 +13,7 @@ const KINDS = {
 
 type Kind = keyof typeof KINDS;
 
-/** Zone 2 — the four days as an industrial Kanban board. */
+/** Zone 2 — the seven days as an industrial Kanban board, in four phases. */
 export function Shipyard() {
   return (
     <div className="zone-body zone-rhythm gap-6 px-6 py-20 md:gap-[var(--zone-gap)] md:px-14 md:py-[var(--zone-pad-y)]">
@@ -43,8 +43,8 @@ export function Shipyard() {
       </header>
 
       {/*
-        Four days, with the week between drawn rather than closed up. The gap
-        gets an `auto` column on the board so it takes only the width of its
+        Four phases, with Thursday the 29th drawn rather than closed up. The
+        gap gets an `auto` column on the board so it takes only the width of its
         rule; once the board stacks it becomes a labelled horizontal divider.
 
         Measured against the zone rather than the window — this zone is 2.1
@@ -63,6 +63,23 @@ export function Shipyard() {
               <p className="mb-2.5 font-display text-lead font-black uppercase leading-none tracking-[-0.02em]">
                 {column.date}
               </p>
+
+              {/*
+                A deliberately unscheduled phase says so, rather than being
+                padded with sessions that do not exist.
+
+                Filled rather than set as a quiet note. With no cards this is
+                the shortest column on the board, and the argument the zone
+                makes is that these are the days that matter — leaving the one
+                phase with nothing scheduled looking like an afterthought would
+                say the opposite. Ink on apricot is 10.62:1.
+              */}
+              {column.note ? (
+                <p className="border-2 border-ink bg-apricot p-3 text-small leading-snug text-ink shadow-hard-sm">
+                  {column.note}
+                </p>
+              ) : null}
+
               <ul className="grid gap-3">
                 {column.cards.map((card) => {
                   const kind = KINDS[card.kind as Kind] ?? KINDS.session;
