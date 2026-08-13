@@ -15,13 +15,18 @@ import {
 
 const START: EoiFormState = { name: "", email: "", company: "", company_website: "" };
 
+/**
+ * Whether the row was written, and separately whether a confirmation went out.
+ *
+ * They are two axes, not one list. Collapsing them is how the confirmation ends
+ * up telling a returning registrant to check an inbox nothing was sent to —
+ * with no mail credentials configured, that is every registrant.
+ */
 type Status =
   | "idle"
   | "pending"
-  /** Stored, confirmation sent. */
+  /** Stored for the first time. */
   | "done"
-  /** Stored, confirmation did not send. */
-  | "doneNoEmail"
   /** Already on the list; details updated. */
   | "updated"
   /** Nothing was stored — the only status the reader has to act on. */
@@ -45,6 +50,8 @@ export function EoiForm() {
   const [data, setData] = useState<EoiFormState>(START);
   const [errors, setErrors] = useState<EoiErrors>({});
   const [status, setStatus] = useState<Status>("idle");
+  /** Tracked apart from `status`: storing and sending fail independently. */
+  const [emailed, setEmailed] = useState(true);
 
   const base = useId();
   const ids = {
@@ -114,14 +121,14 @@ export function EoiForm() {
         | { created?: boolean; emailed?: boolean }
         | null;
 
-      if (json?.created === false) setStatus("updated");
-      else setStatus(json?.emailed === false ? "doneNoEmail" : "done");
+      setEmailed(json?.emailed !== false);
+      setStatus(json?.created === false ? "updated" : "done");
     } catch {
       setStatus("failed");
     }
   }
 
-  const settled = status === "done" || status === "updated" || status === "doneNoEmail";
+  const settled = status === "done" || status === "updated";
 
   /*
     On success the form is replaced rather than annotated. A page whose only
@@ -135,8 +142,9 @@ export function EoiForm() {
           <Check aria-hidden="true" className="size-7 shrink-0 text-harbour" strokeWidth={3} />
           {status === "updated" ? eoi.duplicate : eoi.done}
         </p>
+        {/* Never promises an inbox we did not write to. */}
         <p className="mt-4 text-body leading-snug text-ink/80">
-          {status === "doneNoEmail" ? eoi.doneNoEmail : eoi.doneNote}
+          {emailed ? eoi.doneNote : eoi.doneNoEmail}
         </p>
       </div>
     );

@@ -392,8 +392,14 @@ export const eoi = {
   /** Stored. */
   done: "You're on the list.",
   doneNote: "Check your inbox — we've sent a confirmation. You'll hear from us as things are confirmed.",
-  /** Stored, but the confirmation did not send. Never blamed on the reader. */
-  doneNoEmail: "You're on the list. The confirmation email didn't send, but your place is saved.",
+  /**
+   * Stored, but the confirmation did not send — a body under the same heading
+   * as `doneNote`, so it does not repeat "you're on the list" back at someone
+   * who has just been told that. Never blamed on the reader, and never claiming
+   * an inbox we did not write to.
+   */
+  doneNoEmail:
+    "We couldn't send your confirmation email just now — that's on us, and your place is saved regardless. You'll hear from us as things are confirmed.",
   duplicate: "You were already on the list — we've updated your details.",
   /** Nothing was saved. The only status the reader has to act on. */
   failed: "That didn't save. Check your connection and press the button again.",
