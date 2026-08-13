@@ -9,16 +9,27 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@liveblocks/client": "^3.23.1",
+    "@liveblocks/react": "^3.23.1",
+    "@use-gesture/react": "^10.3.1",
+    "canvas-confetti": "^1.9.4",
+    "framer-motion": "^13.0.0",
+    "html-to-image": "^1.11.13",
+    "lucide-react": "^1.28.0",
     "next": "16.2.12",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "roughjs": "^4.6.6"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5"
   }
 }

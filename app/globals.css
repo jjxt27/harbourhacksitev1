@@ -1,648 +1,539 @@
+@import "tailwindcss";
+
 /*
-  HarbourHack — The Conversation
+  HarbourHack — Risograph Harbour
   ==============================
-  The homepage is a one-to-one chat that plays out live. Everything else on the
-  site is the same conversation continued: /faq is what people wrote back,
-  /apply is your reply.
+  The palette is sampled from one photograph: a two-colour separation of the
+  Coathanger at dusk, cobalt and ember, printed on cream with a visible dot
+  screen. Six inks and nothing between them. That constraint is the whole
+  design — a duotone print has no greys to hide in, so every value has to be
+  carried by hue or by dot density.
 
-  Two rules hold it together:
+  What carries over from the brutalist branch: hard edges, 2px ink borders,
+  offset solid shadows, zero radius, nothing blurs. What changes: the ground is
+  cream rather than white, structure is navy-black rather than jet, and images
+  are quantised to these six inks rather than reproduced.
 
-  1. Receipt green belongs to the sender's presence and the reply — the avatar,
-     the typing indicator, the send button. It is never used to decorate.
-  2. Undelivered messages are hidden, not absent. They render server-side and
-     are hidden behind `.js`, so there is nothing to scroll ahead to, and a
-     reader without scripting gets the whole conversation at once.
+  The accent split is deliberate. Harbour blue is 5.62:1 on cream, so it can
+  carry text and a filled button. Ember is 2.70:1 and can never carry text on
+  cream — it is a fill and a display colour with ink on top, which is the same
+  rule the old International Orange had. Nothing about that rule is nostalgia:
+  a print this warm needs one ink that is allowed to shout.
 */
 
-/* ------------------------------------------------------------------ reset */
+@theme {
+  /* The cream. Sampled from the lit edge of the cloud. */
+  --color-paper: #fbead7;
+  --color-paper-off: #f5dcc2;
+  /* Grid rule. Decorative — it draws the chart, it never carries meaning. */
+  --color-grid: #e8cfae;
 
-*, *::before, *::after { box-sizing: border-box; }
-html, body, h1, h2, h3, p, ul, ol, li, dl, dt, dd, figure, blockquote {
-  margin: 0;
-  padding: 0;
+  /* Navy-black. The photograph has no true black in it and neither does this. */
+  --color-ink: #08192e;
+  /* Solid, not an opacity modifier, so it survives the manifest PNG export.
+     Warm slate: the neutral a cobalt/ember press actually produces. */
+  --color-slate: #5a5245;
+
+  /* Harbour blue. The text-safe accent: fills, borders, and body copy. */
+  --color-harbour: #1a5da8;
+  /* The deep end of the same water. For the one card that outranks the rest. */
+  --color-navy: #0e3c72;
+  /* Ember. Large display type, fills and borders — never body text. */
+  --color-ember: #e2711d;
+  /* The lit ink. Highlight fields and marks, always with ink on top. */
+  --color-apricot: #f6be85;
+  /* Brick red, kept clearly apart from ember so a problem never reads as an
+     accent. Passes on cream, cream-off and apricot. */
+  --color-alert: #9c1b10;
+
+  /* Decorative only: the mid-tone the dot screen resolves to. Never text. */
+  --color-sky: #4e8ac4;
+
+  /*
+    The type scale. Eight steps, and nothing between them. A step you cannot
+    perceive is not a decision. Mono is floored at 10px: below that, uppercase
+    at 0.16em tracking stops being fine detail and becomes texture.
+  */
+  --text-display: clamp(3.1rem, 8.5vw, 8.5rem);
+  --text-title: clamp(2.3rem, 4.6vw, 4.6rem);
+  --text-heading: 1.875rem;
+  --text-lead: 1.25rem;
+  --text-body: 1.0625rem;
+  --text-small: 0.875rem;
+  --text-meta: 0.6875rem;
+  --text-micro: 0.625rem;
+
+  /* Counters are set in the mono at display size, so it needs its own step. */
+  --text-tally: clamp(2.6rem, 7vw, 6rem);
+
+  --font-display: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+  --font-hand: var(--font-kalam), "Comic Sans MS", cursive;
+
+  /* Hard shadows. There are no soft ones. */
+  --shadow-hard-sm: 2px 2px 0 var(--color-ink);
+  --shadow-hard: 4px 4px 0 var(--color-ink);
+  --shadow-hard-lg: 6px 6px 0 var(--color-ink);
+
+  --ease-canvas: cubic-bezier(0.22, 0.68, 0, 1);
+
+  /*
+    Two container steps of our own, for the widths at which zone three changes
+    shape. Both are ours, and they are declared in ascending order, because
+    Tailwind emits container variants in the order it learns them rather than by
+    value — a custom step mixed in with the built-in scale emitted *before*
+    `@2xl` and was overridden by it at every width above 672px, which reads
+    exactly like the query not working at all.
+
+    `roomy` is not a round number because it is measured rather than chosen. Of
+    a zone's width, four columns spend 112px on padding, 328px on the card and
+    120px on gaps; the form takes 1.35 of the remaining 2.6 parts. Solving that
+    for the 448px at which the form's two radio groups pair gives 1423px, and
+    the value is rounded up from there. A 1024px window makes a 1536px zone, so
+    it clears this — which is the case worth naming, since it is a real screen
+    and it sat just the wrong side of an earlier guess at this number.
+  */
+  --container-pair: 672px;
+  --container-roomy: 1425px;
 }
-ul, ol { list-style: none; }
-img, svg { display: block; max-width: 100%; }
-button, input, textarea, select { font: inherit; color: inherit; }
-button { background: none; border: 0; cursor: pointer; }
-a { color: inherit; text-decoration: none; }
 
-/* ----------------------------------------------------------------- tokens */
+/*
+  Measured contrast. Every figure below is computed, not estimated.
 
-:root {
-  --c-ground: #1c1f26;
-  --c-ground-deep: #14171d;
-  --c-ground-raised: #262b35;
+  On paper #fbead7        On paper-off #f5dcc2   On apricot #f6be85
+    ink      15.02:1        ink      13.37:1       ink      10.62:1
+    navy      9.36:1        navy      8.33:1       navy      6.62:1
+    alert     6.93:1        alert     6.17:1       alert     4.90:1
+    slate     6.55:1        slate     5.83:1       slate     4.63:1
+    harbour   5.62:1        harbour   5.01:1       harbour   3.98:1  ← large only
+    ember     2.70:1        ember     2.40:1       ember     1.91:1  ← never text
 
-  --c-bone: #f2efe9;
-  /* Light enough to clear AA on the raised bubble surface, which is the
-     tightest pairing on the site — bubble timestamps sit at 0.6rem. */
-  --c-dim: #9199a6;
-  --c-rule: #333944;
+  On harbour #1a5da8      On navy #0e3c72        On ink #08192e
+    paper     5.62:1        paper     9.36:1       paper    15.02:1
+    ink       2.67:1 ✗      ember     3.47:1       apricot  10.62:1
+                            (large display only)   ember     5.56:1
+  On ember #e2711d
+    ink       5.56:1        paper     2.70:1 ✗
 
-  --c-receipt: #38e08c;
-  --c-alert: #ff6b5a;
+  Three traps, all of them the inverse of an obvious guess:
+    1. Anything `bg-harbour` or `bg-navy` takes `text-paper`, never `text-ink`.
+    2. Anything `bg-ember` takes `text-ink`, never `text-paper`.
+    3. `text-harbour` is fine on cream and fails on apricot. On an apricot
+       ground, metadata is `text-slate` or `text-navy`.
 
-  --font-sans: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
-  --font-mono: var(--font-dm-mono), ui-monospace, "SF Mono", monospace;
+  Hard shadows are punctuation. They belong on things that lift — buttons,
+  sticky notes, board cards, the minimap — and not on the containers around
+  them. When everything is raised, nothing reads as raised.
+*/
 
-  --t-msg: 1.02rem;
-  --t-meta: 0.7rem;
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--color-ink);
+  }
 
-  --gutter: clamp(1rem, 3vw, 2rem);
-  --log: 46rem;
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* The canvas manages its own panning; the document never scrolls sideways. */
+    overflow-x: hidden;
+  }
 
-  --ease: cubic-bezier(0.22, 0.68, 0, 1);
+  body {
+    margin: 0;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    /* So anything without an explicit size still lands on a scale step,
+       rather than inheriting the browser default of 16px. */
+    font-size: var(--text-body);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+  }
 
-  color-scheme: dark;
+  h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
+  ul, ol { margin: 0; padding: 0; list-style: none; }
+  button { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  img, svg { display: block; max-width: 100%; }
+
+  ::selection { background: var(--color-apricot); color: var(--color-ink); }
+
+  :focus-visible {
+    outline: 3px solid var(--color-harbour);
+    outline-offset: 2px;
+  }
 }
 
-/* ------------------------------------------------------------------- base */
-
-html { -webkit-text-size-adjust: 100%; }
-
-body {
-  min-height: 100svh;
-  background: var(--c-ground);
-  color: var(--c-bone);
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  background-image: url("/grain.svg");
-  background-size: 200px;
-  opacity: 0.03;
-}
-
-::selection { background: var(--c-receipt); color: var(--c-ground); }
-
-:focus-visible { outline: 2px solid var(--c-receipt); outline-offset: 3px; border-radius: 2px; }
-
-.sr-only {
+@utility sr-only {
   position: absolute;
-  width: 1px; height: 1px;
-  margin: -1px; padding: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
 }
 
-.skip-link {
-  position: fixed;
-  top: 0.75rem; left: 0.75rem;
-  z-index: 90;
-  padding: 0.7rem 1rem;
-  background: var(--c-bone);
-  color: var(--c-ground);
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  transform: translateY(-200%);
-  transition: transform 200ms var(--ease);
+/* A button that physically depresses. Shadow shrinks as it moves. */
+@utility press {
+  box-shadow: var(--shadow-hard);
+  transition: transform 90ms var(--ease-canvas), box-shadow 90ms var(--ease-canvas);
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-hard-sm);
+  }
 }
-.skip-link:focus-visible { transform: none; }
 
-/* ------------------------------------------------------------------- chat */
+/* The same press, for controls sitting on an ink ground — where an ink shadow
+   would be invisible and the lift would be lost. */
+@utility press-inverse {
+  box-shadow: 4px 4px 0 var(--color-paper);
+  transition: transform 90ms var(--ease-canvas), box-shadow 90ms var(--ease-canvas);
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-paper);
+  }
+}
 
-.chat {
+/* Counters must not reflow as digits change. */
+@utility tally {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Anything upscaled from a small raster keeps its pixels square. */
+@utility pixelated {
+  image-rendering: pixelated;
+}
+
+/* ------------------------------------------------------------- the canvas --
+   Desktop: a fixed viewport window with a wide track panned along X.
+   Mobile:  the same markup, unhooked — the track becomes a normal column and
+            the document scrolls vertically. The switch is pure CSS, so there
+            is no hydration branch and no layout flash.                       */
+
+.canvas-window {
   position: relative;
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  height: 100dvh;
+  width: 100%;
   overflow: hidden;
+  height: 100svh;
+  overscroll-behavior: none;
+  touch-action: pan-y;
 }
 
-.chat-head {
+.canvas-track {
   display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  /* Content lines up with the message column instead of the window edge. */
-  padding: 0.7rem max(var(--gutter), calc((100% - var(--log)) / 2));
-  border-bottom: 1px solid var(--c-rule);
-  background: var(--c-ground-deep);
+  align-items: stretch;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
 }
-.chat-avatar {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 50%;
-  background: var(--c-receipt);
-  color: var(--c-ground);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-.chat-who { min-width: 0; }
-.chat-who b { display: block; font-size: 0.95rem; font-weight: 600; letter-spacing: -0.01em; }
-.chat-who i {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-style: normal;
-  letter-spacing: 0.06em;
-  color: var(--c-dim);
-  transition: color 200ms var(--ease);
-}
-.chat-who i[data-typing="true"] { color: var(--c-receipt); }
 
-.chat-skip {
-  margin-left: auto;
+.canvas-zone {
+  position: relative;
   flex: none;
-  padding: 0.45rem 0.85rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-  transition: color 200ms var(--ease), border-color 200ms var(--ease);
-}
-.chat-skip:hover { color: var(--c-bone); border-color: var(--c-bone); }
+  height: 100%;
+  border-right: 2px solid var(--color-ink);
+  /*
+    A zone answers layout questions about itself.
 
-.chat-scroll {
+    Zones are 1.5–2.1× the window wide, so a viewport-keyed breakpoint inside
+    one is asking the wrong box. At a 1024px window the Setting Sail zone is
+    1536px across and has room for its four columns, but `xl:` reads the window,
+    stays shut, and the columns collapse into a single stack roughly 2000px tall
+    inside a 768px-tall zone that clips. Every screen between 768px and 1279px
+    wide lost half that zone — the registration form included.
+
+    `container-type: inline-size` makes the zone a query container, so the rules
+    below ask how wide the *zone* is. The answer is right at every window size
+    without anyone having to keep a breakpoint and a zone width in sync by hand.
+  */
+  container-type: inline-size;
+  container-name: zone;
+  /*
+    The last resort, and the only one that cannot be out-argued by content.
+
+    Widening the columns and tightening the rhythm both buy height, but neither
+    is unbounded: at a 625px window — a 1366×768 laptop once the browser has
+    taken its chrome — the manifest form alone is taller than the space the zone
+    has to give, and no amount of gap-trimming changes that. A zone that clips
+    what it cannot fit makes the shortfall unreachable.
+
+    So a zone that overruns scrolls. On a window with room this never engages
+    and nothing about the pan changes; where the budget genuinely runs out the
+    reader gets the rest of the zone instead of a guillotined edge. The wheel
+    handler in useCanvasPan yields to it before panning, and touch already gets
+    it free from `touch-action: pan-y` on the window.
+
+    `clip` rather than `hidden` on the cross axis: it is the same clipping
+    without making the zone a horizontally scrollable box, which would let a
+    stray wide child give a zone its own competing scroll offset.
+  */
   overflow-y: auto;
-  overscroll-behavior: contain;
-  /* A column with the log pushed down keeps a short conversation sitting on
-     the composer, the way a real client does, without breaking scrolling once
-     it grows past the viewport. */
+  overflow-x: clip;
+  overscroll-behavior-y: contain;
+}
+
+.canvas-window[data-grabbing="true"] { cursor: grabbing; }
+.canvas-window[data-pannable="true"] { cursor: grab; }
+
+/*
+  The body of a zone: centred until centring would cost something.
+
+  Plain `justify-content: center` splits any overflow between both ends, so a
+  zone 80px too tall for the window loses 40px off the top as well as 40px off
+  the bottom — and the top is where the kicker and the headline live. Losing the
+  heading of a section nobody can scroll is the worst available outcome.
+
+  `safe center` centres while the content fits and falls back to flex-start the
+  moment it does not, so an overrun costs the bottom of the zone rather than
+  both ends of it. Combined with the short-window rhythm below, the overrun it
+  is protecting against should not arise — this is the behaviour when it does.
+*/
+.zone-body {
   display: flex;
+  /* `min-height`, not `height`: the body fills a zone it fits in and grows past
+     one it does not, which is what gives the zone something to scroll and keeps
+     the closing padding underneath the last row rather than on top of it. */
+  min-height: 100%;
   flex-direction: column;
-}
-.chat-log {
-  width: 100%;
-  max-width: var(--log);
-  margin: auto auto 0;
-  padding: 1.25rem var(--gutter) 1.5rem;
-}
-.chat-end { height: 1px; }
-
-.chat-day {
-  width: fit-content;
-  margin: 0 auto 1.25rem;
-  padding: 0.3rem 0.8rem;
-  border-radius: 0.5rem;
-  background: var(--c-ground-raised);
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--c-dim);
+  justify-content: safe center;
 }
 
-/* --------------------------------------------------------------- bubbles */
+/*
+  Vertical rhythm, as a budget that shrinks with the window.
 
-.bubble-row { display: flex; margin-top: 0.16rem; }
-.bubble-row[data-start="true"] { margin-top: 0.85rem; }
+  A zone is exactly one window tall and clips what does not fit, so vertical
+  space is fixed rather than scrollable. The layout was drawn against an 800px
+  window; a 1366×768 laptop shows about 625px once the browser has taken its
+  chrome, and at that height zones two and three ran over. The padding and the
+  gaps are the first things to give, because they are the only things on the
+  plate that carry no information.
 
-/* Undelivered messages exist in the DOM but are hidden once scripting runs. */
-.js .bubble-row[data-shown="false"] { display: none; }
-.js .bubble-row[data-shown="true"] { animation: land 280ms var(--ease) both; }
-@keyframes land {
-  from { opacity: 0; transform: translateY(0.55rem) scale(0.985); }
+  Two tiers rather than a continuous clamp: a value you cannot perceive is not a
+  decision, which is the same reason the type scale has eight steps and nothing
+  between them.
+*/
+@media (min-width: 768px) {
+  .zone-rhythm {
+    --zone-pad-y: 2.5rem;
+    --zone-gap: 1.75rem;
+  }
+  /* A 1024×768 tablet in landscape, and anything shorter than the 800px the
+     layout was drawn against. */
+  @media (max-height: 860px) {
+    .zone-rhythm {
+      --zone-pad-y: 1.5rem;
+      --zone-gap: 1.25rem;
+    }
+  }
+  /* A 1366×768 laptop once the browser has taken its chrome, and 1280×720. */
+  @media (max-height: 700px) {
+    .zone-rhythm {
+      --zone-pad-y: 1rem;
+      --zone-gap: 0.875rem;
+    }
+  }
 }
 
-.bubble {
-  position: relative;
-  max-width: min(30rem, 82%);
-  padding: 0.55rem 0.85rem 0.5rem;
-  border-radius: 0.95rem;
-  background: var(--c-ground-raised);
-  font-size: var(--t-msg);
-  line-height: 1.42;
-  letter-spacing: -0.005em;
-  text-wrap: pretty;
+@media (max-width: 767px) {
+  .canvas-window {
+    height: auto;
+    overflow: visible;
+    touch-action: auto;
+    cursor: auto !important;
+  }
+  .canvas-track {
+    display: block;
+    width: 100%;
+    height: auto;
+    /* The pan transform must not survive into the stacked layout. */
+    transform: none !important;
+  }
+  .canvas-zone {
+    width: 100% !important;
+    height: auto;
+    border-right: 0;
+    border-bottom: 2px solid var(--color-ink);
+    /* The column scrolls as one document here. A per-zone scroll box inside a
+       page that already scrolls is two nested scrollers and a trap. */
+    overflow: visible;
+  }
 }
-/* The tail marks the start of a burst, the way a real client groups them. */
-.bubble-row[data-start="true"] .bubble { border-top-left-radius: 0.28rem; }
-.bubble-row[data-start="true"] .bubble::before {
-  content: "";
+
+/* --------------------------------------------------------------- the screen --
+   The dot screen off the photograph, as a background layer.
+
+   Two radial-gradient fields at the same pitch, offset half a tile from each
+   other and inked differently, which is what a two-colour press actually does
+   when the plates are a fraction out of register. One field alone reads as a
+   polka dot; two slightly-off fields read as print.
+
+   `--screen-pitch` sets the dot spacing and `--screen-dot` the radius, so a
+   surface can be screened coarse or fine without new rules.                  */
+
+@utility screen-dots {
+  --screen-pitch: 6px;
+  --screen-dot: 1.1px;
+  background-image:
+    radial-gradient(circle at 50% 50%, var(--color-harbour) var(--screen-dot), transparent calc(var(--screen-dot) + 0.5px)),
+    radial-gradient(circle at 50% 50%, var(--color-ember) var(--screen-dot), transparent calc(var(--screen-dot) + 0.5px));
+  background-size: var(--screen-pitch) var(--screen-pitch);
+  background-position: 0 0, calc(var(--screen-pitch) / 2) calc(var(--screen-pitch) / 2);
+}
+
+/* ------------------------------------------------------------- background --
+   A fixed chart grid under the dot screen. Fixed rather than parented to the
+   track, so the ground stays put while the content moves across it — the
+   screen gets its own slower parallax instead.                               */
+
+.ground {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-color: var(--color-paper-off);
+  background-image:
+    linear-gradient(to right, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.ground-screen {
   position: absolute;
-  left: -0.42rem;
-  top: 0;
-  width: 0.45rem;
-  height: 0.7rem;
-  background: var(--c-ground-raised);
-  clip-path: polygon(100% 0, 100% 100%, 0 0);
+  inset: -10% -20%;
+  opacity: 0.34;
+  will-change: transform;
 }
 
-/* Floated so it settles onto the last line, as it does in a real client. */
-.bubble time {
-  float: right;
-  margin: 0.5rem 0 -0.15rem 0.7rem;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.04em;
-  color: var(--c-dim);
-}
-
-.bubble-link {
-  display: block;
-  text-decoration: underline;
-  text-decoration-color: var(--c-rule);
-  text-underline-offset: 0.25em;
-  transition: text-decoration-color 200ms var(--ease);
-}
-.bubble-link:hover { text-decoration-color: var(--c-bone); }
-.bubble-link svg { display: inline; width: 0.8rem; height: 0.8rem; margin-left: 0.3rem; vertical-align: -0.05em; }
-
-.bubble-facts { max-width: min(22rem, 86%); }
-.bubble-facts dl { display: grid; gap: 0.55rem; }
-.bubble-facts div { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; }
-.bubble-facts dt {
-  font-family: var(--font-mono);
-  font-size: 0.64rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-.bubble-facts dd { font-size: 0.95rem; font-weight: 500; }
-
-.bubble-card { max-width: min(24rem, 88%); padding: 0.3rem 0.3rem 0.45rem; }
-.card {
-  display: block;
-  padding: 0.9rem 1rem 1rem;
-  border-radius: 0.7rem;
-  background: var(--c-ground-deep);
-  transition: background 200ms var(--ease);
-}
-.card:hover { background: #10131a; }
-.card b { display: block; font-size: 1.05rem; font-weight: 600; letter-spacing: -0.015em; }
-.card span { display: block; margin-top: 0.35rem; font-size: 0.9rem; line-height: 1.45; color: var(--c-dim); }
-.card em {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin-top: 0.85rem;
-  font-size: 0.8rem;
-  font-style: normal;
-  font-weight: 600;
-  color: var(--c-receipt);
-}
-.card em svg { width: 0.85rem; height: 0.85rem; }
-.bubble-card > time { float: none; display: block; margin: 0.35rem 0.55rem 0 0; text-align: right; }
-
-.bubble-typing {
-  display: inline-flex;
-  gap: 0.3rem;
-  width: fit-content;
-  margin-top: 0.85rem;
-  padding: 0.85rem 0.9rem;
-  border-top-left-radius: 0.28rem;
-}
-.bubble-typing i {
-  width: 0.4rem;
-  height: 0.4rem;
-  border-radius: 50%;
-  background: var(--c-dim);
-  animation: blink 1.25s ease-in-out infinite;
-}
-.bubble-typing i:nth-child(2) { animation-delay: 0.16s; }
-.bubble-typing i:nth-child(3) { animation-delay: 0.32s; }
-@keyframes blink {
-  0%, 65%, 100% { opacity: 0.35; transform: translateY(0); }
-  32% { opacity: 1; transform: translateY(-0.2rem); }
-}
-
-.chat-jump {
+/* The harbour itself, pinned along the bottom of the ground and lightly inked.
+   It is the same drawing the intro uses at full strength — the site sits on the
+   photograph rather than next to it. */
+.ground-harbour {
   position: absolute;
-  left: 50%;
-  bottom: 5.25rem;
-  z-index: 20;
-  translate: -50% 0;
-  padding: 0.5rem 1rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 999px;
-  background: var(--c-ground-raised);
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--c-bone);
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.35);
+  inset-inline: 0;
+  bottom: 0;
+  opacity: 0.16;
+  will-change: transform;
 }
-
-/* -------------------------------------------------------------- composer */
-
-.chat-composer {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem max(var(--gutter), calc((100% - var(--log)) / 2));
-  border-top: 1px solid var(--c-rule);
-  background: var(--c-ground-deep);
-}
-.chat-input {
-  flex: 1;
-  min-width: 0;
-  padding: 0.8rem 1.1rem;
-  border-radius: 999px;
-  background: var(--c-ground-raised);
-  color: var(--c-dim);
-  font-size: 0.95rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 200ms var(--ease);
-}
-.chat-input:hover { color: var(--c-bone); }
-.chat-send {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 1.15rem;
-  border-radius: 999px;
-  background: var(--c-ground-raised);
-  color: var(--c-dim);
-  font-size: 0.88rem;
-  font-weight: 600;
-  transition: background 260ms var(--ease), color 260ms var(--ease), transform 200ms var(--ease);
-}
-.chat-send svg { width: 0.9rem; height: 0.9rem; }
-/* Lights up once the conversation has finished, but works the whole time. */
-.chat-send[data-ready="true"] { background: var(--c-receipt); color: var(--c-ground); }
-.chat-send:hover { transform: translateY(-1px); }
-
-/* --------------------------------------------------------- inner pages -- */
-
-.bar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.7rem var(--gutter);
-  border-bottom: 1px solid var(--c-rule);
-  background: var(--c-ground-deep);
-}
-.bar-sender { display: flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; font-weight: 600; }
-.bar-sender::before {
-  content: "";
-  width: 0.45rem; height: 0.45rem;
-  border-radius: 50%;
-  background: var(--c-receipt);
-}
-.bar-reply {
-  flex: none;
-  padding: 0.45rem 0.9rem;
-  border: 1px solid var(--c-rule);
-  border-radius: 999px;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: border-color 200ms var(--ease);
-}
-.bar-reply:hover { border-color: var(--c-bone); }
-
-.shell {
-  width: 100%;
-  max-width: 58rem;
-  margin: 0 auto;
-  padding: 0 var(--gutter);
-}
-
-.page-head { padding: clamp(3rem, 9vh, 5.5rem) 0 clamp(2rem, 5vh, 3rem); }
-.page-head-rail {
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-.page-head h1 {
-  margin-top: 1rem;
-  max-width: 16ch;
-  font-size: clamp(2.4rem, 6vw, 4.5rem);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.035em;
-}
-.page-head p { max-width: 44ch; margin-top: 1.35rem; font-size: 1.05rem; color: var(--c-dim); }
-
-/* ------------------------------------------------------------------- faq */
-
-.exchange { padding-bottom: clamp(2.25rem, 5vh, 3.25rem); }
-.exchange-rail {
-  display: block;
-  margin-bottom: 0.6rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.08em;
-  color: var(--c-dim);
-}
-.exchange-q {
-  width: fit-content;
-  max-width: min(30rem, 88%);
-  padding: 0.55rem 0.9rem;
-  border-radius: 0.95rem;
-  border-top-right-radius: 0.28rem;
-  margin-left: auto;
-  background: #2f3a35;
-  font-size: var(--t-msg);
-  font-weight: 400;
-  line-height: 1.42;
-}
-.exchange-a { display: flex; flex-direction: column; align-items: flex-start; gap: 0.16rem; margin-top: 0.85rem; }
-.exchange-a p {
-  max-width: min(30rem, 88%);
-  padding: 0.55rem 0.9rem;
-  border-radius: 0.95rem;
-  background: var(--c-ground-raised);
-  font-size: var(--t-msg);
-  line-height: 1.42;
-}
-.exchange-a p:first-of-type { border-top-left-radius: 0.28rem; }
-.exchange-pending {
-  padding: 0.2rem 0.55rem !important;
-  border: 1px solid var(--c-alert);
-  border-radius: 0.3rem !important;
-  background: none !important;
-  color: var(--c-alert);
-  font-family: var(--font-mono);
-  font-size: var(--t-meta) !important;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-/* ------------------------------------------------------------------ form */
-
-.reply { display: block; }
-.reply-rail {
-  position: sticky;
-  top: 3.5rem;
-  z-index: 10;
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.7rem 0;
-  background: var(--c-ground);
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-.reply-rail b { font-weight: 400; color: var(--c-receipt); }
-.reply-body { display: flex; flex-direction: column; gap: clamp(2.25rem, 5vh, 3rem); padding-bottom: 4rem; }
-
-.field label, .field legend {
-  display: block;
-  max-width: 30ch;
-  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
-  font-weight: 500;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-}
-.field-hint { max-width: 46ch; margin-top: 0.6rem; font-size: 0.92rem; line-height: 1.5; color: var(--c-dim); }
-.field-optional {
-  margin-left: 0.6rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-
-.control {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 0.8rem 0;
-  border: 0;
-  border-bottom: 1px solid var(--c-rule);
-  background: transparent;
-  color: var(--c-bone);
-  font-size: 1.1rem;
-  line-height: 1.5;
-  transition: border-color 200ms var(--ease);
-}
-.control::placeholder { color: var(--c-dim); }
-.control:focus { outline: none; border-bottom-color: var(--c-receipt); }
-.control:focus-visible { outline: none; }
-textarea.control { resize: vertical; min-height: 3.25rem; }
-.control[aria-invalid="true"] { border-bottom-color: var(--c-alert); }
-
-.field-error { margin-top: 0.55rem; font-size: 0.92rem; color: var(--c-alert); }
-
-.consent { display: flex; align-items: flex-start; gap: 0.9rem; cursor: pointer; }
-.consent input { flex: none; width: 1.2rem; height: 1.2rem; margin-top: 0.15rem; accent-color: var(--c-receipt); }
-.consent span { max-width: 42ch; font-size: 1.02rem; line-height: 1.45; }
-
-.summary { padding: 1.1rem 1.3rem; border: 1px solid var(--c-alert); border-radius: 0.5rem; }
-.summary p {
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-alert);
-}
-.summary ul { display: flex; flex-direction: column; gap: 0.45rem; margin-top: 0.85rem; }
-.summary a { text-decoration: underline; text-underline-offset: 0.3em; }
-
-.action {
-  display: inline-flex;
-  align-self: flex-start;
-  width: fit-content;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.95rem 1.4rem;
-  border-radius: 999px;
-  background: var(--c-receipt);
-  color: var(--c-ground);
-  font-size: 0.98rem;
-  font-weight: 600;
-  transition: transform 200ms var(--ease), filter 200ms var(--ease);
-}
-.action:hover { transform: translateY(-2px); filter: brightness(1.08); }
-.action svg { width: 0.95rem; height: 0.95rem; }
-.action[disabled] { opacity: 0.55; pointer-events: none; }
-
-.action-quiet {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-  border-bottom: 1px solid var(--c-rule);
-  padding-bottom: 0.3rem;
-  transition: color 200ms var(--ease), border-color 200ms var(--ease);
-}
-.action-quiet:hover { color: var(--c-bone); border-color: var(--c-bone); }
-
-.sent-receipt {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--c-receipt);
-}
-.sent-receipt::before {
-  content: "";
-  width: 0.4rem; height: 0.4rem;
-  border-radius: 50%;
-  background: var(--c-receipt);
-}
-
-/* ----------------------------------------------------------------- footer */
-
-.foot {
-  margin-top: clamp(3rem, 8vh, 6rem);
-  border-top: 1px solid var(--c-rule);
-  background: var(--c-ground-deep);
-  padding: 1.85rem 0;
-}
-.foot-inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem 2rem;
-  font-family: var(--font-mono);
-  font-size: var(--t-meta);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--c-dim);
-}
-.foot-inner nav { display: flex; flex-wrap: wrap; gap: 1.35rem; }
-.foot-inner a:hover { color: var(--c-bone); }
-
-/* ------------------------------------------------------------ responsive */
-
-@media (max-width: 34rem) {
-  .chat-skip { padding: 0.4rem 0.65rem; letter-spacing: 0.06em; }
-  .chat-send span { display: none; }
-  .chat-send { padding: 0.8rem 0.95rem; }
-  .bubble { max-width: 88%; }
-  .page-head h1 { max-width: none; }
-}
-
-/* --------------------------------------------------------- reduced motion */
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .ground-screen,
+  .ground-harbour { transform: none !important; }
+}
+
+/* ------------------------------------------------------------- the intro --
+   A full-bleed plate that counts itself in, then hands over to the canvas.
+   Fixed and above everything, dismissed by the button, a click, or Escape.   */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-ink);
+  transition: opacity 520ms var(--ease-canvas), transform 520ms var(--ease-canvas);
+}
+
+/* Leaving: the plate lifts off the top like a sheet pulled off the press. */
+.intro[data-leaving="true"] {
+  opacity: 0;
+  transform: translateY(-3%);
+  pointer-events: none;
+}
+
+.intro-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* The art fills the plate and is allowed to crop — it is a backdrop, and on a
+   landscape window the composition survives losing its edges. */
+.intro-plate > * {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/*
+  The photograph is portrait and the plate is not, so covering a wide window
+  shows roughly a third of its height. Centred, that band lands on the deck and
+  the palm trunks; pulled up to 40% it lands on the arch and the palm crowns,
+  which is the part of the frame worth keeping.
+*/
+.intro-plate > canvas {
+  object-position: 50% 40%;
+}
+
+/*
+  Portrait is the opposite problem. Cropping a 16:9 drawing to fill a 375 × 812
+  window scales it by height, which leaves about a quarter of its width on
+  screen — the empty middle of the sky, with the bridge and the palms both cut
+  away. So on a narrow window the plate stops being a backdrop and joins the
+  column as a band at its own ratio: the whole harbour, uncropped, sitting on
+  top of the notice rather than behind it.
+*/
+@media (max-width: 767px) {
+  .intro-plate {
+    position: static;
+    /* Ordered past the masthead, so the band lands directly above the notice
+       instead of leaving a dead strip of ink between them. */
+    order: 1;
+    /*
+      The band takes whatever the masthead and the notice leave, rather than a
+      fixed slice of the viewport. A fixed 40vh fits a 812px phone and overflows
+      a 667px one — and an intro that has scrolled its own button off the bottom
+      is worse than a shallow picture.
+    */
+    flex: 1 1 0;
+    min-height: 0;
+  }
+  /* Nothing to reserve: the plate is in the column now. */
+  .intro-gap {
+    display: none;
+  }
+  /* The drawing is 16:9 and can take its natural height, up to the band. */
+  .intro-plate > svg {
+    height: auto;
+    max-height: 100%;
+  }
+  /* The photograph is portrait, so it fills the band and keeps cropping —
+     biased up to hold the arch rather than the trunks. */
+  .intro-plate > canvas {
+    object-position: 50% 32%;
+  }
+  .intro-notice {
+    order: 2;
+  }
+}
+
+/* A feed row arrives, it does not fade in place. */
+.intro-row {
+  opacity: 0;
+  transform: translateY(0.6rem);
+  transition: opacity 260ms var(--ease-canvas), transform 260ms var(--ease-canvas);
+}
+
+.intro-row[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro,
+  .intro-row {
+    transition: none;
+  }
+  /* Nothing arrives and nothing counts. Reduced motion gets the finished
+     plate: every row present, every figure at its final value. */
+  .intro-row {
+    opacity: 1;
+    transform: none;
   }
 }

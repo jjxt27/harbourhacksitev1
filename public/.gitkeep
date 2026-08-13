@@ -1,0 +1,9 @@
+# Static assets.
+#
+# A photograph dropped in here can become the intro plate: put the file
+# alongside this one and point `intro.photo` in content/intro.ts at it, e.g.
+# "/harbour.png". It is quantised to the six inks in the browser, so it comes
+# out screened to match the drawing rather than sitting next to it.
+#
+# It has to live here rather than on a remote URL — the dither reads pixels back
+# out of a canvas, which only works same-origin.
