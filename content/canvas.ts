@@ -275,12 +275,28 @@ export const manifest = {
   cardLabel: "Live preview",
   fields: {
     name: { label: "Name", placeholder: "Who's boarding?" },
+    /**
+     * The one field the programme's promise depends on.
+     *
+     * Both briefs say a registrant gets "everything else — venue, times,
+     * mentors, prizes — as it's confirmed". That is a commitment to write to
+     * them later, and it cannot be kept from a name alone. It is deliberately
+     * the second field rather than the last: asking for it after the playful
+     * part reads as a toll on the way out.
+     */
+    email: {
+      label: "Email",
+      placeholder: "you@example.com",
+      hint: "So we can send the venue, times and mentors as they're confirmed.",
+    },
     role: { label: "Role", hint: "Pick the hat you'll wear most of the weekend." },
     skills: { label: "Top 2 skills", hint: `Choose up to ${MAX_SKILLS}.` },
     lookingFor: { label: "Looking for", hint: "Goes on the banner. Make it easy for people to find you." },
   },
   errors: {
     name: "Add a name before you board.",
+    email: "Add an email so we can reach you.",
+    emailInvalid: "That doesn't look like an email address.",
     skills: "Pick at least one skill.",
   },
   action: "Generate & board",
@@ -288,6 +304,25 @@ export const manifest = {
   actionDone: "Downloaded",
   reset: "Start again",
   shareHint: "Downloads a PNG. Post it in the Discord or on LinkedIn to find a team.",
+  /**
+   * What happens to the address, said where it is asked for rather than only in
+   * a policy nobody opens. The contact for a correction or a deletion is not
+   * confirmed yet, so it renders as TBC like every other unconfirmed fact.
+   */
+  privacy: {
+    line: "We'll only email you about HarbourHack, and you can unsubscribe from any of it. Your email is never shown on your boarding pass.",
+    contactLabel: "Questions about your data",
+  },
+  /** Registered and stored. */
+  registered: "You're on the manifest.",
+  /**
+   * The card downloaded but the registration did not reach us. Said plainly:
+   * the reader is holding a boarding pass that we have no record of, and only
+   * they can act on that.
+   */
+  registerFailed:
+    "Card downloaded, but we couldn't save your registration. Check your connection and press the button again.",
+  duplicate: "You were already on the manifest — we've updated your details.",
   card: {
     issuer: "HarbourHack",
     port: "Port of Sydney",

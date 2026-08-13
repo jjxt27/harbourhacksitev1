@@ -76,6 +76,25 @@
   --shadow-hard-lg: 6px 6px 0 var(--color-ink);
 
   --ease-canvas: cubic-bezier(0.22, 0.68, 0, 1);
+
+  /*
+    Two container steps of our own, for the widths at which zone three changes
+    shape. Both are ours, and they are declared in ascending order, because
+    Tailwind emits container variants in the order it learns them rather than by
+    value — a custom step mixed in with the built-in scale emitted *before*
+    `@2xl` and was overridden by it at every width above 672px, which reads
+    exactly like the query not working at all.
+
+    `roomy` is not a round number because it is measured rather than chosen. Of
+    a zone's width, four columns spend 112px on padding, 328px on the card and
+    120px on gaps; the form takes 1.35 of the remaining 2.6 parts. Solving that
+    for the 448px at which the form's two radio groups pair gives 1423px, and
+    the value is rounded up from there. A 1024px window makes a 1536px zone, so
+    it clears this — which is the case worth naming, since it is a real screen
+    and it sat just the wrong side of an earlier guess at this number.
+  */
+  --container-pair: 672px;
+  --container-roomy: 1425px;
 }
 
 /*

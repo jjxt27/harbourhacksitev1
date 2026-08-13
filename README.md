@@ -138,6 +138,50 @@ The **Tech / Biz prompt** appears once, on pointer devices, and stores the choic
 
 `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY` is inlined into the client bundle and readable by anyone who opens the page. That is what a `pk_` key is for. The secret `sk_` key must never be given a `NEXT_PUBLIC_` prefix.
 
+## Registration
+
+The manifest form is the site's only conversion, and both briefs promise a
+registrant "everything else — venue, times, mentors, prizes — as it's confirmed".
+That is a commitment to write to people later, so **the email field is the point
+of the form**; the boarding pass is what makes filling it in worth doing.
+
+The flow is `POST /api/manifest` → validate → upsert into Airtable → send a
+confirmation. Four decisions in it are load-bearing:
+
+- **The card is never gated on the registration.** The POST goes first, because
+  being on the list is the part only the server can do, but a store that is down
+  is not a reason to withhold a PNG the browser can make on its own. The reader
+  always ends up with the card and is told plainly whether we have them —
+  `unsaved` is the one status the live region announces assertively.
+- **The email never reaches the card.** `ManifestData` is what gets printed and
+  shared; `Registration` is that plus the address. `ManifestCard` is handed only
+  the four printed fields, so an address cannot leak into a PNG that someone
+  posts publicly.
+- **`lib/registration.ts` is the only validator**, run in the browser for the
+  error messages and again in the route for the truth. Every enum is checked
+  against its source list rather than coerced — a silently corrected
+  registration is a wrong one.
+- **An unconfigured store refuses with a 503.** With no credentials there is
+  nowhere for a registration to go, and returning success would hand someone a
+  boarding pass for a record that never existed.
+
+Spam defence is a honeypot (`company`, clipped to 1px and untabbable — a filled
+trap is answered `200`, because telling a script it was caught tells it what to
+change) and a per-address rate limit. That limit lives in one server instance's
+memory, so on a platform running several it is `LIMIT` attempts per instance
+rather than overall; it stops a stuck retry loop, and the upsert on email is
+what actually keeps the table clean.
+
+`lib/store.ts` is the only Airtable-shaped file. Swapping it for a Sheet, or for
+Postgres once someone wants constraints, means rewriting `storeRegistration` and
+nothing else. The required columns and every key are documented in
+`.env.example`.
+
+**Not done yet:** there is no privacy page, and the contact for a correction or
+a deletion renders as `TBC` beside the form because it genuinely is not decided.
+That is the last thing standing between this and collecting personal information
+properly under the Australian Privacy Act.
+
 ## Colour
 
 Six inks, sampled from the photograph. Every ratio below is computed, not estimated — the script that produces them is the one thing to re-run if a value changes.

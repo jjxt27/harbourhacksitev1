@@ -1,14 +1,16 @@
 import type { Ref } from "react";
-import { manifest, site, type LookingFor, type Role, type Skill } from "@/content/canvas";
+import { manifest, site } from "@/content/canvas";
 import { manifestNumber } from "@/lib/manifest";
 import { Barcode } from "@/components/manifest/Barcode";
 
-export type ManifestData = {
-  name: string;
-  role: Role;
-  skills: readonly Skill[];
-  lookingFor: LookingFor;
-};
+/*
+  The shape now lives in lib/registration.ts alongside the registration it is
+  half of, and is re-exported here so nothing that already imports it has to
+  care. The split is the point: `ManifestData` is what gets printed and shared,
+  `Registration` is that plus the email — which never reaches this component.
+*/
+export type { ManifestData } from "@/lib/registration";
+import type { ManifestData } from "@/lib/registration";
 
 /** Long names get a smaller setting rather than being allowed to overflow. */
 function nameSize(name: string) {
