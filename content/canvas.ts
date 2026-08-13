@@ -192,9 +192,19 @@ export const shipyard = {
 
 export const settingSail = {
   kicker: "Zone 03 — Setting Sail",
-  headline: "Get your manifest",
+  headline: "Put your name down",
   subtext:
-    "Fill this in and we'll generate your crew card. Share it, find a team, board the ship.",
+    "Expressions of interest are open. A name, an email, and where you're coming from — that's the whole form.",
+  /**
+   * The zone's job is now to hand over to `/eoi` rather than to hold the form
+   * itself. A canvas you pan through is the wrong place for the one thing that
+   * needs a URL somebody can paste into an email.
+   */
+  cta: {
+    label: "Register your interest",
+    href: "/eoi",
+    note: "Takes a minute. You'll get the venue, times and mentors as they're confirmed.",
+  },
   /** The objections, answered where someone can act on the answer. */
   questionsLabel: "Reasonable questions",
   questions: [
@@ -333,6 +343,65 @@ export const manifest = {
     bannerLabel: "Looking for",
     footnote: "Non-transferable. Present at the dock.",
   },
+} as const;
+
+/**
+ * The expression of interest.
+ *
+ * Three fields, on a page of its own. The `manifest` object above is the fuller
+ * form it will become — role, skills, looking-for and the boarding pass — held
+ * back until there is a team-forming round for it to serve. Neither is a draft
+ * of the other; this one collects the address, that one collects the crew.
+ *
+ * Keeping them apart is why the copy is duplicated rather than shared. An EOI
+ * asks a stranger for a minute of their time and the manifest asks a committed
+ * entrant for five, and a sentence written to do both would do neither.
+ */
+export const eoi = {
+  kicker: "Expression of interest",
+  headline: ["Get on", "the list."],
+  standfirst:
+    "Expressions of interest are open for HarbourHack 2026. It takes a minute, and it's not a commitment — it puts you on the list for the venue, the times, the mentors and the prizes as they're confirmed.",
+  formLabel: "Your details",
+  fields: {
+    name: { label: "Name", placeholder: "Who's coming?" },
+    email: {
+      label: "Email",
+      placeholder: "you@example.com",
+      hint: "The only way we can send you anything. We'll confirm it straight away.",
+    },
+    /**
+     * Not everyone answering this has an employer, and the ones who don't are
+     * exactly the people the event was just opened up to. The hint says so
+     * outright rather than leaving a blank box to be interpreted.
+     */
+    company: {
+      label: "Company",
+      placeholder: "Where you're coming from",
+      hint: "Put “Student” if you're studying, or your own project if you're building something.",
+    },
+  },
+  errors: {
+    name: "Add a name so we know who you are.",
+    email: "Add an email so we can reach you.",
+    emailInvalid: "That doesn't look like an email address.",
+    company: "Put something here — “Student” is a fine answer.",
+  },
+  action: "Register interest",
+  actionPending: "Sending…",
+  /** Stored. */
+  done: "You're on the list.",
+  doneNote: "Check your inbox — we've sent a confirmation. You'll hear from us as things are confirmed.",
+  /** Stored, but the confirmation did not send. Never blamed on the reader. */
+  doneNoEmail: "You're on the list. The confirmation email didn't send, but your place is saved.",
+  duplicate: "You were already on the list — we've updated your details.",
+  /** Nothing was saved. The only status the reader has to act on. */
+  failed: "That didn't save. Check your connection and press the button again.",
+  privacy: {
+    line: "We'll only email you about HarbourHack, and you can unsubscribe from any of it. We don't share it with anyone, partners included.",
+    contactLabel: "Questions about your data",
+  },
+  back: "Back to the harbour",
 } as const;
 
 export const cursorRoles = ["Tech", "Biz"] as const;

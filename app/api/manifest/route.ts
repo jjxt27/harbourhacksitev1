@@ -2,54 +2,23 @@ import { manifestNumber } from "@/lib/manifest";
 import { validateRegistration } from "@/lib/registration";
 import { isStoreConfigured, storeRegistration } from "@/lib/store";
 import { sendConfirmation } from "@/lib/email";
+import { clientKey, rateLimited, trapped } from "@/lib/guard";
 
 /**
- * Registration.
+ * The full manifest — role, skills, looking-for and a boarding pass.
  *
- * The form in zone three posts here. Everything it checked in the browser is
- * checked again, because those checks are a courtesy to the reader rather than
- * a control on the endpoint — this route is public and unauthenticated, and a
- * POST does not have to come from the form.
+ * **Parked, deliberately.** Nothing routes to the form that posts here: the
+ * live ask is the expression of interest at /api/eoi, which is three fields and
+ * no card. This is kept whole, and kept working, for the team-forming round it
+ * was built for. It is not dead code, and deleting it loses a finished feature.
+ *
+ * It writes to the same Airtable row an EOI does, merged on email, and sends
+ * only the fields it has — so filling in a manifest later adds a role and
+ * skills to an existing person rather than creating a second one.
+ *
+ * Everything the browser checked is checked again here, because those checks
+ * are a courtesy to the reader rather than a control on the endpoint.
  */
-
-/** Requests per window, per address. */
-const LIMIT = 5;
-const WINDOW_MS = 60_000;
-
-/*
-  Best-effort throttling, and honestly labelled as such.
-
-  This map lives in one server instance. On a platform that runs several, or
-  that freezes an idle one, a determined flood gets `LIMIT` attempts per
-  instance rather than `LIMIT` overall. It is here to stop a stuck retry loop
-  and casual abuse, which is most of it; the upsert on email is what actually
-  keeps the table clean. Anything stronger needs shared state — Redis, or the
-  platform's own rate limiting in front of the route.
-*/
-const hits = new Map<string, number[]>();
-
-function rateLimited(key: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(key) ?? []).filter((at) => now - at < WINDOW_MS);
-  recent.push(now);
-  hits.set(key, recent);
-
-  // The map would otherwise grow for the life of the process.
-  if (hits.size > 5_000) {
-    for (const [ip, times] of hits) {
-      if (times.every((at) => now - at >= WINDOW_MS)) hits.delete(ip);
-    }
-  }
-
-  return recent.length > LIMIT;
-}
-
-/** The left-most entry is the client; the rest are the proxies it passed through. */
-function clientKey(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  return forwarded?.split(",")[0]?.trim() || "unknown";
-}
-
 export async function POST(request: Request) {
   if (rateLimited(clientKey(request))) {
     return Response.json({ ok: false, error: "rate_limited" }, { status: 429 });
@@ -62,18 +31,9 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "bad_json" }, { status: 400 });
   }
 
-  /*
-    The honeypot.
-
-    `company` is rendered off-screen, unlabelled and untabbable, so nobody
-    filling the form in can put anything in it. A bot walking the DOM fills
-    every input it finds. Answered with 200 rather than an error: telling a
-    script it was caught is telling it what to change.
-  */
-  const trap = (payload as Record<string, unknown> | null)?.company;
-  if (typeof trap === "string" && trap.trim() !== "") {
-    return Response.json({ ok: true, registered: true, created: true });
-  }
+  // Answered 200 rather than an error: telling a script it was caught is
+  // telling it what to change.
+  if (trapped(payload)) return Response.json({ ok: true, registered: true, created: true });
 
   const checked = validateRegistration(payload);
   if (!checked.ok) {

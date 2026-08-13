@@ -127,12 +127,12 @@ export function ManifestForm({ data, onChange, errors, ids }: ManifestFormProps)
         </label>
         <input
           id="manifest-company"
-          name="company"
+          name="company_website"
           type="text"
           tabIndex={-1}
           autoComplete="off"
-          value={data.company ?? ""}
-          onChange={(event) => onChange({ company: event.target.value })}
+          value={data.company_website ?? ""}
+          onChange={(event) => onChange({ company_website: event.target.value })}
         />
       </div>
 

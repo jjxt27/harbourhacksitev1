@@ -140,30 +140,48 @@ The **Tech / Biz prompt** appears once, on pointer devices, and stores the choic
 
 ## Registration
 
-The manifest form is the site's only conversion, and both briefs promise a
-registrant "everything else — venue, times, mentors, prizes — as it's confirmed".
-That is a commitment to write to people later, so **the email field is the point
-of the form**; the boarding pass is what makes filling it in worth doing.
+Two forms, one list, and only one of them is switched on.
 
-The flow is `POST /api/manifest` → validate → upsert into Airtable → send a
-confirmation. Four decisions in it are load-bearing:
+**The expression of interest** is live: `/eoi`, three fields, `POST /api/eoi`.
+It is a page rather than a zone because it is the one thing that needs a URL —
+a zone cannot be linked from an email, printed on a QR code, or put at the end
+of `EOI_BRIEF.md`. Zone three makes the case and hands over to it.
 
-- **The card is never gated on the registration.** The POST goes first, because
-  being on the list is the part only the server can do, but a store that is down
-  is not a reason to withhold a PNG the browser can make on its own. The reader
-  always ends up with the card and is told plainly whether we have them —
-  `unsaved` is the one status the live region announces assertively.
-- **The email never reaches the card.** `ManifestData` is what gets printed and
-  shared; `Registration` is that plus the address. `ManifestCard` is handed only
-  the four printed fields, so an address cannot leak into a PNG that someone
-  posts publicly.
+**The manifest** — role, skills, looking-for and the boarding pass — is built,
+tested and **parked**. `components/manifest/`, `/api/manifest` and
+`validateRegistration` are all whole and working; nothing routes to them. They
+are for the team-forming round, not dead code, and deleting them throws away a
+finished feature.
+
+Both write to the same Airtable row, merged on email, and **a write sends only
+the fields it has**. That is what lets one row be built up by two forms months
+apart: an EOI fills Name, Email and Company, and a manifest later adds Role,
+Skills, Looking for and Manifest no. to the same person rather than creating a
+second one. Sending a key with an empty value would blank the other form's
+answers, which is why `fieldsFor` in `lib/store.ts` omits rather than empties.
+
+Four decisions are load-bearing:
+
 - **`lib/registration.ts` is the only validator**, run in the browser for the
   error messages and again in the route for the truth. Every enum is checked
   against its source list rather than coerced — a silently corrected
   registration is a wrong one.
 - **An unconfigured store refuses with a 503.** With no credentials there is
-  nowhere for a registration to go, and returning success would hand someone a
-  boarding pass for a record that never existed.
+  nowhere for a registration to go, and returning success would tell someone
+  they are on a list that does not have them.
+- **The honeypot is not called `company`.** The EOI asks for a company for real.
+  A trap sharing a name with a live field is a trap that eventually eats genuine
+  submissions, so both forms use `company_website` — see `lib/guard.ts`.
+- **On success the EOI form is replaced, not annotated.** A page whose only
+  purpose is one submission should not leave a filled-in form under a
+  confirmation, inviting an identical second send.
+
+The manifest keeps one rule of its own: **the email never reaches the card.**
+`ManifestData` is what gets printed and shared, `Registration` is that plus the
+address, and `ManifestCard` is handed only the four printed fields — an address
+cannot leak into a PNG that someone posts publicly. Its POST is also never
+allowed to gate the card: a store that is down is no reason to withhold a PNG
+the browser can make on its own.
 
 Spam defence is a honeypot (`company`, clipped to 1px and untabbable — a filled
 trap is answered `200`, because telling a script it was caught tells it what to

@@ -1,5 +1,5 @@
 import { dates, site } from "@/content/canvas";
-import type { Registration } from "@/lib/registration";
+import type { Eoi, Registration } from "@/lib/registration";
 
 /**
  * The confirmation.
@@ -49,6 +49,34 @@ function body(entry: Registration & { manifestNumber: string }) {
 }
 
 /**
+ * The expression-of-interest confirmation.
+ *
+ * Deliberately not the manifest's message with the middle cut out. This one is
+ * often the first thing a stranger receives from the event, so it says what
+ * they have and have not signed up for — an EOI is not a ticket, and implying
+ * otherwise buys a bad surprise later.
+ */
+function eoiBody(entry: Eoi) {
+  return [
+    `${entry.name} — you're on the list.`,
+    "",
+    `${site.name} ${site.year}, ${site.city}. ${dates.long}.`,
+    `Build weekend ${dates.buildWeekend}, pitch night ${dates.pitchNight}.`,
+    "",
+    "This is an expression of interest, not a ticket — nothing is owed either",
+    "way. What it means is that when the venue, the times, the mentors and the",
+    "prizes are confirmed, you hear about them from us first.",
+    "",
+    `We have you down as: ${entry.company}`,
+    "",
+    "If that's wrong, or you'd rather not hear from us at all, reply to this",
+    "message and we'll fix it or take you off the list.",
+    "",
+    "Don't just build. Ship.",
+  ].join("\n");
+}
+
+/**
  * Returns whether the message was accepted, never throws.
  *
  * A registration that is safely stored is a success even if the confirmation
@@ -56,9 +84,21 @@ function body(entry: Registration & { manifestNumber: string }) {
  * outcome to the reader and this failure to the log, because the reader can do
  * nothing about the second one.
  */
+export async function sendEoiConfirmation(entry: Eoi): Promise<boolean> {
+  return send(entry.email, `You're on the list — ${site.name} ${site.year}`, eoiBody(entry));
+}
+
 export async function sendConfirmation(
   entry: Registration & { manifestNumber: string },
 ): Promise<boolean> {
+  return send(
+    entry.email,
+    `You're on the manifest — ${site.name} ${site.year}`,
+    body(entry),
+  );
+}
+
+async function send(to: string, subject: string, text: string): Promise<boolean> {
   const cfg = config();
   if (!cfg) return false;
 
@@ -69,12 +109,7 @@ export async function sendConfirmation(
         Authorization: `Bearer ${cfg.key}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        from: cfg.from,
-        to: [entry.email],
-        subject: `You're on the manifest — ${site.name} ${site.year}`,
-        text: body(entry),
-      }),
+      body: JSON.stringify({ from: cfg.from, to: [to], subject, text }),
       cache: "no-store",
     });
 

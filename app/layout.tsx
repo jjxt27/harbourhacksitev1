@@ -46,15 +46,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-AU" className={`${geist.variable} ${jetbrains.variable} ${kalam.variable}`}>
-      <body>
-        <a
-          href="#setting-sail"
-          className="press sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-apricot focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:uppercase"
-        >
-          Skip to registration
-        </a>
-        {children}
-      </body>
+      {/* The skip link lives on the canvas page rather than here: it points at
+          registration, which is now a page of its own, and a layout-level link
+          to `#setting-sail` would be a dead anchor on every route that is not
+          the canvas. */}
+      <body>{children}</body>
     </html>
   );
 }

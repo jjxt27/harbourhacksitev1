@@ -15,12 +15,20 @@ import type { Registration } from "@/lib/registration";
  * The table needs these columns, spelled exactly as below. `Email` must be the
  * merge field, so it should be the primary field or have a unique view:
  *
- *   Name (text) · Email (text) · Role (text) · Skills (text)
- *   Looking for (text) · Manifest no. (text) · Registered (text)
+ *   Name (text) · Email (text) · Company (text) · Role (select)
+ *   Skills (text) · Looking for (select) · Manifest no. (text)
+ *   Registered (date, with time)
+ *
+ * One table holds both forms. An expression of interest fills the first three;
+ * `Role`, `Skills`, `Looking for` and `Manifest no.` stay empty until the same
+ * person comes back through the manifest, which upserts onto the same row by
+ * email. That only works because a write sends the fields it has and no others
+ * — see `fieldsFor` below.
  */
 const FIELDS = {
   name: "Name",
   email: "Email",
+  company: "Company",
   role: "Role",
   skills: "Skills",
   lookingFor: "Looking for",
@@ -53,17 +61,52 @@ export function isStoreConfigured(): boolean {
 }
 
 /**
+ * Only the fields this submission actually has.
+ *
+ * An upsert overwrites every field it is given, so sending a key with an empty
+ * value is not the same as leaving it out: the first would blank the role and
+ * skills of someone who registered interest months ago and has since filled in
+ * a full manifest. Omitted keys are left untouched by Airtable, which is what
+ * lets one row be built up by two different forms.
+ */
+function fieldsFor(entry: StoreEntry): Record<string, string> {
+  const fields: Record<string, string> = {
+    [FIELDS.name]: entry.name,
+    [FIELDS.email]: entry.email,
+    [FIELDS.registeredAt]: new Date().toISOString(),
+  };
+  if (entry.company) fields[FIELDS.company] = entry.company;
+  if (entry.role) fields[FIELDS.role] = entry.role;
+  if (entry.skills?.length) fields[FIELDS.skills] = entry.skills.join(", ");
+  if (entry.lookingFor) fields[FIELDS.lookingFor] = entry.lookingFor;
+  if (entry.manifestNumber) fields[FIELDS.manifestNumber] = entry.manifestNumber;
+  return fields;
+}
+
+/**
+ * Either form's payload.
+ *
+ * Name and email are the only things both forms always have — an EOI adds a
+ * company, a manifest adds a role, skills, a looking-for and a number. Anything
+ * absent is left alone on the row rather than written as blank.
+ */
+export type StoreEntry = Partial<Registration> &
+  Pick<Registration, "name" | "email"> & {
+    company?: string;
+    manifestNumber?: string;
+  };
+
+/**
  * Upsert on email.
  *
  * `performUpsert` makes the duplicate case Airtable's problem rather than a
  * read-then-write in this process, which two submissions landing together would
  * lose. Registering twice updates the row instead of creating a second one, so
  * someone who fixes a typo in their name does not become two people in the
- * count.
+ * count — and someone who expressed interest in March and files a manifest in
+ * October is still one person.
  */
-export async function storeRegistration(
-  entry: Registration & { manifestNumber: string },
-): Promise<StoreResult> {
+export async function storeRegistration(entry: StoreEntry): Promise<StoreResult> {
   const cfg = config();
   if (!cfg) return { ok: false, reason: "store not configured" };
 
@@ -72,19 +115,7 @@ export async function storeRegistration(
     // `typecast` lets Airtable accept a plain string for a column an organiser
     // has since turned into a select, rather than failing the write.
     typecast: true,
-    records: [
-      {
-        fields: {
-          [FIELDS.name]: entry.name,
-          [FIELDS.email]: entry.email,
-          [FIELDS.role]: entry.role,
-          [FIELDS.skills]: entry.skills.join(", "),
-          [FIELDS.lookingFor]: entry.lookingFor,
-          [FIELDS.manifestNumber]: entry.manifestNumber,
-          [FIELDS.registeredAt]: new Date().toISOString(),
-        },
-      },
-    ],
+    records: [{ fields: fieldsFor(entry) }],
   };
 
   try {
