@@ -65,6 +65,23 @@ The file is 600px wide for the same reason: the dither throws away anything abov
 
 **The photograph is portrait and the plate is not.** On a wide window it covers and crops to about a third of its height, pulled up to 40% so the band lands on the arch and the palm crowns rather than the deck and the trunks. Below 768px the plate joins the column and takes whatever height the masthead and the notice leave, rather than a fixed slice of the viewport — a fixed 40vh fits an 812px phone and pushes the button off a 667px one.
 
+## Logo studies
+
+`/logo` is a working sheet, not a page of the site — it is `noindex`, it is not linked from the canvas, and nothing in `content/canvas.ts` knows about it. It exists to answer one question: how far can HH be pushed toward the Sydney Harbour Bridge before it stops being letters? `components/art/BridgeMarks.tsx` holds eight studies, all built from one parabola.
+
+The constraint that shapes every one of them is a proportion. The Coathanger's arch rises 134m over a 503m span — 0.27 — and much past 0.45 it reads as a rainbow instead. An `H` is about as tall as it is wide and its counter is taller than it is wide, so an arch fitted inside one counter comes out at 0.54 even when the H is drawn unusually wide. `CounterArchStudy` draws that case so it does not have to be argued twice. **The arch has to span both letters, and the letterspace has to carry it.**
+
+Two rules keep HH readable once the letterspace is that wide, and the first draft of `SpanMark` broke both:
+
+- **No hangers inside a counter.** Cables strung across the gap inside an H fill the one piece of white space that says "letter", and the mark collapses into four posts and a fence. Hangers belong in the span between the letters, which is where the real bridge keeps them.
+- **The crossbar is heavier than the roadway it joins** — 16 units against 8, centred on the same line, so the deck swells where it passes through a pylon pair. Without the step it is one bar of even weight through four stems and no grouping survives it.
+
+Beyond that: the arch is a quadratic Bézier with its control point directly above the midpoint of its springings, which makes x linear in t and collapses the curve to `y = base − 4·rise·t(1−t)`. Every hanger length in the file falls out of that one line with no root-finding. Hangers are laid out from the centre outwards, because stepping from the left edge gives an asymmetric mark whenever the span is not a multiple of the pitch.
+
+Single-ink marks take their colour from `currentColor` and reverse for free. The two-ink ones (`CableFieldMark`, `PlateMark`, `WaterlineMark`) take a `ground` prop, because reversing them is a swap rather than an inversion — on ink the cable field has to move from harbour to apricot, since harbour on navy-black is 1.7:1.
+
+Nothing here is wired into the site. `app/icon.tsx` still draws the plain HH favicon, and picking a mark is a decision for whoever owns the brand.
+
 ## The canvas
 
 `components/canvas/Canvas.tsx` renders one child per zone, matched in order against `zones` in `content/canvas.ts`. That list is the single source of truth — the track width, the minimap proportions and the zone navigation all derive from it, so changing a width there moves everything together. The track is currently 5.2× viewport width.
