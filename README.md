@@ -30,7 +30,7 @@ npm run dev
 
 ## The intro plate
 
-`components/intro/IntroGate.tsx` holds a full-screen plate over the canvas and then gets out of the way. It is a count-in, not a splash: three figures the programme actually has — four days, two weeks, three things judged — arrive in sequence and count up to themselves, then the wordmark and a way in.
+`components/intro/IntroGate.tsx` holds a full-screen plate over the canvas and then gets out of the way. It is a count-in, not a splash: three figures the programme actually has — seven days, three of them for selling, three things judged — arrive in sequence and count up to themselves, then the wordmark and a way in.
 
 **It does not dismiss itself on a timer.** An intro that vanishes while someone is still reading cannot be argued with. Escape, the button, and a click anywhere all do the same thing.
 
@@ -229,7 +229,7 @@ Ember inherits the rule the old International Orange had: one ink is allowed to 
 
 The site's copy is the other half of `EOI_BRIEF.md`, which is the document that gets emailed to prospective entrants and partners. When a fact changes it changes in both.
 
-**Confirmed:** the dates — 23, 24 and 25 October 2026 for the build weekend, then pitch night on Friday 30 October. They live in `dates` in `content/canvas.ts` and everything else derives from that one object.
+**Confirmed:** the dates — 23, 24 and 25 October 2026 for the kickoff and build weekend, 26 to 28 October for the ship focus (no workshops, no sessions), then pitch night on Friday 30 October. Thursday 29 October is off. They live in `dates` in `content/canvas.ts` and everything else derives from that one object.
 
 **Still `TBC`:** times, venue, mentors, prizes, and the partner contact address. These render as visible TBC chips. Do not replace them with plausible-looking placeholders — fill them in when they are real.
 

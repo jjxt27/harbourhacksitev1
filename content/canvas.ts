@@ -44,19 +44,23 @@ export const site = {
   city: "Sydney",
   tagline: "Don't just build. Ship.",
   description:
-    "HarbourHack 2026. Sydney's go-to-market hackathon, open to anyone who wants to build. Ship it across 23–25 October, then go and get real users before pitch night on the 30th.",
+    "HarbourHack 2026. Sydney's go-to-market hackathon, open to anyone who wants to build. Ship it across 23–25 October, spend three days getting real users, then pitch what came back on the 30th.",
   url: "https://harbourhack.com",
 } as const;
 
 /**
- * The confirmed dates. Four days across two weeks — three of them consecutive
- * and the fourth a week later, which is the whole point of the format and the
- * one thing about it that needs saying twice.
+ * The confirmed dates. Seven days, and the shape of them is the argument: a
+ * kickoff, two build days, then three days carrying no workshops at all,
+ * which is the whole point of the format and the one thing about it that
+ * needs saying twice.
+ *
+ * Thursday 29 October is off and is not one of the seven.
  */
 export const dates = {
-  short: "23–25 + 30 Oct 2026",
-  long: "23, 24, 25 and 30 October 2026",
+  short: "23–28 + 30 Oct 2026",
+  long: "23–28 and 30 October 2026",
   buildWeekend: "23–25 October",
+  shipFocus: "26–28 October",
   pitchNight: "Friday 30 October",
 } as const;
 
@@ -99,24 +103,34 @@ export const dryDock = {
   ],
   criteriaNote: "Two of the three have nothing to do with how well you code. That's deliberate.",
   cta: { label: "Get your manifest", zone: "setting-sail" },
-  secondary: { label: "See the weekend", zone: "shipyard" },
+  secondary: { label: "See the seven days", zone: "shipyard" },
 } as const;
 
 /**
  * Day cards.
  *
- * `gapAfter` marks the week between the build weekend and pitch night. It is a
- * real hole in the programme rather than a spacing decision, so the board draws
- * it instead of closing it up.
+ * The ship-focus column covers three days in one card because that is how the
+ * programme treats them: no sessions, no ceremony, one job. Drawing them as
+ * three identical empty columns would say the opposite of what they are for.
+ *
+ * `gapAfter` marks Thursday 29 October, which is off. It is a real hole in the
+ * programme rather than a spacing decision, so the board draws it instead of
+ * closing it up.
  */
 export const shipyard = {
   kicker: "Zone 02 — The Shipyard",
-  headline: "Four days, two weeks",
+  headline: "Seven days, three for selling",
   subtext:
-    "A build weekend, a week to keep selling, then a pitch night in front of the room.",
+    "A kickoff, a build weekend, three days with nothing scheduled, then a pitch night in front of the room.",
   dates: dates.long,
   /** Venue is unconfirmed and must render as TBC until it isn't. */
   venue: "TBC",
+  /**
+   * Whether the room is open Mon–Wed, whether those days run remotely, or
+   * both, is genuinely undecided. Shown on the ship-focus column so nobody
+   * plans a commute around a guess.
+   */
+  shipFocusNote: "Room open, remote, or both — TBC",
   columns: [
     {
       id: "friday",
@@ -150,7 +164,7 @@ export const shipyard = {
       title: "Build session two",
       date: "Sun 25 Oct",
       time: "TBC",
-      gapAfter: true,
+      gapAfter: false,
       cards: [
         { title: "Landing pages that convert", kind: "workshop", time: "TBC" },
         { title: "Signup push", kind: "session", time: "TBC" },
@@ -158,8 +172,26 @@ export const shipyard = {
       ],
     },
     {
+      id: "ship",
+      day: "Days four–six",
+      title: "Ship focus",
+      date: "Mon 26 – Wed 28 Oct",
+      time: "TBC",
+      gapAfter: true,
+      /**
+       * No workshop cards here, and none are coming. The empty-handedness is
+       * the feature — if a session gets added to these days, the format has
+       * quietly become an ordinary hackathon again.
+       */
+      cards: [
+        { title: "Get it in front of real users", kind: "session", time: "No sessions" },
+        { title: "Chase verified signups", kind: "session", time: "No sessions" },
+        { title: "Act on what comes back", kind: "session", time: "No sessions" },
+      ],
+    },
+    {
       id: "pitch",
-      day: "Day four",
+      day: "Day seven",
       title: "Pitch night",
       date: "Fri 30 Oct",
       time: "TBC",
@@ -170,10 +202,10 @@ export const shipyard = {
       ],
     },
   ],
-  gapLabel: "The week between",
+  gapLabel: "Thu 29 — off",
   gapNote: {
-    heading: "The gap is the point",
-    body: "A team that has only ever shown its product to a judging panel hasn't shipped anything — it has performed. Put a week between v1 and the stage and the only way to walk in with signups is to go out and get them.",
+    heading: "The back half is the point",
+    body: "A team that has only ever shown its product to a judging panel hasn't shipped anything — it has performed. Most hackathons leave the selling to whoever still has the energy on Monday. Here it's three days of the programme, and the pitch is the report on what came back.",
   },
   takeawaysLabel: "What you walk out with",
   takeaways: [

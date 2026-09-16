@@ -8,13 +8,13 @@
 
 ## Don't just build. Ship.
 
-Sydney · 23, 24, 25 and 30 October 2026 · Open to anyone
+Sydney · 23–28 and 30 October 2026 · Open to anyone
 
 | | |
 |---|---|
 | **What** | A go-to-market hackathon |
 | **Who** | Anyone who wants to build — tech, business, design |
-| **When** | Build weekend 23–25 October, pitch night 30 October |
+| **When** | Kickoff and build weekend 23–25 October, ship focus 26–28 October, pitch night 30 October |
 | **Where** | Sydney · venue TBC |
 | **Cost** | TBC |
 | **Register** | [harbourhack.com](https://harbourhack.com) |
@@ -47,25 +47,26 @@ Two of those three have nothing to do with how well you code. That's deliberate.
 - **A case you can defend.** Who it's for, what it replaces, why they'd pay or switch.
 - **Users who said yes.** People outside your group chat and your family, who signed up because you asked them properly.
 - **Four workshops of craft nobody sits you down and teaches.** Cold outreach that gets replies. Prototyping in Figma. Landing pages that convert. A deck clinic before you go on stage.
+- **Three days with nothing scheduled.** Monday to Wednesday carry no workshops and no sessions, because the selling needs room in the programme rather than whatever energy you have left over.
 - **A team.** Come alone if you like — Friday night is built for finding people.
 
 ## The format, and why it's shaped like this
 
-Four days across two weeks.
+Seven days, three of them for selling.
 
 | | Date | |
 |---|---|---|
-| **Day one** | Friday 23 October | **Kickoff.** Teams form. Scope narrows. |
-| **Day two** | Saturday 24 October | **Build session one.** Build in the morning, sell from lunchtime. |
-| **Day three** | Sunday 25 October | **Build session two.** Close the loop on v1. |
-| | *the week between* | |
-| **Day four** | Friday 30 October | **Pitch night.** Live demonstrations and judging. |
+| **Day one** | Friday 23 October | **Kickoff.** Teams form. Scope narrows. Workshops run. |
+| **Days two–three** | Sat 24 – Sun 25 October | **Build focus.** Workshops run. Ship v1 and begin outreach. |
+| **Days four–six** | Mon 26 – Wed 28 October | **Ship focus.** No workshops. Chase signups, act on feedback. |
+| | *Thursday 29 October — off* | |
+| **Day seven** | Friday 30 October | **Pitch night.** Live demonstrations and judging. |
 
-The gap is the whole point.
+The back half is the whole point.
 
-A team that has only ever shown its product to a judging panel hasn't shipped anything — it has performed. Put a week between v1 and the stage and the maths changes: the only way to walk in with signups is to go out and get them. Pitch night stops being a presentation and starts being a report on what happened when you asked real people.
+A team that has only ever shown its product to a judging panel hasn't shipped anything — it has performed. Most hackathons end at the demo and leave the selling to whoever still has the energy on Monday. Here it's three days of the programme: Monday to Wednesday carry no sessions and no ceremony, and pitch night stops being a presentation and starts being a report on what happened when you asked real people.
 
-The commitment is one weekend plus one Friday night. What you do in between is your call — but the scoring rewards the teams that used it.
+Three of the seven days are yours to run as you like — but they're in the programme, and the scoring rewards the teams that used them.
 
 ## What happens each day
 
@@ -77,6 +78,9 @@ Workshop: prototyping in Figma. Mentors walk the floor. Ship v1 and start the ou
 
 **Sunday 25 October — Build session two**
 Workshop: landing pages that convert. Signup push. Deck clinic.
+
+**Monday 26 – Wednesday 28 October — Ship focus**
+No workshops and no scheduled sessions. Get it in front of real users, chase verified signups, act on what comes back. Whether the room is open, whether these days run remotely, or both, is TBC.
 
 **Friday 30 October — Pitch night**
 Live demonstrations, judging, results.
@@ -116,7 +120,7 @@ It takes a minute. You'll get a boarding pass to share, and everything else — 
 
 The complaint about junior hires is always the same: they can build, but they can't find the customer, can't write the email, can't hold the conversation. Those aren't personality traits. They're skills nobody taught them, because no assessment they'd ever sat rewarded them.
 
-HarbourHack is a weekend that rewards nothing else. Every team in the room on 30 October will have shipped a product, gone out and asked strangers to use it, and come back to explain what happened. You'll be watching people do the exact thing you interview for and rarely get to observe.
+HarbourHack is a programme that rewards nothing else — three of its seven days exist for exactly that. Every team in the room on 30 October will have shipped a product, gone out and asked strangers to use it, and come back to explain what happened. You'll be watching people do the exact thing you interview for and rarely get to observe.
 
 ## Where a partner fits
 
@@ -149,11 +153,12 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 
 | Item | |
 |---|---|
-| Dates | **Confirmed** — 23, 24, 25 and 30 October 2026 |
-| Format — four days across two weeks | **Confirmed** |
+| Dates | **Confirmed** — 23–28 and 30 October 2026 |
+| Format — seven days, three of them for selling | **Confirmed** |
 | Judging criteria | **Confirmed** |
 | Eligibility | **Confirmed** — open to anyone |
 | Venue | TBC |
+| Whether the room is open Mon–Wed, or those days run remotely | TBC |
 | Session times | TBC |
 | Whether all teams pitch on 30 October, or only finalists | TBC |
 | How finalists are selected | TBC |
@@ -169,17 +174,17 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 
 **One-liner**
 
-> HarbourHack 2026 — Sydney's go-to-market hackathon, open to anyone who wants to build. 23–25 and 30 October. Don't just build. Ship.
+> HarbourHack 2026 — Sydney's go-to-market hackathon, open to anyone who wants to build. 23–28 and 30 October. Don't just build. Ship.
 
 **Fifty words — for a society newsletter or an Instagram caption**
 
-> Most hackathons end at the demo. HarbourHack ends at distribution. Build a product across 23–25 October, spend a week getting real people to sign up, then pitch what came back on 30 October. Judged on three things: it runs, it makes sense commercially, and someone actually signed up.
+> Most hackathons end at the demo. HarbourHack ends at distribution. Build a product across 23–25 October, spend Monday to Wednesday with no workshops and one job — getting real people to sign up — then pitch what came back on 30 October. Judged on three things: it runs, it makes sense commercially, and someone actually signed up.
 
 **A hundred words — for a post or a mailout**
 
-> HarbourHack 2026 is a go-to-market hackathon in Sydney, open to anyone who wants to build, running 23–25 October with a pitch night on 30 October.
+> HarbourHack 2026 is a go-to-market hackathon in Sydney, open to anyone who wants to build, running 23–28 October with a pitch night on 30 October.
 >
-> Most student hackathons end at the demo. This one ends at distribution. You'll spend as much of the weekend talking to people who might use your product as you spend building it — then you get a week to keep selling before you go on stage.
+> Most student hackathons end at the demo. This one ends at distribution. You'll spend as much of the opening weekend talking to people who might use your product as you spend building it — then three days with no workshops at all, so the selling has room in the programme rather than whatever's left of your week.
 >
 > Three criteria, weighted equally: a live demonstration with no video, a commercial case, and verified signups from real users. Come with a team or come alone.
 >
@@ -189,7 +194,7 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 
 > Subject: HarbourHack 2026 — ⟨the specific thing you want from them⟩
 >
-> ⟨Name⟩ — I'm ⟨role⟩ at HarbourHack, a go-to-market hackathon in Sydney running 23–25 and 30 October, open to anyone who wants to build.
+> ⟨Name⟩ — I'm ⟨role⟩ at HarbourHack, a go-to-market hackathon in Sydney running 23–28 and 30 October, open to anyone who wants to build.
 >
 > It's built around one idea: teams are scored on whether real users signed up, not on the demo. ⟨One sentence on why this company specifically — a product they'd recognise the problem in, a hiring pipeline, a workshop only they could teach.⟩
 >

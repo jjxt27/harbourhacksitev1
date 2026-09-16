@@ -4,7 +4,7 @@
 
 > Draft for partner circulation. Everything in angle brackets ⟨like this⟩ is a placeholder to fill before this is sent. Everything marked TBC is genuinely undecided and stays TBC until it isn't.
 
-Sydney · 23, 24, 25 and 30 October 2026 · [harbourhack.com](https://harbourhack.com)
+Sydney · 23–28 and 30 October 2026 · [harbourhack.com](https://harbourhack.com)
 
 ---
 
@@ -14,12 +14,12 @@ Sydney · 23, 24, 25 and 30 October 2026 · [harbourhack.com](https://harbourhac
 |---|---|
 | **What** | A go-to-market hackathon |
 | **Who** | Anyone who wants to build — tech, business, design |
-| **When** | Build weekend 23–25 October, pitch night 30 October |
+| **When** | Kickoff and build weekend 23–25 October, ship focus 26–28 October, pitch night 30 October |
 | **Where** | Sydney · venue TBC |
 | **Judged on** | A live demonstration, a commercial case, and verified signups |
 | **The ask** | A workshop slot on distribution, accounts for the weekend, and a prize named against verified signups |
 
-HarbourHack is a hackathon where the demo is only a third of the score. Teams build across a weekend, spend the following week getting real people to sign up, then come back on 30 October and report what happened.
+HarbourHack is a hackathon where the demo is only a third of the score. Teams build across the opening weekend, then spend three scheduled days — Monday to Wednesday, no workshops, no sessions — getting real people to sign up, and come back on 30 October to report what happened.
 
 **We'd like n8n in the room as the distribution partner** — the automation layer under the two criteria that aren't about code.
 
@@ -37,9 +37,9 @@ HarbourHack is scored on three things, weighted equally:
 | 02 | **Commercial case** | Who it's for, what they do today, and why they'd switch. |
 | 03 | **Verified signups** | Real users who opted in during the event. Not your group chat. |
 
-Two of those three are distribution problems. From Saturday lunchtime, forty-odd hours of the event is teams trying to find people, reach them, convince them and capture them — by hand, under time pressure, mostly for the first time in their lives.
+Two of those three are distribution problems — and the programme now gives them their own days. Monday 26 to Wednesday 28 October carry no workshops and no sessions at all. Three of the seven days exist so that teams can find people, reach them, convince them and capture them — by hand, under time pressure, mostly for the first time in their lives.
 
-That is the n8n-shaped hole in every hackathon we've run or attended. A team that wires up lead sourcing, enrichment, an outbound sequence and a signup pipeline on Saturday morning is not saving themselves effort; they're doing something the team next to them will not manage at all before Sunday. The scoreboard makes the difference visible, publicly, on stage.
+That is the n8n-shaped hole in every hackathon we've run or attended, and here it is three days wide. A team that wires up lead sourcing, enrichment, an outbound sequence and a signup pipeline on Saturday morning walks into Monday with something that runs while they sleep; the team next to it opens a spreadsheet. Both stand up on the Friday and report their number.
 
 We're not proposing n8n as a build-stack sponsor competing for the same slot as everyone else. We're proposing it as the tool the two hardest criteria run on.
 
@@ -47,19 +47,19 @@ We're not proposing n8n as a build-stack sponsor competing for the same slot as 
 
 ## 02 · The format, and why it's shaped like this
 
-Four days across two weeks.
+Seven days, three of them for selling.
 
 | | Date | |
 |---|---|---|
 | **Day one** | Friday 23 October | **Kickoff.** Teams form. Scope narrows. Workshop: cold outreach that gets replies. |
-| **Day two** | Saturday 24 October | **Build session one.** Build in the morning, sell from lunchtime. Workshop: prototyping in Figma. Mentors on the floor. |
-| **Day three** | Sunday 25 October | **Build session two.** Workshop: landing pages that convert. Signup push. Deck clinic. |
-| | *the week between* | Teams keep selling. |
-| **Day four** | Friday 30 October | **Pitch night.** Live demonstrations and judging. |
+| **Days two–three** | Sat 24 – Sun 25 October | **Build focus.** Workshops: prototyping in Figma, landing pages that convert. Mentors on the floor. Ship v1 and begin outreach. |
+| **Days four–six** | Mon 26 – Wed 28 October | **Ship focus.** No workshops, no sessions. Chase signups, act on what comes back. |
+| | *Thursday 29 October* | off |
+| **Day seven** | Friday 30 October | **Pitch night.** Live demonstrations and judging. |
 
-The gap is the whole point. A team that has only ever shown its product to a judging panel hasn't shipped anything — it has performed. Put a week between v1 and the stage and the only way to walk in with signups is to go out and get them.
+The back half is the whole point. A team that has only ever shown its product to a judging panel hasn't shipped anything — it has performed. Most hackathons leave the selling to whoever still has the energy on Monday; here it's three days of the programme.
 
-For a partner, the gap matters too: whatever teams are handed on the weekend, they keep using for another seven days under real pressure, and then they stand up and say what worked.
+For a partner, that matters more than it might look. Whatever teams are handed on the weekend, they use unsupervised for three more days under real pressure — and then they stand up in front of the room and say what worked.
 
 Session times are TBC.
 
@@ -69,13 +69,15 @@ Session times are TBC.
 
 ### 01 · One workshop slot — automating the outreach
 
-The Friday kickoff workshop is *cold outreach that gets replies*, and the Sunday one is *landing pages that convert*. Either is a natural home for n8n; our preference is a build-weekend session that leaves every team with a working pipeline rather than notes about one — source a list, enrich it, send the sequence, catch the signup, put it somewhere the team can count it on Friday night.
+The Friday kickoff workshop is *cold outreach that gets replies*, and the Sunday one is *landing pages that convert*. Either is a natural home for n8n; our preference is a session late in the build weekend, because of where it sits in the week — teams walk out of it on Sunday and straight into three days with nothing scheduled and one job.
 
-Taught by your team, hands-on, aimed at the weekend's milestone rather than at the product. Workshops are the most-remembered thing in the room.
+What we'd want them to leave with is a pipeline that runs, not notes about one: source a list, enrich it, send the sequence, catch the signup, put it somewhere the team can count it on the Friday.
+
+Taught by your team, hands-on, aimed at the Monday rather than at the product. Workshops are the most-remembered thing in the room.
 
 ### 02 · Accounts for the teams, for the event window
 
-n8n Cloud access — or a supported self-host path, whichever costs you less — for every team across the two weeks, so that a trial expiring on the Sunday isn't what decides whether a team keeps the pipeline running through the week that's actually scored.
+n8n Cloud access — or a supported self-host path, whichever costs you less — for every team from the kickoff through pitch night, so that a trial expiring on the Sunday isn't what decides whether a team's pipeline survives into the three days that are actually scored.
 
 Happy to size this together once registrations give us a real number.
 
@@ -97,7 +99,7 @@ Prize value and form are yours to set. ⟨confirm value / form⟩
 
 **Teams using n8n at the exact moment of need.** Not a demo audience — people with a public scoreboard, a Friday deadline and a reason to care whether the automation works.
 
-**Nine days, not one afternoon.** The workshop lands on the weekend; the pipelines have to survive the week that follows, because that's the week the signups are counted in.
+**Eight days, not one afternoon.** The workshop lands on the weekend; the pipelines then have to run unattended through Monday, Tuesday and Wednesday, because those are the days the signups are counted in. Whatever breaks, breaks in front of someone who needs it.
 
 **Workflows you can keep.** Real GTM automations built by first-timers under time pressure, which is a different and more honest input to the template library than anything built by someone who already knows the product.
 
@@ -125,11 +127,12 @@ If audience numbers matter to your decision — and they reasonably might — we
 
 | Item | |
 |---|---|
-| Dates | **Confirmed** — 23, 24, 25 and 30 October 2026 |
-| Format — four days across two weeks | **Confirmed** |
+| Dates | **Confirmed** — 23–28 and 30 October 2026 |
+| Format — seven days, three of them for selling | **Confirmed** |
 | Judging criteria | **Confirmed** |
 | Eligibility | **Confirmed** — open to anyone |
 | Venue | TBC |
+| Whether the room is open Mon–Wed, or those days run remotely | TBC |
 | Session times | TBC |
 | Which workshop slot n8n would take | TBC — to agree on the call |
 | Whether all teams pitch on 30 October, or only finalists | TBC |
@@ -153,11 +156,11 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 
 > Subject: HarbourHack 2026 — the distribution workshop
 >
-> ⟨Name⟩ — I'm ⟨role⟩ at HarbourHack, a go-to-market hackathon in Sydney running 23–25 and 30 October, open to anyone who wants to build.
+> ⟨Name⟩ — I'm ⟨role⟩ at HarbourHack, a go-to-market hackathon in Sydney running 23–28 and 30 October, open to anyone who wants to build.
 >
-> It's scored on three things, weighted equally: the product runs live, the commercial case holds up, and real users signed up during the event. Two of the three are distribution problems, and teams solve them by hand because nobody has shown them the alternative.
+> It's scored on three things, weighted equally: the product runs live, the commercial case holds up, and real users signed up during the event. Three of the seven days carry no workshops at all — they exist purely for teams to go and get those signups, which they currently do by hand because nobody has shown them the alternative.
 >
-> We'd like n8n to teach one build-weekend workshop on automating that — sourcing, outreach, signup capture — and to put its name on the prize for verified signups.
+> We'd like n8n to teach one build-weekend workshop on automating that — sourcing, outreach, signup capture — so teams walk into those three days with something that runs, and to put its name on the prize for verified signups.
 >
 > Full brief attached. Twenty minutes if it's easier.
 

@@ -13,7 +13,7 @@ const KINDS = {
 
 type Kind = keyof typeof KINDS;
 
-/** Zone 2 — the four days as an industrial Kanban board. */
+/** Zone 2 — the seven days as an industrial Kanban board. */
 export function Shipyard() {
   return (
     <div className="zone-body zone-rhythm gap-6 px-6 py-20 md:gap-[var(--zone-gap)] md:px-14 md:py-[var(--zone-pad-y)]">
@@ -43,16 +43,18 @@ export function Shipyard() {
       </header>
 
       {/*
-        Four days, with the week between drawn rather than closed up. The gap
-        gets an `auto` column on the board so it takes only the width of its
-        rule; once the board stacks it becomes a labelled horizontal divider.
+        Five columns — the three scheduled days, the three-day ship-focus block
+        as one, and pitch night — with Thursday off drawn rather than closed up.
+        The gap gets an `auto` column on the board so it takes only the width of
+        its rule; once the board stacks it becomes a labelled horizontal divider.
 
         Measured against the zone rather than the window — this zone is 2.1
-        windows wide, so it clears the 1280px the board needs at every window
-        size that pans. The divider below switches on the same tier, or it draws
-        itself horizontally across a board that is already in columns.
+        windows wide, so the narrowest window that pans (768px, where the mobile
+        media query hands over) still gives the board 1613px. The divider below
+        switches on the same tier, or it draws itself horizontally across a
+        board that is already in columns.
       */}
-      <div className="grid items-start gap-5 @7xl/zone:grid-cols-[repeat(3,minmax(0,1fr))_auto_minmax(0,1fr)]">
+      <div className="grid items-start gap-5 @7xl/zone:grid-cols-[repeat(4,minmax(0,1fr))_auto_minmax(0,1fr)]">
         {shipyard.columns.map((column) => (
           <Fragment key={column.id}>
             <Panel
@@ -63,6 +65,11 @@ export function Shipyard() {
               <p className="mb-2.5 font-display text-lead font-black uppercase leading-none tracking-[-0.02em]">
                 {column.date}
               </p>
+              {column.id === "ship" ? (
+                <p className="mb-2.5 font-mono text-micro uppercase tracking-[0.14em] text-ink/60">
+                  {shipyard.shipFocusNote}
+                </p>
+              ) : null}
               <ul className="grid gap-3">
                 {column.cards.map((card) => {
                   const kind = KINDS[card.kind as Kind] ?? KINDS.session;
