@@ -17,7 +17,7 @@ Sydney · 23–28 and 30 October 2026 · [harbourhack.com](https://harbourhack.c
 | **When** | Kickoff and build weekend 23–25 October · ship focus 26–28 October · pitch night 30 October |
 | **Where** | Sydney · venue TBC |
 | **Judged on** | A live demonstration, a commercial case, and verified signups |
-| **The ask** | One weekend workshop slot, taught by your team. Everything else on the list is optional. |
+| **The ask** | A weekend workshop slot taught by your team, a month of tooling access for attendees, and $2,500 toward costs. |
 
 HarbourHack is a hackathon where the demo is only a third of the score. Teams build across the opening weekend, then spend three scheduled days — Monday to Wednesday, no workshops, no sessions — getting real people to sign up, and come back on 30 October to report what happened.
 
@@ -73,7 +73,7 @@ Session times are TBC.
 
 ## 03 · The ask
 
-The workshop is the ask. Everything under it is optional and can be decided later.
+Three things, and a fourth if it suits. The workshop is the one that matters most — the other two are what turn a good session into something that outlives the weekend.
 
 ### 01 · One weekend workshop slot — the one you offered to consider
 
@@ -83,13 +83,23 @@ Aimed squarely at people who have never worked inside a GTM or ops function. Wha
 
 If the new product you walked us through is at a stage where you'd want people inside it, the workshop is the natural place to put them there. Our only ask is that the session still stands up for a team that never touches it again — that's what makes it teaching rather than a demo, and it's what makes it worth publishing afterwards.
 
-### 02 · Someone on the floor
+### 02 · Tooling access for attendees, for a month
 
-An hour or two of office hours on the Saturday, or an operator walking the floor while teams are making decisions. It is the cheapest thing on this list and, every time we've seen it, the thing teams remember.
+Access for everyone who attends, running from the kickoff on 23 October to 23 November — a month, rather than the eight days of the event.
 
-### 03 · Optional, if it suits
+The event window is the wrong length for what we're asking you to teach. The session lands on the Saturday; the three scored days test whether it stuck; and then the teams that got somewhere keep going, which is where a habit either forms or doesn't. A month is long enough for someone to use the thing on a problem we didn't set them.
 
-- **Access for teams** across the event window, so what they learn on the Saturday survives into the three days that are actually scored.
+Happy to size this once registrations give us a real number. We'd rather tell you how many people than guess at it now.
+
+### 03 · $2,500 toward the run cost
+
+Not a naming-rights figure and not a tier — we don't have tiers, and what's on the table is still open. It goes to the things that decide whether a weekend is worth attending rather than enduring: the room, the food, the printing.
+
+We'd rather name a number than send you a menu. If it's the wrong number for what you're getting back, say so and we'll talk about what the right one is.
+
+### 04 · Optional, if it suits
+
+- **Someone on the floor** — an hour or two of office hours on the Saturday, or an operator walking the floor while teams make decisions. The cheapest thing on this list and, every time we've seen it, the thing teams remember.
 - **A seat on the judging panel** at pitch night, 30 October.
 - **A prize category**, if there's one you'd want your name against. We'd rather you chose it than we invented one for you.
 
