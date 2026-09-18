@@ -16,10 +16,10 @@ Sydney · 23–28 and 30 October 2026 · [harbourhack.com](https://harbourhack.c
 | **Who** | Anyone who wants to build — tech, business, design |
 | **When** | Kickoff and build weekend 23–25 October, ship focus 26–28 October, pitch night 30 October |
 | **Where** | Sydney · venue TBC |
-| **Judged on** | A live demonstration, a commercial case, and verified signups |
-| **The ask** | A workshop slot on distribution, accounts for the weekend, and a prize named against verified signups |
+| **Judged on** | A live demonstration, a commercial case, and a revenue signal |
+| **The ask** | A workshop slot on distribution, accounts for the weekend, and a prize named against the revenue signal |
 
-HarbourHack is a hackathon where the demo is only a third of the score. Teams build across the opening weekend, then spend three scheduled days — Monday to Wednesday, no workshops, no sessions — getting real people to sign up, and come back on 30 October to report what happened.
+HarbourHack is a hackathon where the demo is only a third of the score. Teams build across the opening weekend, then spend three scheduled days — Monday to Wednesday, no workshops, no sessions — finding out whether anyone will actually pay, and come back on 30 October to report what happened.
 
 **We'd like n8n in the room as the distribution partner** — the automation layer under the two criteria that aren't about code.
 
@@ -35,11 +35,11 @@ HarbourHack is scored on three things, weighted equally:
 |---|---|---|
 | 01 | **Live demonstration** | The product runs, in front of the room, without a video. |
 | 02 | **Commercial case** | Who it's for, what they do today, and why they'd switch. |
-| 03 | **Verified signups** | Real users who opted in during the event. Not your group chat. |
+| 03 | **Revenue signal** | Evidence someone outside the team acted: a sale, a signed EOI, a pilot, or hard feedback from a real prospect. Money is the strongest form. |
 
 Two of those three are distribution problems — and the programme now gives them their own days. Monday 26 to Wednesday 28 October carry no workshops and no sessions at all. Three of the seven days exist so that teams can find people, reach them, convince them and capture them — by hand, under time pressure, mostly for the first time in their lives.
 
-That is the n8n-shaped hole in every hackathon we've run or attended, and here it is three days wide. A team that wires up lead sourcing, enrichment, an outbound sequence and a signup pipeline on Saturday morning walks into Monday with something that runs while they sleep; the team next to it opens a spreadsheet. Both stand up on the Friday and report their number.
+That is the n8n-shaped hole in every hackathon we've run or attended, and here it is three days wide. A team that wires up lead sourcing, enrichment, an outbound sequence and a place to catch what comes back on Saturday morning walks into Monday with something that runs while they sleep; the team next to it opens a spreadsheet. Both stand up on the Friday and report their number.
 
 We're not proposing n8n as a build-stack sponsor competing for the same slot as everyone else. We're proposing it as the tool the two hardest criteria run on.
 
@@ -53,7 +53,7 @@ Seven days, three of them for selling.
 |---|---|---|
 | **Day one** | Friday 23 October | **Kickoff.** Teams form. Scope narrows. Workshop: cold outreach that gets replies. |
 | **Days two–three** | Sat 24 – Sun 25 October | **Build focus.** Workshops: prototyping in Figma, landing pages that convert. Mentors on the floor. Ship v1 and begin outreach. |
-| **Days four–six** | Mon 26 – Wed 28 October | **Ship focus.** No workshops, no sessions. Chase signups, act on what comes back. |
+| **Days four–six** | Mon 26 – Wed 28 October | **Ship focus.** No workshops, no sessions. Chase the signal, act on what comes back. |
 | | *Thursday 29 October* | off |
 | **Day seven** | Friday 30 October | **Pitch night.** Live demonstrations and judging. |
 
@@ -71,7 +71,7 @@ Session times are TBC.
 
 The Friday kickoff workshop is *cold outreach that gets replies*, and the Sunday one is *landing pages that convert*. Either is a natural home for n8n; our preference is a session late in the build weekend, because of where it sits in the week — teams walk out of it on Sunday and straight into three days with nothing scheduled and one job.
 
-What we'd want them to leave with is a pipeline that runs, not notes about one: source a list, enrich it, send the sequence, catch the signup, put it somewhere the team can count it on the Friday.
+What we'd want them to leave with is a pipeline that runs, not notes about one: source a list, enrich it, send the sequence, catch the reply, put it somewhere the team can count it on the Friday.
 
 Taught by your team, hands-on, aimed at the Monday rather than at the product. Workshops are the most-remembered thing in the room.
 
@@ -81,9 +81,9 @@ n8n Cloud access — or a supported self-host path, whichever costs you less —
 
 Happy to size this together once registrations give us a real number.
 
-### 03 · A prize named against verified signups
+### 03 · A prize named against the revenue signal
 
-The third criterion is n8n's category, and naming a prize against it is the cleanest possible fit: the team that turned automation into the most real, opted-in users. It also does something for the event — it tells every registrant before they arrive that the signups score is serious.
+The third criterion is n8n's category, and naming a prize against it is the cleanest possible fit: the team that turned automation into the strongest signal — money first, then a signature, then a straight answer from a real buyer. It also does something for the event: it tells every registrant before they arrive that the third score is serious.
 
 Prize value and form are yours to set. ⟨confirm value / form⟩
 
@@ -99,7 +99,7 @@ Prize value and form are yours to set. ⟨confirm value / form⟩
 
 **Teams using n8n at the exact moment of need.** Not a demo audience — people with a public scoreboard, a Friday deadline and a reason to care whether the automation works.
 
-**Eight days, not one afternoon.** The workshop lands on the weekend; the pipelines then have to run unattended through Monday, Tuesday and Wednesday, because those are the days the signups are counted in. Whatever breaks, breaks in front of someone who needs it.
+**Eight days, not one afternoon.** The workshop lands on the weekend; the pipelines then have to run unattended through Monday, Tuesday and Wednesday, because those are the days the signal is counted in. Whatever breaks, breaks in front of someone who needs it.
 
 **Workflows you can keep.** Real GTM automations built by first-timers under time pressure, which is a different and more honest input to the template library than anything built by someone who already knows the product.
 
@@ -158,9 +158,9 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 >
 > ⟨Name⟩ — I'm ⟨role⟩ at HarbourHack, a go-to-market hackathon in Sydney running 23–28 and 30 October, open to anyone who wants to build.
 >
-> It's scored on three things, weighted equally: the product runs live, the commercial case holds up, and real users signed up during the event. Three of the seven days carry no workshops at all — they exist purely for teams to go and get those signups, which they currently do by hand because nobody has shown them the alternative.
+> It's scored on three things, weighted equally: the product runs live, the commercial case holds up, and something came back when they asked people to buy. Three of the seven days carry no workshops at all — they exist purely for teams to go and get that signal, which they currently chase by hand because nobody has shown them the alternative.
 >
-> We'd like n8n to teach one build-weekend workshop on automating that — sourcing, outreach, signup capture — so teams walk into those three days with something that runs, and to put its name on the prize for verified signups.
+> We'd like n8n to teach one build-weekend workshop on automating that — sourcing, outreach, catching what comes back — so teams walk into those three days with something that runs, and to put its name on the prize for the revenue signal.
 >
 > Full brief attached. Twenty minutes if it's easier.
 

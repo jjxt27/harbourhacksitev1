@@ -16,10 +16,10 @@ Sydney · 23–28 and 30 October 2026 · [harbourhack.com](https://harbourhack.c
 | **Who** | Anyone who wants to build — tech, business, design |
 | **When** | Kickoff and build weekend 23–25 October · ship focus 26–28 October · pitch night 30 October |
 | **Where** | Sydney · venue TBC |
-| **Judged on** | A live demonstration, a commercial case, and verified signups |
+| **Judged on** | A live demonstration, a commercial case, and a revenue signal |
 | **The ask** | A weekend workshop slot taught by your team, a month of tooling access for attendees, and $2,500 toward costs. |
 
-HarbourHack is a hackathon where the demo is only a third of the score. Teams build across the opening weekend, then spend three scheduled days — Monday to Wednesday, no workshops, no sessions — getting real people to sign up, and come back on 30 October to report what happened.
+HarbourHack is a hackathon where the demo is only a third of the score. Teams build across the opening weekend, then spend three scheduled days — Monday to Wednesday, no workshops, no sessions — finding out whether anyone will actually pay, and come back on 30 October to report what happened.
 
 **We'd like Brainfish teaching one of the weekend sessions** — the literacy layer under a room that can already build.
 
@@ -41,7 +41,7 @@ HarbourHack is scored on three things, weighted equally:
 |---|---|---|
 | 01 | **Live demonstration** | The product runs, in front of the room, without a video. |
 | 02 | **Commercial case** | Who it's for, what they do today, and why they'd switch. |
-| 03 | **Verified signups** | Real users who opted in during the event. Not your group chat. |
+| 03 | **Revenue signal** | Evidence someone outside the team acted: a sale, a signed EOI, a pilot, or hard feedback from a real prospect. Money is the strongest form. |
 
 Two of those three have nothing to do with code, and they are exactly where a team without that literacy stalls.
 
@@ -59,7 +59,7 @@ Seven days, three of them for selling.
 |---|---|---|
 | **Day one** | Friday 23 October | **Kickoff.** Teams form. Scope narrows. Workshop: cold outreach that gets replies. |
 | **Days two–three** | Sat 24 – Sun 25 October | **Build focus.** Workshops run — the proposed Brainfish slot sits here. Mentors on the floor. Ship v1 and begin outreach. |
-| **Days four–six** | Mon 26 – Wed 28 October | **Ship focus.** No workshops, no sessions. Chase signups, act on what comes back. |
+| **Days four–six** | Mon 26 – Wed 28 October | **Ship focus.** No workshops, no sessions. Chase the signal, act on what comes back. |
 | | *Thursday 29 October* | off |
 | **Day seven** | Friday 30 October | **Pitch night.** Live demonstrations and judging. |
 

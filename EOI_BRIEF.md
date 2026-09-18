@@ -37,7 +37,7 @@ HarbourHack judges three things, weighted equally. Nothing else counts.
 
 **02 · Commercial case.** Who it's for, what they do today, and why they'd switch.
 
-**03 · Verified signups.** Real users who opted in during the event. Not your group chat.
+**03 · Revenue signal.** Evidence someone outside the team acted — a sale, a signed EOI, a pilot, or hard feedback from a real prospect. Money is the strongest form, and none of it is your group chat.
 
 Two of those three have nothing to do with how well you code. That's deliberate. A weekend of building tells you whether you can build. It tells you nothing about whether anyone wants it — and that's the question that decides whether the thing you made survives past Monday.
 
@@ -45,7 +45,7 @@ Two of those three have nothing to do with how well you code. That's deliberate.
 
 - **A product that runs.** Not a mockup, not a video, not a Figma prototype with a fake login.
 - **A case you can defend.** Who it's for, what it replaces, why they'd pay or switch.
-- **Users who said yes.** People outside your group chat and your family, who signed up because you asked them properly.
+- **A signal from outside the room.** Money, a signature, or a straight answer from someone in your market — because you asked them properly, and not from your group chat or your family.
 - **Four workshops of craft nobody sits you down and teaches.** Cold outreach that gets replies. Prototyping in Figma. Landing pages that convert. A deck clinic before you go on stage.
 - **Three days with nothing scheduled.** Monday to Wednesday carry no workshops and no sessions, because the selling needs room in the programme rather than whatever energy you have left over.
 - **A team.** Come alone if you like — Friday night is built for finding people.
@@ -58,7 +58,7 @@ Seven days, three of them for selling.
 |---|---|---|
 | **Day one** | Friday 23 October | **Kickoff.** Teams form. Scope narrows. Workshops run. |
 | **Days two–three** | Sat 24 – Sun 25 October | **Build focus.** Workshops run. Ship v1 and begin outreach. |
-| **Days four–six** | Mon 26 – Wed 28 October | **Ship focus.** No workshops. Chase signups, act on feedback. |
+| **Days four–six** | Mon 26 – Wed 28 October | **Ship focus.** No workshops. Chase the signal, act on feedback. |
 | | *Thursday 29 October — off* | |
 | **Day seven** | Friday 30 October | **Pitch night.** Live demonstrations and judging. |
 
@@ -77,10 +77,10 @@ Doors, registration and team forming. Workshop: cold outreach that gets replies.
 Workshop: prototyping in Figma. Mentors walk the floor. Ship v1 and start the outreach. By Saturday lunchtime you should already be talking to someone outside the room.
 
 **Sunday 25 October — Build session two**
-Workshop: landing pages that convert. Signup push. Deck clinic.
+Workshop: landing pages that convert. Outreach push. Deck clinic.
 
 **Monday 26 – Wednesday 28 October — Ship focus**
-No workshops and no scheduled sessions. Get it in front of real users, chase verified signups, act on what comes back. Whether the room is open, whether these days run remotely, or both, is TBC.
+No workshops and no scheduled sessions. Get it in front of real buyers, chase the revenue signal, act on what comes back. Whether the room is open, whether these days run remotely, or both, is TBC.
 
 **Friday 30 October — Pitch night**
 Live demonstrations, judging, results.
@@ -90,7 +90,7 @@ Session times are TBC.
 ## Reasonable questions
 
 **"I've never shipped anything."**
-Good — that's the gap this closes. You'll ship something in the first thirty-six hours whether it's ready or not, because you can't get signups for a thing nobody can use.
+Good — that's the gap this closes. You'll ship something in the first thirty-six hours whether it's ready or not, because nobody commits to a thing they can't use.
 
 **"I don't have an idea."**
 Most people don't, and the ones who arrive with a precious one usually do worse. Friday night is for narrowing to a single user, and a boring problem that someone will actually pay to remove beats a clever idea nobody asked for.
@@ -99,7 +99,7 @@ Most people don't, and the ones who arrive with a precious one usually do worse.
 Two of the three criteria are yours. A team that can build but can't sell loses to a team that can do both, and the second and third scores are where that gets decided. Bring the case and the users.
 
 **"Isn't this just a startup competition?"**
-No. There's no pitch deck round, no business plan, no theoretical market sizing. You demo a working product and show who signed up. Everything else is talk.
+No. There's no pitch deck round, no business plan, no theoretical market sizing. You demo a working product and show what came back when you asked people to buy. Everything else is talk.
 
 **"Do I need a team?"**
 No. Register on your own, tell us what you're strong at and what you're looking for, and we'll get a boarding pass to you to share so people can find you before the doors open.
@@ -178,7 +178,7 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 
 **Fifty words — for a society newsletter or an Instagram caption**
 
-> Most hackathons end at the demo. HarbourHack ends at distribution. Build a product across 23–25 October, spend Monday to Wednesday with no workshops and one job — getting real people to sign up — then pitch what came back on 30 October. Judged on three things: it runs, it makes sense commercially, and someone actually signed up.
+> Most hackathons end at the demo. HarbourHack ends at distribution. Build a product across 23–25 October, spend Monday to Wednesday with no workshops and one job — finding out whether anyone will actually pay — then pitch what came back on 30 October. Judged on three things: it runs, it makes sense commercially, and something came back.
 
 **A hundred words — for a post or a mailout**
 
@@ -186,7 +186,7 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 >
 > Most student hackathons end at the demo. This one ends at distribution. You'll spend as much of the opening weekend talking to people who might use your product as you spend building it — then three days with no workshops at all, so the selling has room in the programme rather than whatever's left of your week.
 >
-> Three criteria, weighted equally: a live demonstration with no video, a commercial case, and verified signups from real users. Come with a team or come alone.
+> Three criteria, weighted equally: a live demonstration with no video, a commercial case, and a revenue signal — a sale, a signed EOI, or hard feedback from a real prospect. Come with a team or come alone.
 >
 > Register your interest at harbourhack.com.
 
@@ -196,7 +196,7 @@ Twenty minutes. Tell us what you'd want out of it and we'll tell you honestly wh
 >
 > ⟨Name⟩ — I'm ⟨role⟩ at HarbourHack, a go-to-market hackathon in Sydney running 23–28 and 30 October, open to anyone who wants to build.
 >
-> It's built around one idea: teams are scored on whether real users signed up, not on the demo. ⟨One sentence on why this company specifically — a product they'd recognise the problem in, a hiring pipeline, a workshop only they could teach.⟩
+> It's built around one idea: teams are scored on what came back when they asked people to buy, not on the demo. ⟨One sentence on why this company specifically — a product they'd recognise the problem in, a hiring pipeline, a workshop only they could teach.⟩
 >
 > ⟨The ask, named and singular. "Would you teach the Saturday morning prototyping session" beats "would you like to get involved".⟩
 >

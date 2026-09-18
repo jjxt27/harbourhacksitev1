@@ -44,7 +44,7 @@ export const site = {
   city: "Sydney",
   tagline: "Don't just build. Ship.",
   description:
-    "HarbourHack 2026. Sydney's go-to-market hackathon, open to anyone who wants to build. Ship it across 23–25 October, spend three days getting real users, then pitch what came back on the 30th.",
+    "HarbourHack 2026. Sydney's go-to-market hackathon, open to anyone who wants to build. Ship it across 23–25 October, spend three days finding out whether anyone will pay, then pitch what came back on the 30th.",
   url: "https://harbourhack.com",
 } as const;
 
@@ -95,8 +95,14 @@ export const dryDock = {
     },
     {
       n: "03",
-      title: "Verified signups",
-      note: "Real users who opted in. Not your group chat.",
+      title: "Revenue signal",
+      /**
+       * Renamed from "verified signups". An address in a form was the weakest
+       * thing a team could come back with, and naming the criterion after it
+       * rewarded collecting them. The ladder is money, then a signature, then
+       * a straight answer from someone who would actually buy.
+       */
+      note: "Money, a signed EOI, or hard feedback from a real buyer. Not your group chat.",
       tone: "ember" as const,
       rotate: -1.2,
     },
@@ -167,7 +173,7 @@ export const shipyard = {
       gapAfter: false,
       cards: [
         { title: "Landing pages that convert", kind: "workshop", time: "TBC" },
-        { title: "Signup push", kind: "session", time: "TBC" },
+        { title: "Outreach push", kind: "session", time: "TBC" },
         { title: "Deck clinic", kind: "workshop", time: "TBC" },
       ],
     },
@@ -185,7 +191,7 @@ export const shipyard = {
        */
       cards: [
         { title: "Get it in front of real users", kind: "session", time: "No sessions" },
-        { title: "Chase verified signups", kind: "session", time: "No sessions" },
+        { title: "Chase the signal", kind: "session", time: "No sessions" },
         { title: "Act on what comes back", kind: "session", time: "No sessions" },
       ],
     },
@@ -211,7 +217,7 @@ export const shipyard = {
   takeaways: [
     "A product that runs. Not a mockup with a fake login.",
     "A case you can defend to someone who isn't your friend.",
-    "Users who said yes because you asked them properly.",
+    "Proof someone outside the room wants it — money, a signature, or a straight answer.",
     "Four workshops of the stuff nobody sits you down and teaches.",
     "A team, if you arrived without one.",
   ],
@@ -242,7 +248,7 @@ export const settingSail = {
   questions: [
     {
       q: "I've never shipped anything.",
-      a: "Good — that's the gap this closes. You'll ship in the first thirty-six hours whether it's ready or not, because you can't get signups for a thing nobody can use.",
+      a: "Good — that's the gap this closes. You'll ship in the first thirty-six hours whether it's ready or not, because nobody commits to a thing they can't use.",
     },
     {
       q: "I don't have an idea.",

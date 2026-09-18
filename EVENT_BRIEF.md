@@ -8,7 +8,7 @@ Sydney · 23–28 and 30 October 2026 · Open to anyone · [harbourhack.com](htt
 
 ## Don't just build. Ship.
 
-HarbourHack is a go-to-market hackathon in Sydney, open to anyone who wants to build. Teams leave with something running, a case for it, and users who have actually signed up.
+HarbourHack is a go-to-market hackathon in Sydney, open to anyone who wants to build. Teams leave with something running, a case for it, and evidence that somebody outside the room wants it.
 
 Most student hackathons end at the demo. This one ends at distribution. Three of the seven days carry no workshops at all — they exist so you can put it in front of people and come back with what happened.
 
@@ -20,7 +20,7 @@ Seven days, three of them for selling. A kickoff, a build weekend, three days to
 |---|---|---|
 | Day one | Friday 23 October | **Kickoff.** Teams form. Scope narrows. Workshops run. |
 | Days two–three | Sat 24 – Sun 25 October | **Build focus.** Workshops run. Ship v1 and begin outreach. |
-| Days four–six | Mon 26 – Wed 28 October | **Ship focus.** No workshops. Chase signups, act on feedback. |
+| Days four–six | Mon 26 – Wed 28 October | **Ship focus.** No workshops. Chase the signal, act on feedback. |
 | | Thursday 29 October | *off* |
 | Day seven | Friday 30 October | **Finalist pitch night.** Live demonstrations and judging. |
 
@@ -38,12 +38,12 @@ The back half is the point of the format. A team that has only ever shown its pr
 
 **Sunday 25 October — Build session two**
 - Workshop — Landing pages that convert
-- Signup push
+- Outreach push
 - Deck clinic
 
 **Monday 26 – Wednesday 28 October — Ship focus**
 - No workshops and no scheduled sessions
-- Get it in front of real users, chase verified signups, act on what comes back
+- Get it in front of real buyers, chase the revenue signal, act on what comes back
 - Whether the room is open, whether these days run remotely, or both, is TBC
 
 **Friday 30 October — Finalist pitch night**
@@ -60,7 +60,7 @@ Three criteria, weighted equally. Nothing else is scored.
 |---|---|---|
 | 01 | **Live demonstration** | The product runs, in front of the room, without a video. |
 | 02 | **Commercial case** | Who it is for, what they do today, and why they would switch. |
-| 03 | **Verified signups** | Real users who opted in during the event. Not your group chat. |
+| 03 | **Revenue signal** | Evidence someone outside the team acted: a sale, a signed EOI, a pilot, or hard feedback from a real prospect. Money is the strongest form. |
 
 ## Who it's for
 
@@ -86,7 +86,7 @@ Expressions of interest are open at [harbourhack.com](https://harbourhack.com). 
 
 *For reposting, socials, and society newsletters. ~95 words.*
 
-> HarbourHack 2026 is a go-to-market hackathon in Sydney, open to anyone who wants to build, running 23–28 October with a finalist pitch night on 30 October. Most student hackathons end at the demo — this one ends at distribution. You'll build across the opening weekend, then spend Monday to Wednesday with no workshops and one job: getting it in front of real people. Judging is three things, weighted equally: a live demonstration with no video, a commercial case, and verified signups from real users. Register your interest at harbourhack.com.
+> HarbourHack 2026 is a go-to-market hackathon in Sydney, open to anyone who wants to build, running 23–28 October with a finalist pitch night on 30 October. Most student hackathons end at the demo — this one ends at distribution. You'll build across the opening weekend, then spend Monday to Wednesday with no workshops and one job: getting it in front of real people. Judging is three things, weighted equally: a live demonstration with no video, a commercial case, and a revenue signal — a sale, a signed EOI, or hard feedback from a real prospect. Register your interest at harbourhack.com.
 
 ## One-liner
 

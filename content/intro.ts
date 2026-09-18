@@ -56,7 +56,7 @@ export const intro = {
       value: 3,
       pad: 2,
       label: "Things judged",
-      note: "Live demo. Commercial case. Verified signups.",
+      note: "Live demo. Commercial case. Revenue signal.",
     },
   ] as readonly Tally[],
 
